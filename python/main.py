@@ -1,18 +1,17 @@
+import json
+
 highlights = []
+book_info = {"title": "", "author": ""}
 
 FILENAME = "file1_test.txt"
 
 def clean_text(text):
     return text.replace("\n", " ").replace("\xa0", " ").strip()
 
-def get_book_details(lines):
+def save_book_info(lines):
     first_line = lines[0]
-    title = first_line[first_line.index("<<")+2:first_line.index(">>")-1+1]
-    author = first_line[first_line.index(">>")+2:]
-    print("\n")
-    print(f"Title: {title}")
-    print(f"Author: {author}")
-    
+    book_info["title"] = clean_text(first_line[first_line.index("<<")+2:first_line.index(">>")-1+1])
+    book_info["author"] = clean_text(first_line[first_line.index(">>")+2:])
 
 def add_highlight(lines, start, end):
     quote = clean_text("".join(lines[start+1:end]))
@@ -32,7 +31,7 @@ def process_file(filename):
     highlight_end = None
     with open(filename,"r", encoding="utf-8-sig") as file:
         lines = file.readlines()
-        get_book_details(lines)
+        save_book_info(lines)
         for index, line in enumerate(lines):
             if(line[0] == "2"):
                 if found_start is False:
@@ -46,11 +45,21 @@ def process_file(filename):
                     found_start =  False
 
 def save_file(filename):
-    with open(f"{filename.split('.')[0]}-output.txt", "w",  encoding="utf-8") as file:
-        for highlight in highlights:
-            file.write(highlight+"\n")
+    highlights_json = []
+    for highlight in highlights:
+        new_highlight ={}
+        new_highlight["highlight"] = highlight
+        new_highlight["book_title"] = book_info["title"]
+        new_highlight["book_author"] = book_info["author"]
+        highlights_json.append(new_highlight)
+    output_filename = f"{filename.split('.')[0]}-output.json"
+    with open(output_filename, "w",  encoding="utf-8") as file:
+        json.dump(highlights_json, file, ensure_ascii=False, indent=4)
+        #for highlight in highlights:
+        #    file.write(highlight+"\n")
 
 if __name__ == "__main__":
     process_file(FILENAME)
     show_highlights()
+    print(book_info)
     save_file(FILENAME)

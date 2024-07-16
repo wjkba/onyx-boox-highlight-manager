@@ -15,8 +15,8 @@ export default function TestFormatter() {
   const handleUpload = async (event: React.FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
     if (file) {
-      const result = (await formatBoox(file)) as HighlightType[];
-      setHighlights(result);
+      const result = (await formatBoox(file)) as HighlightType;
+      setHighlights([...highlights, result]);
     }
   };
 

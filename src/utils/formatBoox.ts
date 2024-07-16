@@ -1,7 +1,7 @@
 export interface HighlightType {
-  quote: string;
   bookTitle: string;
   bookAuthor: string;
+  quotes: string[];
 }
 
 export function formatBoox(file: File) {
@@ -9,7 +9,7 @@ export function formatBoox(file: File) {
     const reader = new FileReader();
     reader.readAsText(file);
     reader.onload = () => {
-      const result = handleFileLoad(reader.result as string); // Optional: You might want to remove this log in production
+      const result = handleFileLoad(reader.result as string);
       resolve(result);
     };
     reader.onerror = () => reject(reader.error);
@@ -21,25 +21,22 @@ function handleFileLoad(content: string) {
   return extractHighlightsFromLines(lines);
 }
 
-function extractHighlightsFromLines(lines: string[]): HighlightType[] {
+function extractHighlightsFromLines(lines: string[]): HighlightType {
   const highlightBreak = "-------------------";
-  let highlights: HighlightType[] = [];
   let highlightStart: number | null = null;
-
+  let quotes: string[] = [];
   const { bookTitle, bookAuthor } = extractBookInfo(lines[0]);
 
   lines.forEach((line, index) => {
     if (line.startsWith("2") && highlightStart === null) {
       highlightStart = index;
     } else if (line.trim() === highlightBreak && highlightStart !== null) {
-      highlights.push(
-        createHighlight(lines, highlightStart, index, bookTitle, bookAuthor)
-      );
+      pushQuote(lines, highlightStart, index, quotes);
       highlightStart = null;
     }
   });
 
-  return highlights;
+  return { bookTitle, bookAuthor, quotes };
 }
 
 function extractBookInfo(firstLine: string): {
@@ -53,15 +50,14 @@ function extractBookInfo(firstLine: string): {
   return { bookTitle, bookAuthor };
 }
 
-function createHighlight(
+function pushQuote(
   lines: string[],
   start: number,
   end: number,
-  bookTitle: string,
-  bookAuthor: string
-): HighlightType {
+  quotes: string[]
+) {
   const quote = cleanText(lines.slice(start + 1, end).join(" "));
-  return { quote, bookTitle, bookAuthor };
+  quotes.push(quote);
 }
 
 function cleanText(text: string): string {

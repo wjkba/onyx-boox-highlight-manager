@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { formatBoox, HighlightType } from "../utils/formatBoox";
-import { useHighlights } from "../context/highlightsContext";
+import { useHighlightsStore } from "../store";
 
 export default function TestFormatter() {
   const [file, setFile] = useState<File | null>(null);
-  const { highlights, setHighlights } = useHighlights();
+  const addHighlights = useHighlightsStore((state) => state.addHighlights);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -16,7 +16,7 @@ export default function TestFormatter() {
     event.preventDefault();
     if (file) {
       const result = (await formatBoox(file)) as HighlightType;
-      setHighlights([...highlights, result]);
+      addHighlights(result);
     }
   };
 

@@ -1,7 +1,7 @@
-import { useHighlights } from "../context/highlightsContext";
+import { useHighlightsStore } from "../store";
 
 export default function DebugMenu() {
-  const { highlights } = useHighlights();
+  const highlights = useHighlightsStore((store) => store.highlights);
 
   return (
     <div className="bg-yellow-200 mb-2  text-white p-2">

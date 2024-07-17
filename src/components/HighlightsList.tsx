@@ -1,8 +1,8 @@
-import { useHighlights } from "../context/highlightsContext";
+import { useHighlightsStore } from "../store";
 import HighlightCard from "./HighlightCard";
 
 export default function HighlightsList() {
-  const { highlights } = useHighlights();
+  const highlights = useHighlightsStore((store) => store.highlights);
   return (
     <div className="grid gap-2">
       {highlights.map((highlight) =>

@@ -5,7 +5,7 @@ type SidebarMenuButtonProps = {
   id: number;
   text: string;
   icon: ReactNode;
-  setActiveButton: (buttonId: number) => void;
+  setActive: (buttonId: number) => void;
 };
 
 export default function SidebarMenuButton({
@@ -13,7 +13,7 @@ export default function SidebarMenuButton({
   id,
   text,
   icon,
-  setActiveButton,
+  setActive,
 }: SidebarMenuButtonProps) {
   const buttonClasses = `${
     active ? "bg-neutral-800 text-white" : "bg-white text-neutral-800"
@@ -23,7 +23,7 @@ export default function SidebarMenuButton({
     <button
       type="button"
       className={buttonClasses}
-      onClick={() => setActiveButton(id)}
+      onClick={() => setActive(id)}
     >
       <div>{icon}</div>
       <div>{text}</div>

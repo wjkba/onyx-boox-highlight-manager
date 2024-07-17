@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { HighlightType } from "./utils/formatBoox";
 
+// Highlights
 type HighlightsStore = {
   highlights: HighlightType[] | [];
   setHighlights: (newHighlights: HighlightType[] | []) => void;
@@ -13,3 +14,5 @@ export const useHighlightsStore = create<HighlightsStore>((set) => ({
   addHighlights: (newHighlights) =>
     set((state) => ({ highlights: [...state.highlights, newHighlights] })),
 }));
+
+// Current

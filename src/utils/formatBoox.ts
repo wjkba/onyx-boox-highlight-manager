@@ -1,7 +1,12 @@
+type Quote = {
+  text: string;
+  starred: boolean;
+};
+
 export interface HighlightType {
   bookTitle: string;
   bookAuthor: string;
-  quotes: string[];
+  quotes: Quote[];
 }
 
 export function formatBoox(file: File) {
@@ -24,7 +29,7 @@ function handleFileLoad(content: string) {
 function extractHighlightsFromLines(lines: string[]): HighlightType {
   const highlightBreak = "-------------------";
   let highlightStart: number | null = null;
-  let quotes: string[] = [];
+  let quotes: Quote[] = [];
   const { bookTitle, bookAuthor } = extractBookInfo(lines[0]);
 
   lines.forEach((line, index) => {
@@ -54,9 +59,12 @@ function pushQuote(
   lines: string[],
   start: number,
   end: number,
-  quotes: string[]
+  quotes: Quote[]
 ) {
-  const quote = cleanText(lines.slice(start + 1, end).join(" "));
+  const quote = {
+    starred: false,
+    text: cleanText(lines.slice(start + 1, end).join(" ")),
+  };
   quotes.push(quote);
 }
 

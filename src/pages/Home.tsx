@@ -1,19 +1,17 @@
-import DebugMenu from "../components/DebugMenu";
-import HighlightsList from "../components/HighlightsList";
-import SearchBar from "../components/SearchBar";
+import { ReactNode, useState } from "react";
 import SidebarMenu from "../components/SidebarMenu";
-import TestFormatter from "../components/TestFormatter";
+import AllHighlightsPage from "./AllHighlightsPage";
 
 export default function Home() {
+  const [activePage, setActivePage] = useState<ReactNode>(
+    <AllHighlightsPage />
+  );
+
   return (
     <>
-      <DebugMenu />
-      <TestFormatter />
-      <SidebarMenu />
-      <div className="mb-2">
-        <SearchBar />
-      </div>
-      <HighlightsList />
+      {/* <TestFormatter /> */}
+      <SidebarMenu setActivePage={setActivePage} />
+      {activePage}
     </>
   );
 }

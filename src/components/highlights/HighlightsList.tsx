@@ -1,5 +1,4 @@
 import { useLiveQuery } from "dexie-react-hooks";
-import { useHighlightsStore } from "../../store";
 import HighlightCard from "./HighlightCard";
 import { db } from "../../db";
 import TestFormatter from "../TestFormatter";

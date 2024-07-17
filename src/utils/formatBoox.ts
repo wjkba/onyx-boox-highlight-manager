@@ -1,4 +1,5 @@
-type Quote = {
+export type Quote = {
+  id?: number;
   text: string;
   starred: boolean;
 };

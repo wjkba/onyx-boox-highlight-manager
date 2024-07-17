@@ -1,5 +1,4 @@
 import { useLiveQuery } from "dexie-react-hooks";
-import { useHighlightsStore } from "../store";
 import { db } from "../db";
 
 export default function BooksPage() {

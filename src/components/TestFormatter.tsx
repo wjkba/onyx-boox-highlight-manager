@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { formatBoox, HighlightType } from "../utils/formatBoox";
-import { useHighlightsStore } from "../store";
 import { db } from "../db";
 import { useLiveQuery } from "dexie-react-hooks";
 
@@ -10,9 +9,8 @@ export default function TestFormatter() {
   const [bookTitle, setBookTitle] = useState("");
   const [bookAuthor, setBookAuthor] = useState("");
   const dbBookEntries = useLiveQuery(() => db.highlights.toArray());
-  const [upoadedBookEntry, setUpoadedBookEntry] =
+  const [uploadedBookEntry, setUploadedBookEntry] =
     useState<HighlightType | null>(null);
-  const addHighlights = useHighlightsStore((state) => state.addHighlights);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -22,12 +20,16 @@ export default function TestFormatter() {
 
   const handleUpload = async (event: React.FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    if (file) {
-      const result = (await formatBoox(file)) as HighlightType;
-      setUpoadedBookEntry(result);
-      setBookTitle(result.bookTitle);
-      setBookAuthor(result.bookAuthor);
-      setIsConfirming(true);
+    try {
+      if (file) {
+        const result = (await formatBoox(file)) as HighlightType;
+        setUploadedBookEntry(result);
+        setBookTitle(result.bookTitle);
+        setBookAuthor(result.bookAuthor);
+        setIsConfirming(true);
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -37,36 +39,61 @@ export default function TestFormatter() {
   function handleAuthorChange(event: React.ChangeEvent<HTMLInputElement>) {
     setBookAuthor(event.target.value);
   }
-  function handleConfirm() {
-    if (upoadedBookEntry) {
-      const newHighlights = {
-        quotes: upoadedBookEntry.quotes,
+
+  async function handleConfirm(event: React.FormEvent<HTMLButtonElement>) {
+    event.preventDefault();
+    if (uploadedBookEntry) {
+      let newHighlights = {
+        quotes: uploadedBookEntry.quotes,
         bookAuthor,
         bookTitle,
       };
-      addQuoteIds(newHighlights);
-      addHighlights(newHighlights);
-      db.highlights.add(newHighlights);
+      newHighlights.quotes = getQuotesWithIds(newHighlights);
+      await updateDB(newHighlights);
+      setIsConfirming(false);
     }
   }
 
-  function addQuoteIds(bookHighlights: HighlightType) {
-    // jesli w databasie jest ksiazka o tej nazwie to
+  function getQuotesWithIds(bookHighlights: HighlightType) {
+    // TODO: DO ZMIANY, OPTYMALIZACJA LEZY
+    // uzyj map albo set
     const matchingEntry = dbBookEntries?.find((e) => e.bookTitle === bookTitle);
     if (matchingEntry) {
       const existingQuotes = matchingEntry.quotes;
+      const incomingQuotes = bookHighlights.quotes;
+      const newQuotes = incomingQuotes.filter(
+        (incomingQuote) =>
+          !existingQuotes.some(
+            (existingQuote) => existingQuote.text === incomingQuote.text
+          )
+      );
       const quotesLength = matchingEntry.quotes.length;
-      console.log(quotesLength);
-      console.log("TITLE EXISTS");
-      // TODO: jesli tytul jest w bazie danych to dodaj tylko nowe quotes
+      const newQuotesWithIds = newQuotes.map((quote, index) => ({
+        id: quotesLength + index + 1,
+        ...quote,
+      }));
+      return newQuotesWithIds;
     } else {
-      const newQuotes = bookHighlights.quotes.map((quote, index) => ({
+      const newQuotesWithIds = bookHighlights.quotes.map((quote, index) => ({
         id: index + 1,
         ...quote,
       }));
-      console.log(newQuotes);
+      return newQuotesWithIds;
     }
-    // TODO: addQuoteIds zwracac obiekty, ktore zawieraja quotes z dodanymi ID
+  }
+
+  async function updateDB(newHighlights: HighlightType) {
+    const book = await db.highlights.where({ bookTitle }).first();
+    if (book) {
+      const updatedBook = {
+        ...book,
+        quotes: [...book.quotes, ...newHighlights.quotes],
+      };
+      await db.highlights.put(updatedBook);
+      console.log("Updated highlights for existing book");
+    } else {
+      db.highlights.add(newHighlights);
+    }
   }
 
   if (isConfirming) {
@@ -89,7 +116,7 @@ export default function TestFormatter() {
         <button
           onClick={handleConfirm}
           className="bg-neutral-300 p-2 w-full"
-          type="button"
+          type="submit"
         >
           Confirm
         </button>
@@ -106,7 +133,7 @@ export default function TestFormatter() {
         <button
           onClick={handleUpload}
           className="bg-neutral-300 p-2 w-full"
-          type="button"
+          type="submit"
         >
           Upload
         </button>

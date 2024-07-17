@@ -10,7 +10,7 @@ export const Layout = ({ children }: LayoutProps) => {
   return (
     <div className="grid place-items-center ">
       <div className=" w-full max-w-[450px] px-4">
-        <DebugMenu />
+        {/* <DebugMenu /> */}
         <Navbar />
         <main className="bg-white min-h-screen">{children}</main>
         <footer></footer>

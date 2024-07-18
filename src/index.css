@@ -2,3 +2,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.star-icon{
+  display: none;
+}
+
+
+
+.hover-trigger:hover .star-icon{
+  display: block;
+}

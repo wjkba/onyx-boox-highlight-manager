@@ -3,14 +3,15 @@ import { ReactNode } from "react";
 type SidebarMenuButtonProps = {
   active?: boolean;
   id: number;
+  page: string;
   text: string;
   icon: ReactNode;
-  setActive: (buttonId: number) => void;
+  setActive: (page: string) => void;
 };
 
 export default function SidebarMenuButton({
   active = false,
-  id,
+  page,
   text,
   icon,
   setActive,
@@ -23,7 +24,7 @@ export default function SidebarMenuButton({
     <button
       type="button"
       className={buttonClasses}
-      onClick={() => setActive(id)}
+      onClick={() => setActive(page)}
     >
       <div>{icon}</div>
       <div>{text}</div>

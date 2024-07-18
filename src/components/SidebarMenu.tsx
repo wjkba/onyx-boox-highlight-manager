@@ -1,4 +1,4 @@
-import { ReactNode, useState } from "react";
+import { ReactNode } from "react";
 import SidebarMenuButton from "./SidebarMenuButton";
 import { BiSolidQuoteRight } from "react-icons/bi";
 import { BiSolidBook } from "react-icons/bi";
@@ -6,64 +6,60 @@ import { BiSolidStar } from "react-icons/bi";
 import { BiPlusCircle } from "react-icons/bi";
 import { BiExport } from "react-icons/bi";
 import { BiCog } from "react-icons/bi";
-import AllHighlightsPage from "../pages/AllHighlightsPage";
-import BooksPage from "../pages/BooksPage";
-import StarredPage from "../pages/StarredPage";
-import ImportPage from "../pages/ImportPage";
-import ExportPage from "../pages/ExportPage";
-import SettingsPage from "../pages/SettingsPage";
+import { useLocation, useNavigate } from "react-router-dom";
 
-type SidebarMenuProps = {
-  setActivePage: (activePage: ReactNode) => void;
-};
+// type SidebarMenuProps = {
+//   activePage: string;
+// };
 
 type Button = {
   text: string;
   icon: ReactNode;
-  page: ReactNode;
+  page: string;
 };
 
 type ButtonArray = Button[];
 
-export default function SidebarMenu({ setActivePage }: SidebarMenuProps) {
-  const [activeButton, setActiveButton] = useState(0);
+export default function SidebarMenu() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const activePage = location.pathname;
 
   const buttons: ButtonArray = [
     {
       text: "All Highlights",
       icon: <BiSolidQuoteRight size={32} />,
-      page: <AllHighlightsPage />,
+      page: "/all",
     },
     {
       text: "Books",
       icon: <BiSolidBook size={32} />,
-      page: <BooksPage />,
+      page: "/books",
     },
     {
       text: "Starred",
       icon: <BiSolidStar size={32} />,
-      page: <StarredPage />,
+      page: "/starred",
     },
     {
       text: "Import",
       icon: <BiPlusCircle size={32} />,
-      page: <ImportPage />,
+      page: "/import",
     },
     {
       text: "Export",
       icon: <BiExport size={32} />,
-      page: <ExportPage />,
+      page: "/export",
     },
     {
       text: "Settings",
       icon: <BiCog size={32} />,
-      page: <SettingsPage />,
+      page: "/settings",
     },
   ];
 
-  function setActive(index: number) {
-    setActiveButton(index);
-    setActivePage(buttons[index].page);
+  function setActive(page: string) {
+    navigate(page);
   }
 
   return (
@@ -74,7 +70,8 @@ export default function SidebarMenu({ setActivePage }: SidebarMenuProps) {
           id={index}
           text={button.text}
           icon={button.icon}
-          active={index === activeButton ? true : undefined}
+          page={button.page}
+          active={button.page === activePage ? true : undefined}
           setActive={setActive}
         />
       ))}

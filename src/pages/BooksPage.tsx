@@ -1,5 +1,6 @@
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "../db";
+import { Layout } from "../Layout";
 
 export default function BooksPage() {
   //const highlights = useHighlightsStore((store) => store.highlights);
@@ -20,10 +21,5 @@ export default function BooksPage() {
     }
   }
 
-  return (
-    <>
-      <h1>BooksPage</h1>
-      {showBooks()}
-    </>
-  );
+  return <Layout>{showBooks()}</Layout>;
 }

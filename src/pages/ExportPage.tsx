@@ -1,3 +1,5 @@
+import { Layout } from "../Layout";
+
 export default function ExportPage() {
-  return <div>ExportPage</div>;
+  return <Layout>ExportPage</Layout>;
 }

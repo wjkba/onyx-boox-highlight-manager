@@ -2,13 +2,17 @@ import { useState } from "react";
 import { formatBoox, HighlightType } from "../utils/formatBoox";
 import { db } from "../db";
 import { useLiveQuery } from "dexie-react-hooks";
+import { useNavigate } from "react-router-dom";
 
 export default function TestFormatter() {
   const [file, setFile] = useState<File | null>(null);
   const [isConfirming, setIsConfirming] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
   const [bookTitle, setBookTitle] = useState("");
   const [bookAuthor, setBookAuthor] = useState("");
   const dbBookEntries = useLiveQuery(() => db.highlights.toArray());
+  const navigate = useNavigate();
+
   const [uploadedBookEntry, setUploadedBookEntry] =
     useState<HighlightType | null>(null);
 
@@ -45,12 +49,13 @@ export default function TestFormatter() {
     if (uploadedBookEntry) {
       let newHighlights = {
         quotes: uploadedBookEntry.quotes,
-        bookAuthor,
-        bookTitle,
+        bookAuthor: bookAuthor.trim(),
+        bookTitle: bookTitle.trim(),
       };
       newHighlights.quotes = getQuotesWithIds(newHighlights);
       await updateDB(newHighlights);
       setIsConfirming(false);
+      setIsCompleted(true);
     }
   }
 
@@ -111,15 +116,49 @@ export default function TestFormatter() {
           onChange={handleAuthorChange}
           value={bookAuthor}
           id="bookTitle"
-          className="border border-black p-1"
+          className="border border-black p-1 mb-2"
         />
         <button
           onClick={handleConfirm}
-          className="bg-neutral-300 p-2 w-full"
+          className="p-2 w-full bg-neutral-300 hover:bg-neutral-700 hover:text-white"
           type="submit"
         >
           Confirm
         </button>
+      </form>
+    );
+  }
+
+  function handleContinue() {
+    setIsCompleted(false);
+    navigate("/import");
+  }
+
+  function handleViewHighlights() {
+    navigate("/all");
+  }
+
+  if (isCompleted) {
+    return (
+      <form className="grid gap-2 border border-black p-2 mb-2">
+        <p className="text-lg font-medium">Import completed successfully.</p>
+        <p>You can continue importing or view your highlights.</p>
+        <div className="flex gap-2">
+          <button
+            className="p-2 w-full bg-neutral-300 hover:bg-neutral-700 hover:text-white"
+            type="button"
+            onClick={handleContinue}
+          >
+            Continue
+          </button>
+          <button
+            className="p-2 w-full bg-neutral-300 hover:bg-neutral-700 hover:text-white"
+            type="button"
+            onClick={handleViewHighlights}
+          >
+            View highlights
+          </button>
+        </div>
       </form>
     );
   }
@@ -132,7 +171,7 @@ export default function TestFormatter() {
         </div>
         <button
           onClick={handleUpload}
-          className="bg-neutral-300 p-2 w-full"
+          className="bg-neutral-300 hover:bg-neutral-700 hover:text-white p-2 w-full"
           type="submit"
         >
           Upload

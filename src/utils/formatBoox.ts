@@ -2,6 +2,7 @@ export type Quote = {
   id?: number;
   text: string;
   starred: boolean;
+  date: string;
 };
 
 export interface HighlightType {
@@ -65,8 +66,17 @@ function pushQuote(
   const quote = {
     starred: false,
     text: cleanText(lines.slice(start + 1, end).join(" ")),
+    date: getQuoteDateISO(lines, start),
   };
   quotes.push(quote);
+}
+
+function getQuoteDateISO(lines: string[], start: number) {
+  const lineWithDate = lines[start];
+  const dateEnd = lineWithDate.indexOf("|");
+  const quoteDate = lineWithDate.slice(0, dateEnd - 1);
+  const dateObj = new Date(quoteDate);
+  return dateObj.toISOString();
 }
 
 function cleanText(text: string): string {

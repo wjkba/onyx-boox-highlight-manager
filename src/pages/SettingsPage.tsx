@@ -1,3 +1,5 @@
+import { Layout } from "../Layout";
+
 export default function SettingsPage() {
-  return <div>SettingsPage</div>;
+  return <Layout>SettingsPage</Layout>;
 }

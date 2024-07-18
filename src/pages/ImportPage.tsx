@@ -1,10 +1,10 @@
 import TestFormatter from "../components/TestFormatter";
+import { Layout } from "../Layout";
 
 export default function ImportPage() {
   return (
-    <div>
-      <h1>ImportPage</h1>
+    <Layout>
       <TestFormatter />
-    </div>
+    </Layout>
   );
 }

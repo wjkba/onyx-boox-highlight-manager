@@ -12,4 +12,8 @@ db.version(1).stores({
   highlights: "bookTitle, bookAuthor, quotes",
 });
 
+export async function clearDatabaseTable() {
+  await db.highlights.clear();
+}
+
 export { db };

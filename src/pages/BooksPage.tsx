@@ -20,6 +20,12 @@ export default function BooksPage() {
       );
     }
   }
-
+  if (highlights && highlights.length <= 0) {
+    return (
+      <Layout>
+        <p>No highlights found.</p>
+      </Layout>
+    );
+  }
   return <Layout>{showBooks()}</Layout>;
 }

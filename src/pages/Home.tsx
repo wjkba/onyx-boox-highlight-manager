@@ -1,7 +1,4 @@
-import { ReactNode, useEffect, useState } from "react";
-import SidebarMenu from "../components/SidebarMenu";
-import AllHighlightsPage from "./AllHighlightsPage";
-import { Layout } from "../Layout";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function Home() {

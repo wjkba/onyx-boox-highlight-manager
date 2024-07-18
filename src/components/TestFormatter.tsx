@@ -1,3 +1,4 @@
+// TODO: Add file check
 import { useState } from "react";
 import { formatBoox, HighlightType } from "../utils/formatBoox";
 import { db } from "../db";
@@ -103,7 +104,7 @@ export default function TestFormatter() {
 
   if (isConfirming) {
     return (
-      <form className="grid gap-2 border border-black p-2 mb-2">
+      <form className="grid gap-2   p-2 mb-2">
         <label htmlFor="bookTitle">Book title:</label>
         <input
           onChange={handleTitleChange}
@@ -140,7 +141,7 @@ export default function TestFormatter() {
 
   if (isCompleted) {
     return (
-      <form className="grid gap-2 border border-black p-2 mb-2">
+      <form className="grid gap-2  p-2 mb-2">
         <p className="text-lg font-medium">Import completed successfully.</p>
         <p>You can continue importing or view your highlights.</p>
         <div className="flex gap-2">
@@ -165,7 +166,8 @@ export default function TestFormatter() {
 
   return (
     <div>
-      <form className="grid gap-2 border border-black p-2 mb-2">
+      <form className="grid gap-2  p-2 mb-2">
+        <h1 className="text-lg">Import boox annotations file</h1>
         <div>
           <input onChange={handleChange} type="file" />
         </div>

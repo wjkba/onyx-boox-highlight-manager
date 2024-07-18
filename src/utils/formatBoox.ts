@@ -1,3 +1,4 @@
+// TODO: Add file check
 export type Quote = {
   id?: number;
   text: string;

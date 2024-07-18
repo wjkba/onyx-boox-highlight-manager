@@ -8,10 +8,6 @@ export default function StarredPage() {
   const highlights = useLiveQuery(() => db.highlights.toArray());
 
   if (highlights) {
-    if (highlights?.length <= 0) {
-      return <TestFormatter />;
-    }
-
     const sortedHighlights = highlights.map((highlight) => ({
       ...highlight,
       quotes: highlight.quotes.sort(
@@ -25,6 +21,14 @@ export default function StarredPage() {
         ...highlight,
         quotes: highlight.quotes.filter((quote) => quote.starred),
       }));
+
+    if (starredHighlights.length <= 0) {
+      return (
+        <Layout>
+          <p>Starred highlights will appear here.</p>
+        </Layout>
+      );
+    }
 
     return (
       <Layout>

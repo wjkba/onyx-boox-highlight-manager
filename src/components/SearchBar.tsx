@@ -1,6 +1,7 @@
 import { BiSearch } from "react-icons/bi";
 
 export default function SearchBar() {
+  // TODO: Search function
   return (
     <div className="text-neutral-500 py-2 w-full flex items-center border-solid border-2 border-neutral-500 ">
       <div className="pl-4">

@@ -36,7 +36,7 @@ function extractHighlightsFromLines(lines: string[]): HighlightType {
   const { bookTitle, bookAuthor } = extractBookInfo(lines[0]);
 
   lines.forEach((line, index) => {
-    if (line.startsWith("2") && highlightStart === null) {
+    if (/^\d{4}-\d{2}-\d{2}/.test(line) && highlightStart === null) {
       highlightStart = index;
     } else if (line.trim() === highlightBreak && highlightStart !== null) {
       pushQuote(lines, highlightStart, index, quotes);
@@ -74,9 +74,10 @@ function pushQuote(
 
 function getQuoteDateISO(lines: string[], start: number) {
   const lineWithDate = lines[start];
-  const dateEnd = lineWithDate.indexOf("|");
-  const quoteDate = lineWithDate.slice(0, dateEnd - 1);
-  const dateObj = new Date(quoteDate);
+  console.log(lineWithDate);
+  const dateStringEnd = lineWithDate.indexOf("|");
+  const quoteDateString = lineWithDate.slice(0, dateStringEnd - 1);
+  const dateObj = new Date(quoteDateString);
   return dateObj.toISOString();
 }
 

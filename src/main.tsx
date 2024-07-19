@@ -9,6 +9,7 @@ import StarredPage from "./pages/StarredPage.tsx";
 import ImportPage from "./pages/ImportPage.tsx";
 import ExportPage from "./pages/ExportPage.tsx";
 import SettingsPage from "./pages/SettingsPage.tsx";
+import BookPage from "./pages/BookPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
   {
     path: "/books",
     element: <BooksPage />,
+  },
+  {
+    path: "/books/:bookSlug",
+    element: <BookPage />,
   },
   {
     path: "/starred",

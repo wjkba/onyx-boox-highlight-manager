@@ -1,5 +1,4 @@
-// TODO: Add file check
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { formatBoox, HighlightType } from "../utils/formatBoox";
 import { db } from "../db";
 import { useLiveQuery } from "dexie-react-hooks";
@@ -9,6 +8,8 @@ export default function TestFormatter() {
   const [file, setFile] = useState<File | null>(null);
   const [isConfirming, setIsConfirming] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
+  const [isValidFile, setIsValidFile] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [bookTitle, setBookTitle] = useState("");
   const [bookAuthor, setBookAuthor] = useState("");
   const dbBookEntries = useLiveQuery(() => db.highlights.toArray());
@@ -20,21 +21,37 @@ export default function TestFormatter() {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       setFile(event.target.files[0]);
+      console.log(event.target.files[0]);
     }
   };
 
+  useEffect(() => {
+    console.log(file);
+    if (file?.type === "text/plain" && file?.size <= 5242880) {
+      setIsValidFile(true);
+    } else {
+      setIsValidFile(false);
+    }
+  }, [file]);
+
   const handleUpload = async (event: React.FormEvent<HTMLButtonElement>) => {
     event.preventDefault();
-    try {
-      if (file) {
-        const result = (await formatBoox(file)) as HighlightType;
+
+    if (file && isValidFile) {
+      try {
+        const result = (await formatBoox(
+          file,
+          setErrorMessage
+        )) as HighlightType;
         setUploadedBookEntry(result);
         setBookTitle(result.bookTitle);
         setBookAuthor(result.bookAuthor);
         setIsConfirming(true);
+      } catch (error) {
+        setErrorMessage("Something went wrong.");
       }
-    } catch (error) {
-      console.log(error);
+    } else {
+      setErrorMessage("Invalid file.");
     }
   };
 
@@ -171,6 +188,9 @@ export default function TestFormatter() {
         <div>
           <input onChange={handleChange} type="file" />
         </div>
+        {errorMessage && (
+          <p className="text-red-500 text mb-2">{errorMessage}</p>
+        )}
         <button
           onClick={handleUpload}
           className="bg-neutral-300 hover:bg-neutral-700 hover:text-white p-2 w-full"

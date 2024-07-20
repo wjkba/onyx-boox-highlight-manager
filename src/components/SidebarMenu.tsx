@@ -71,7 +71,7 @@ export default function SidebarMenu() {
           text={button.text}
           icon={button.icon}
           page={button.page}
-          active={button.page === activePage ? true : undefined}
+          active={activePage.startsWith(button.page) ? true : undefined}
           setActive={setActive}
         />
       ))}

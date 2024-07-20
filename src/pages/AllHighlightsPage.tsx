@@ -5,13 +5,54 @@ import { Layout } from "../Layout";
 import { db } from "../db";
 import { HighlightType } from "../utils/formatBoox";
 import TestFormatter from "../components/TestFormatter";
+import { useEffect, useMemo, useState } from "react";
 
 export default function AllHighlightsPage() {
-  const highlights = useLiveQuery(() => db.highlights.toArray());
-  let sortedHighlights: HighlightType[];
+  const books = useLiveQuery(() => db.highlights.toArray());
+  const [highlights, setHighlights] = useState<HighlightType[]>([]);
+  const [searchValue, setSearchValue] = useState("");
+  const sortedHighlights = useMemo(getSortedHighlights, [books]);
 
-  if (highlights != undefined) {
-    if (highlights.length <= 0) {
+  function getSortedHighlights() {
+    if (books) {
+      return books.map((highlight) => ({
+        ...highlight,
+        quotes: highlight.quotes.sort(
+          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+        ),
+      }));
+    }
+  }
+
+  useEffect(() => {
+    if (sortedHighlights !== undefined) {
+      setHighlights(sortedHighlights);
+    }
+  }, [books]);
+
+  useEffect(() => {
+    if (searchValue.trim() !== "") {
+      let searchedHighlights = highlights.map((book) => {
+        const searchedQuotes = book.quotes.filter((quote) =>
+          quote.text.toLowerCase().includes(searchValue.toLowerCase())
+        );
+        return {
+          bookAuthor: book.bookAuthor,
+          bookTitle: book.bookTitle,
+          quotes: searchedQuotes,
+        };
+      });
+      setHighlights(searchedHighlights);
+    } else {
+      const sortedHighlights = getSortedHighlights();
+      if (sortedHighlights !== undefined) {
+        setHighlights(sortedHighlights);
+      }
+    }
+  }, [searchValue]);
+
+  if (books != undefined) {
+    if (books.length <= 0) {
       return (
         <Layout>
           <TestFormatter />
@@ -19,17 +60,11 @@ export default function AllHighlightsPage() {
       );
     }
 
-    sortedHighlights = highlights.map((highlight) => ({
-      ...highlight,
-      quotes: highlight.quotes.sort(
-        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-      ),
-    }));
     return (
       <Layout>
         <div>
           <div className="mb-2">
-            <SearchBar />
+            <SearchBar setSearchValue={setSearchValue} />
           </div>
           <HighlightsList highlights={highlights} />
         </div>

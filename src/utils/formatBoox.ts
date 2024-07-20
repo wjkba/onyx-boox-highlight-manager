@@ -1,4 +1,3 @@
-// TODO: Add file check
 export type Quote = {
   id?: number;
   text: string;
@@ -12,15 +11,26 @@ export interface HighlightType {
   quotes: Quote[];
 }
 
-export function formatBoox(file: File) {
+export function formatBoox(
+  file: File,
+  errorCallback: (message: string) => void
+) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsText(file);
     reader.onload = () => {
-      const result = handleFileLoad(reader.result as string);
-      resolve(result);
+      try {
+        const result = handleFileLoad(reader.result as string);
+        resolve(result);
+      } catch (error) {
+        errorCallback("An unexpected error occurred.");
+        reject(error);
+      }
     };
-    reader.onerror = () => reject(reader.error);
+    reader.onerror = () => {
+      errorCallback("Something went wrong.");
+      reject(reader.error);
+    };
   });
 }
 
@@ -74,7 +84,6 @@ function pushQuote(
 
 function getQuoteDateISO(lines: string[], start: number) {
   const lineWithDate = lines[start];
-  console.log(lineWithDate);
   const dateStringEnd = lineWithDate.indexOf("|");
   const quoteDateString = lineWithDate.slice(0, dateStringEnd - 1);
   const dateObj = new Date(quoteDateString);

@@ -16,9 +16,9 @@ export default function BooksPage() {
             <Link
               to={`/books/${slugify(element.bookTitle, { lower: true })}`}
               key={index}
-              className="p-2 border border-black"
+              className="p-4 border border-black"
             >
-              <p>{element.bookTitle}</p>
+              <p className="text-lg">{element.bookTitle}</p>
               <p className="text-neutral-600">{element.bookAuthor}</p>
             </Link>
           ))}

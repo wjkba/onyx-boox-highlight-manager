@@ -2,21 +2,19 @@ import { useParams } from "react-router-dom";
 import { Layout } from "../Layout";
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "../db";
-import slugify from "slugify";
 import { useEffect, useState } from "react";
-import { HighlightType } from "../utils/formatBoox";
+import { type HighlightType } from "../types";
 import HighlightsList from "../components/highlights/HighlightsList";
 
 export default function BookPage() {
   const [bookInfo, setBookInfo] = useState<HighlightType | null>(null);
-  const { bookSlug } = useParams();
+  const { bookId } = useParams();
   const books = useLiveQuery(() => db.highlights.toArray());
 
   useEffect(() => {
     if (books) {
-      const bookObject = books.find(
-        (book) => slugifyToLower(book.bookTitle) === bookSlug
-      );
+      const bookObject = books.find((book) => String(book.id) === bookId);
+      console.log(bookId, typeof bookId);
       if (bookObject === undefined) {
         console.log("book not found");
       } else {
@@ -24,10 +22,6 @@ export default function BookPage() {
       }
     }
   }, [books]);
-
-  function slugifyToLower(string: string) {
-    return slugify(string, { lower: true });
-  }
 
   return (
     <Layout>

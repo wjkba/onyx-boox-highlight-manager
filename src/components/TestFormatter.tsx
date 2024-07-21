@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { formatBoox, HighlightType } from "../utils/formatBoox";
+import { formatBoox } from "../utils/formatBoox";
+import { type HighlightType } from "../types";
 import { db } from "../db";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +10,7 @@ export default function TestFormatter() {
   const [isConfirming, setIsConfirming] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   const [isValidFile, setIsValidFile] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [bookTitle, setBookTitle] = useState("");
   const [bookAuthor, setBookAuthor] = useState("");
@@ -26,7 +28,6 @@ export default function TestFormatter() {
   };
 
   useEffect(() => {
-    console.log(file);
     if (file?.type === "text/plain" && file?.size <= 5242880) {
       setIsValidFile(true);
     } else {
@@ -80,7 +81,9 @@ export default function TestFormatter() {
   function getQuotesWithIds(bookHighlights: HighlightType) {
     // TODO: DO ZMIANY, OPTYMALIZACJA LEZY
     // uzyj map albo set
-    const matchingEntry = dbBookEntries?.find((e) => e.bookTitle === bookTitle);
+    const matchingEntry = dbBookEntries?.find(
+      (e) => e.bookTitle === bookTitle && e.bookAuthor === bookAuthor
+    );
     if (matchingEntry) {
       const existingQuotes = matchingEntry.quotes;
       const incomingQuotes = bookHighlights.quotes;
@@ -106,16 +109,17 @@ export default function TestFormatter() {
   }
 
   async function updateDB(newHighlights: HighlightType) {
-    const book = await db.highlights.where({ bookTitle }).first();
+    const book = await db.highlights.where({ bookTitle, bookAuthor }).first();
     if (book) {
       const updatedBook = {
         ...book,
         quotes: [...book.quotes, ...newHighlights.quotes],
       };
       await db.highlights.put(updatedBook);
-      console.log("Updated highlights for existing book");
+      setMessage("Updated highlights for existing book");
     } else {
-      db.highlights.add(newHighlights);
+      await db.highlights.add(newHighlights);
+      setMessage("Added new highlights");
     }
   }
 
@@ -159,7 +163,7 @@ export default function TestFormatter() {
   if (isCompleted) {
     return (
       <form className="grid gap-2  p-2 mb-2">
-        <p className="text-lg font-medium">Import completed successfully.</p>
+        {message && <p className="text-lg font-medium">{message}</p>}
         <p>You can continue importing or view your highlights.</p>
         <div className="flex gap-2">
           <button

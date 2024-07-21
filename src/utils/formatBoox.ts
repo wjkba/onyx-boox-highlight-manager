@@ -1,15 +1,4 @@
-export type Quote = {
-  id?: number;
-  text: string;
-  starred: boolean;
-  date: string;
-};
-
-export interface HighlightType {
-  bookTitle: string;
-  bookAuthor: string;
-  quotes: Quote[];
-}
+import { type Quote, type HighlightType } from "../types";
 
 export function formatBoox(
   file: File,

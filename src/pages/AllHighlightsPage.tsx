@@ -3,7 +3,7 @@ import HighlightsList from "../components/highlights/HighlightsList";
 import SearchBar from "../components/SearchBar";
 import { Layout } from "../Layout";
 import { db } from "../db";
-import { HighlightType } from "../utils/formatBoox";
+import { type HighlightType } from "../types";
 import TestFormatter from "../components/TestFormatter";
 import { useEffect, useMemo, useState } from "react";
 
@@ -12,7 +12,6 @@ export default function AllHighlightsPage() {
   const [highlights, setHighlights] = useState<HighlightType[]>([]);
   const [searchValue, setSearchValue] = useState("");
   const sortedHighlights = useMemo(getSortedHighlights, [books]);
-
   function getSortedHighlights() {
     if (books) {
       return books.map((highlight) => ({

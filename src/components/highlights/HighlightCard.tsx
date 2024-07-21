@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { BiStar } from "react-icons/bi";
 import { BiSolidStar } from "react-icons/bi";
-import { BiDotsVerticalRounded } from "react-icons/bi";
 import { db } from "../../db";
+import HighlightCardOptions from "./HighlightCardOptions";
 
 interface HighlightCardProps {
   id: number;
@@ -10,6 +10,7 @@ interface HighlightCardProps {
   bookTitle: string;
   bookAuthor: string;
   starred: boolean;
+  bookId: number;
 }
 export default function HighlightCard({
   id,
@@ -17,6 +18,7 @@ export default function HighlightCard({
   bookTitle,
   bookAuthor,
   starred,
+  bookId,
 }: HighlightCardProps) {
   const [isStarred, setIsStarred] = useState(starred);
 
@@ -46,7 +48,7 @@ export default function HighlightCard({
           <p className="text-neutral-500">
             {bookTitle} - {bookAuthor}
           </p>
-          <div className="flex gap-2">
+          <div className="flex items-center gap-1">
             <button
               type="button"
               onClick={handleStar}
@@ -54,9 +56,7 @@ export default function HighlightCard({
             >
               {isStarred ? <BiSolidStar size={20} /> : <BiStar size={20} />}
             </button>
-            <button>
-              <BiDotsVerticalRounded size={24} />
-            </button>
+            <HighlightCardOptions bookId={bookId} />
           </div>
         </div>
         <p>{text}</p>

@@ -7,8 +7,13 @@
   display: none;
 }
 
-
-
 .hover-trigger:hover .star-icon{
+  display: block;
+}
+
+.card-options ul {
+  display: none;
+}
+.card-options.open ul{
   display: block;
 }

@@ -3,13 +3,13 @@ import HighlightsList from "../components/highlights/HighlightsList";
 import SearchBar from "../components/SearchBar";
 import { Layout } from "../Layout";
 import { db } from "../db";
-import { type HighlightType } from "../types";
+import { type BookEntry } from "../types";
 import TestFormatter from "../components/TestFormatter";
 import { useEffect, useMemo, useState } from "react";
 
 export default function AllHighlightsPage() {
   const books = useLiveQuery(() => db.highlights.toArray());
-  const [highlights, setHighlights] = useState<HighlightType[]>([]);
+  const [highlights, setHighlights] = useState<BookEntry[]>([]);
   const [searchValue, setSearchValue] = useState("");
   const sortedHighlights = useMemo(getSortedHighlights, [books]);
   function getSortedHighlights() {
@@ -39,6 +39,7 @@ export default function AllHighlightsPage() {
           bookAuthor: book.bookAuthor,
           bookTitle: book.bookTitle,
           quotes: searchedQuotes,
+          id: book.id,
         };
       });
       setHighlights(searchedHighlights);

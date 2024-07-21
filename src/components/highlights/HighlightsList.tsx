@@ -1,8 +1,8 @@
 import HighlightCard from "./HighlightCard";
-import { HighlightType } from "../../utils/formatBoox";
+import { type BookEntry } from "@/types";
 
 interface HighlightListProps {
-  highlights: HighlightType[];
+  highlights: BookEntry[];
 }
 
 export default function HighlightsList({
@@ -19,6 +19,7 @@ export default function HighlightsList({
             bookTitle={highlight.bookTitle}
             starred={quote.starred}
             id={quote.id!}
+            bookId={highlight.id}
           />
         ))
       )}

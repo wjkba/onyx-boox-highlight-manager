@@ -3,6 +3,7 @@ import { db } from "../db";
 import { Layout } from "../Layout";
 import { useRef } from "react";
 import { saveAs } from "file-saver";
+import { exportDbToString } from "@/utils/exportDb";
 
 export default function ExportPage() {
   const books = useLiveQuery(() => db.highlights.toArray());
@@ -28,6 +29,13 @@ export default function ExportPage() {
         saveAs(blob, `${selectedBookTitle} - Highlights.md`);
       }
     }
+  }
+
+  async function handleExportDatabase() {
+    const jsonDbString = (await exportDbToString()) as string;
+    console.log(jsonDbString);
+    const blob = new Blob([jsonDbString], { type: "text/plain" });
+    saveAs(blob, "MyHighlightsDB.txt");
   }
 
   if (books && books.length <= 0) {
@@ -59,6 +67,16 @@ export default function ExportPage() {
             className="p-2 w-full bg-neutral-300 hover:bg-neutral-700 hover:text-white"
             type="button"
             onClick={handleExport}
+          >
+            Export
+          </button>
+        </form>
+        <form className="grid gap-2   p-2 mb-2">
+          <h1 className="text-lg">Export highlights database</h1>
+          <button
+            className="p-2 w-full bg-neutral-300 hover:bg-neutral-700 hover:text-white"
+            type="button"
+            onClick={handleExportDatabase}
           >
             Export
           </button>

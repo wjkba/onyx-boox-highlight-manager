@@ -4,7 +4,7 @@ import SearchBar from "../components/SearchBar";
 import { Layout } from "../Layout";
 import { db } from "../db";
 import { type BookEntry } from "../types";
-import TestFormatter from "../components/TestFormatter";
+import TestFormatter from "../components/import/TestFormatter";
 import { useEffect, useMemo, useState } from "react";
 
 export default function AllHighlightsPage() {

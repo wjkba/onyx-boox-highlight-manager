@@ -1,5 +1,5 @@
 import { useLiveQuery } from "dexie-react-hooks";
-import TestFormatter from "../components/TestFormatter";
+import TestFormatter from "../components/import/TestFormatter";
 import { db } from "../db";
 import HighlightCard from "../components/highlights/HighlightCard";
 import { Layout } from "../Layout";

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { formatBoox } from "../utils/formatBoox";
-import { type HighlightType } from "../types";
-import { db } from "../db";
+import { formatBoox } from "../../utils/formatBoox";
+import { type HighlightType } from "../../types";
+import { db } from "../../db";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useNavigate } from "react-router-dom";
 

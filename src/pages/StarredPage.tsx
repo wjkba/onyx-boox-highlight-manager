@@ -42,6 +42,7 @@ export default function StarredPage() {
                 bookTitle={highlight.bookTitle}
                 starred={quote.starred}
                 id={quote.id!}
+                bookId={highlight.id}
               />
             ))
           )}

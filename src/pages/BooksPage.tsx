@@ -10,18 +10,18 @@ export default function BooksPage() {
   function showBooks() {
     if (highlights) {
       return (
-        <div className="grid gap-2">
+        <>
           {highlights.map((element) => (
             <Link
               to={`/books/${element.id}`}
               key={element.id}
-              className="p-4 border border-black"
+              className="p-4 border border-black lg:max-w-[276px] w-full "
             >
               <p className="text-lg">{element.bookTitle}</p>
               <p className="text-neutral-600">{element.bookAuthor}</p>
             </Link>
           ))}
-        </div>
+        </>
       );
     }
   }
@@ -32,5 +32,11 @@ export default function BooksPage() {
       </Layout>
     );
   }
-  return <Layout>{showBooks()}</Layout>;
+  return (
+    <Layout>
+      <div className="grid gap-2 lg:flex lg:gap-[16px] lg:flex-wrap">
+        {showBooks()}
+      </div>
+    </Layout>
+  );
 }

@@ -10,6 +10,8 @@ import ImportPage from "./pages/ImportPage.tsx";
 import ExportPage from "./pages/ExportPage.tsx";
 import SettingsPage from "./pages/SettingsPage.tsx";
 import BookPage from "./pages/BookPage.tsx";
+import DailyReviewPage from "./pages/DailyReviewPage.tsx";
+import AboutPage from "./pages/AboutPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -43,6 +45,14 @@ const router = createBrowserRouter([
   {
     path: "/settings",
     element: <SettingsPage />,
+  },
+  {
+    path: "/review",
+    element: <DailyReviewPage />,
+  },
+  {
+    path: "/about",
+    element: <AboutPage />,
   },
 ]);
 

@@ -55,14 +55,16 @@ export default function AllHighlightsPage() {
     if (books.length <= 0) {
       return (
         <Layout>
-          <TestFormatter />
+          <div className="lg:max-w-[450px]">
+            <TestFormatter />
+          </div>
         </Layout>
       );
     }
 
     return (
       <Layout>
-        <div>
+        <div className="lg:max-w-[892px]">
           <div className="mb-2">
             <SearchBar setSearchValue={setSearchValue} />
           </div>

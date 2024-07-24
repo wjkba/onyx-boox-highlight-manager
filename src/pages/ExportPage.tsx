@@ -49,8 +49,9 @@ export default function ExportPage() {
   if (books && books.length > 0) {
     return (
       <Layout>
-        <form className="grid gap-2   p-2 mb-2">
-          <h1 className="text-lg">Export to Markdown</h1>
+        <form className="grid gap-2 lg:max-w-[450px]  p-2 mb-2">
+          <h1 className="text-xl">Export to Markdown</h1>
+
           <select
             ref={selectRef}
             className="p-2 w-full"
@@ -71,8 +72,12 @@ export default function ExportPage() {
             Export
           </button>
         </form>
-        <form className="grid gap-2   p-2 mb-2">
-          <h1 className="text-lg">Export highlights database</h1>
+        <form className="grid gap-2 lg:max-w-[450px]  p-2 mb-2">
+          <h1 className="text-xl mb-1">Export highlights database</h1>
+          <p className="mb-2">
+            Your highlights data is stored locally in IndexedDB database. You
+            can export your highlights at any time by clicking the button below.
+          </p>
           <button
             className="p-2 w-full bg-neutral-300 hover:bg-neutral-700 hover:text-white"
             type="button"

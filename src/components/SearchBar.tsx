@@ -10,7 +10,7 @@ export default function SearchBar({ setSearchValue }: SearchBarProps) {
   }
 
   return (
-    <div className="text-neutral-500 py-2 w-full flex items-center border-solid border-2 border-neutral-500 ">
+    <div className="text-neutral-500 py-1.5 w-full flex items-center border-solid border-2 border-neutral-500 ">
       <div className="pl-4">
         <BiSearch size={20} />
       </div>

@@ -188,7 +188,7 @@ export default function TestFormatter() {
   return (
     <div>
       <form className="grid gap-2  p-2 mb-2">
-        <h1 className="text-lg">Import boox annotations file</h1>
+        <h1 className="text-xl mb-1">Import boox annotations file</h1>
         <div>
           <input onChange={handleChange} type="file" />
         </div>

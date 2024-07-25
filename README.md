@@ -10,5 +10,5 @@ This app is currently under development, designed to help you efficiently manage
 - **Daily Review [WIP]**: Keep your knowledge fresh with a daily review of your highlights.
 - **Highlights Lists [WIP]**: Organize your highlights into custom lists for easy access and management.
 
-## Try it out
-https://profound-sopapillas-f32bce.netlify.app/
+## Try it out here
+https://ehighlights.netlify.app/

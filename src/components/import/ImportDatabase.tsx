@@ -47,18 +47,18 @@ export default function ImportDatabase() {
 
   return (
     <form onSubmit={handleUpload} className="grid gap-2  p-2 mb-2">
-      <h1 className="text-xl mb-1">Import highlights db file</h1>
+      <h1 className="text-xl mb-2">Import highlights database</h1>
       <p>
         Import your highlights easily from a saved file. Click the button below
         to load your data into the app.
       </p>
-      <div className="mb-2">
+      <div className="mb-0">
         <input onChange={handleChange} type="file" />
       </div>
 
       {errorMessage && <p className="text-red-500 text mb-2">{errorMessage}</p>}
       <button
-        className="bg-neutral-300 hover:bg-neutral-700 hover:text-white p-2 w-full"
+        className="bg-neutral-300 hover:bg-neutral-700 mt-2 hover:text-white p-2  w-full"
         type="submit"
       >
         Upload

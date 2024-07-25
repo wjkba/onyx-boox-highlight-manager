@@ -3,7 +3,7 @@ import { formatBoox } from "../../utils/formatBoox";
 import { type HighlightType } from "../../types";
 import { db } from "../../db";
 import { useLiveQuery } from "dexie-react-hooks";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function TestFormatter() {
   const [file, setFile] = useState<File | null>(null);
@@ -187,17 +187,22 @@ export default function TestFormatter() {
 
   return (
     <div>
-      <form className="grid gap-2  p-2 mb-2">
-        <h1 className="text-xl mb-1">Import boox annotations file</h1>
+      <form className="grid gap-2  p-2 mb-8">
+        <h1 className="text-xl mb-2">Import boox annotations file</h1>
+        <Link to="/help" className="text-blue-700 underline">
+          How to get onyx boox annotations file
+        </Link>
         <div>
           <input onChange={handleChange} type="file" />
         </div>
+
         {errorMessage && (
           <p className="text-red-500 text mb-2">{errorMessage}</p>
         )}
+
         <button
           onClick={handleUpload}
-          className="bg-neutral-300 hover:bg-neutral-700 hover:text-white p-2 w-full"
+          className="bg-neutral-300 hover:bg-neutral-700 mt-2 hover:text-white p-2 w-full"
           type="submit"
         >
           Upload

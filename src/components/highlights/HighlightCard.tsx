@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BiStar } from "react-icons/bi";
 import { BiSolidStar } from "react-icons/bi";
 import { db } from "../../db";
@@ -26,6 +26,12 @@ export default function HighlightCard({
   const { editingQuoteId, setEditingQutoeId } = useHighlightCardEditStore();
   const [editValue, setEditValue] = useState<string>(text);
   let isEditing = editingQuoteId === id;
+
+  useEffect(() => {
+    if (isEditing) {
+      setEditValue(text);
+    }
+  }, [editingQuoteId, text, isEditing]);
 
   async function handleStar() {
     setIsStarred(!isStarred);
@@ -93,7 +99,7 @@ export default function HighlightCard({
             onChange={handleEditChange}
           />
         ) : (
-          <p>{text}</p>
+          <p className="font-robotoSlab">{text}</p>
         )}
         {isEditing && (
           <div className="flex w-full justify-end gap-4">

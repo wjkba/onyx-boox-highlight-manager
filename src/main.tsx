@@ -12,6 +12,7 @@ import SettingsPage from "./pages/SettingsPage.tsx";
 import BookPage from "./pages/BookPage.tsx";
 import DailyReviewPage from "./pages/DailyReviewPage.tsx";
 import AboutPage from "./pages/AboutPage.tsx";
+import HelpPage from "./pages/HelpPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
   {
     path: "/about",
     element: <AboutPage />,
+  },
+  {
+    path: "/help",
+    element: <HelpPage />,
   },
 ]);
 

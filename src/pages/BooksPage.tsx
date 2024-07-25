@@ -15,7 +15,7 @@ export default function BooksPage() {
             <Link
               to={`/books/${element.id}`}
               key={element.id}
-              className="p-4 border border-black lg:max-w-[276px] w-full "
+              className="p-4 border border-black lg:max-w-[276px] w-full  hover:bg-neutral-50"
             >
               <p className="text-lg">{element.bookTitle}</p>
               <p className="text-neutral-600">{element.bookAuthor}</p>

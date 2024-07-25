@@ -25,6 +25,7 @@ export default function HighlightCardOptions({
     {
       text: "Go to book",
       action: () => {
+        handleOpen();
         navigate(`/books/${bookId}`);
       },
     },
@@ -53,7 +54,8 @@ export default function HighlightCardOptions({
       quotes: updatedQuotes,
     });
     console.log(result);
-    handleOpen();
+    setActiveQuoteId(null);
+    setEditingQutoeId(null);
   }
 
   async function handleEditQuote(quoteId: number) {

@@ -6,6 +6,7 @@ import { db } from "../db";
 import { type BookEntry } from "../types";
 import TestFormatter from "../components/import/TestFormatter";
 import { useEffect, useMemo, useState } from "react";
+import { ScrollRestoration } from "react-router-dom";
 
 export default function AllHighlightsPage() {
   const books = useLiveQuery(() => db.highlights.toArray());
@@ -63,14 +64,17 @@ export default function AllHighlightsPage() {
     }
 
     return (
-      <Layout>
-        <div className="lg:max-w-[892px]">
-          <div className="mb-2">
-            <SearchBar setSearchValue={setSearchValue} />
+      <>
+        <Layout>
+          <div className="lg:max-w-[892px]">
+            <div className="mb-2">
+              <SearchBar setSearchValue={setSearchValue} />
+            </div>
+            <HighlightsList highlights={highlights} />
           </div>
-          <HighlightsList highlights={highlights} />
-        </div>
-      </Layout>
+        </Layout>
+        <ScrollRestoration />
+      </>
     );
   }
 }

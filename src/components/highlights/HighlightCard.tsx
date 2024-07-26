@@ -4,7 +4,7 @@ import { BiSolidStar } from "react-icons/bi";
 import { db } from "../../db";
 import HighlightCardOptions from "./HighlightCardOptions";
 import { useHighlightCardEditStore } from "@/store";
-import { Quote } from "@/types";
+import { Quote } from "@/types/types";
 
 interface HighlightCardProps {
   id: number;

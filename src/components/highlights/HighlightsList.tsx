@@ -1,5 +1,5 @@
 import HighlightCard from "./HighlightCard";
-import { type BookEntry } from "@/types";
+import { type BookEntry } from "@/types/types";
 
 interface HighlightListProps {
   highlights: BookEntry[];

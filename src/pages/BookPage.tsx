@@ -3,7 +3,7 @@ import { Layout } from "../Layout";
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "../db";
 import { useEffect, useState } from "react";
-import { type BookEntry } from "../types";
+import { type BookEntry } from "../types/types";
 import HighlightsList from "../components/highlights/HighlightsList";
 
 export default function BookPage() {

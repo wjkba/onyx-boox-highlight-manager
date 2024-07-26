@@ -1,4 +1,4 @@
-import { type Quote, type HighlightType } from "../types";
+import { type Quote, type HighlightType } from "../types/types";
 
 export function formatBoox(
   file: File,
@@ -67,6 +67,7 @@ function pushQuote(
     starred: false,
     text: cleanText(lines.slice(start + 1, end).join(" ")),
     date: getQuoteDateISO(lines, start),
+    lastReviewed: null,
   };
   quotes.push(quote);
 }

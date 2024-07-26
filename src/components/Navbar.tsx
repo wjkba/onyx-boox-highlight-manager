@@ -12,7 +12,9 @@ export default function Navbar() {
 
   return (
     <nav className="bg-white mb-4 border-solid border-b border-black/20 h-[56px] flex justify-between items-center">
-      <p className="font-robotoSlab font-bold text-xl">Highlights</p>
+      <Link to="/" className="font-robotoSlab font-bold text-xl">
+        Highlights
+      </Link>
       <button onClick={handleOpen} className="cursor-pointer">
         <BiMenu size={28} />
       </button>

@@ -5,11 +5,12 @@ export async function getDailyReviewQuotes(books: BookEntry[]) {
   const dailyReviewable = allQuotes?.filter((quote) => {
     if (quote.lastReviewed === null) {
       return true;
+    } else {
+      const lastReviewedDate = new Date(quote.lastReviewed);
+      const fiveDaysAgo = new Date();
+      fiveDaysAgo.setDate(fiveDaysAgo.getDate() - 5);
+      return lastReviewedDate < fiveDaysAgo;
     }
-    const lastReviewedDate = new Date(quote.lastReviewed);
-    const fiveDaysAgo = new Date();
-    fiveDaysAgo.setDate(fiveDaysAgo.getDate() - 5);
-    return lastReviewedDate >= fiveDaysAgo;
   });
   const shuffled = dailyReviewable?.sort(() => 0.5 - Math.random());
   return shuffled?.slice(0, 5);

@@ -188,8 +188,8 @@ export default function TestFormatter() {
   return (
     <div>
       <form className="grid gap-2  p-2 mb-8">
-        <h1 className="text-xl mb-2">Import boox annotations file</h1>
-        <Link to="/help" className="text-blue-700 underline">
+        <h1 className="text-xl">Import boox annotations file</h1>
+        <Link to="/help" className="mb-2 text-blue-700 underline">
           How to get onyx boox annotations file
         </Link>
         <div>

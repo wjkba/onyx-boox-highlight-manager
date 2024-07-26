@@ -73,7 +73,7 @@ export default function ExportPage() {
           </button>
         </form>
         <form className="grid gap-2 lg:max-w-[450px]  p-2 mb-2">
-          <h1 className="text-xl mb-1">Export highlights database</h1>
+          <h1 className="text-xl">Export highlights database</h1>
           <p className="mb-2">
             Your highlights data is stored locally in IndexedDB database. You
             can export your highlights at any time by clicking the button below.

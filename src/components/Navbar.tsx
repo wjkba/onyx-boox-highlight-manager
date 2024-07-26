@@ -1,21 +1,49 @@
 import { useState } from "react";
 import { BiMenu } from "react-icons/bi";
 import { BiX } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
 
   function handleOpen() {
     setIsOpen(!isOpen);
   }
+
+  const LINKS = [
+    {
+      text: "Highlights",
+      linkTo: "/all",
+    },
+    {
+      text: "Daily review",
+      linkTo: "/review",
+    },
+    {
+      text: "About",
+      linkTo: "/about",
+    },
+  ];
 
   return (
     <nav className="bg-white mb-4 border-solid border-b border-black/20 h-[56px] flex justify-between items-center">
       <Link to="/" className="font-robotoSlab font-bold text-xl">
         Highlights
       </Link>
-      <button onClick={handleOpen} className="cursor-pointer">
+      <ul className="hidden lg:flex gap-6 text-lg">
+        {LINKS.map((link, index) => (
+          <li
+            className={`cursor-pointer ${
+              location.pathname.startsWith(link.linkTo) ? "font-medium" : ""
+            }`}
+            key={index}
+          >
+            <Link to={link.linkTo}>{link.text}</Link>
+          </li>
+        ))}
+      </ul>
+      <button onClick={handleOpen} className="lg:hidden cursor-pointer">
         <BiMenu size={28} />
       </button>
       {isOpen && (
@@ -27,24 +55,15 @@ export default function Navbar() {
               </button>
             </div>
             <div className="w-full flex flex-col gap-2">
-              <Link
-                to="/"
-                className="border-b border-black/20  w-full p-4 text-center"
-              >
-                Highlights
-              </Link>
-              <Link
-                to="/review"
-                className="border-b border-black/20  w-full p-4 text-center"
-              >
-                Daily review
-              </Link>
-              <Link
-                to="/about"
-                className="border-b border-black/20  w-full p-4 text-center"
-              >
-                About
-              </Link>
+              {LINKS.map((link, index) => (
+                <Link
+                  key={index}
+                  to={link.linkTo}
+                  className="border-b border-black/20  w-full p-4 text-center"
+                >
+                  {link.text}
+                </Link>
+              ))}
             </div>
           </div>
         </div>

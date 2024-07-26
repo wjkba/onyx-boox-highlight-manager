@@ -1,3 +1,4 @@
+import DailyReviewCard from "@/components/DailyReviewCard";
 import Navbar from "@/components/Navbar";
 import { db } from "@/db";
 import { DailyReviewQuote } from "@/types/types";
@@ -142,31 +143,48 @@ export default function DailyReviewPage() {
     );
   }
 
-  return (
-    <div className="grid place-items-center ">
-      <div className=" w-full max-w-[600px] lg:max-w-[1200px] px-4">
-        <Navbar />
-        <main className="bg-white min-h-screen lg:flex lg:gap-[32px] lg:pt-8">
-          <div className="lg:w-full">
-            <h1 className="text-xl mb-4">DailyReviewPage</h1>
-            <div className="max-w-[600px]">
-              <div className="flex justify-between mb-2">
-                <button onClick={handleBack} className="bg-pink-200 px-4 p-2">
-                  back
-                </button>
-                <p>
-                  {currentIndex + 1}/{dailyHighlights?.length}
-                </p>
-                <button onClick={handleNext} className="bg-pink-200 px-4 p-2">
-                  next
-                </button>
+  if (activeHighlight) {
+    return (
+      <div className="grid place-items-center ">
+        <div className=" w-full max-w-[600px] lg:max-w-[1200px] px-4">
+          <Navbar />
+          <main className="bg-white min-h-screen lg:flex lg:gap-[32px] lg:pt-8">
+            <div className="lg:w-full">
+              <h1 className="text-xl mb-4">Daily review test</h1>
+              <div className="max-w-[600px]">
+                <div className="flex justify-between mb-2">
+                  <div className="flex gap-2">
+                    <button
+                      onClick={handleBack}
+                      className="bg-yellow-200 px-4 p-2"
+                    >
+                      back
+                    </button>
+                    {/* <button className="bg-yellow-200 px-4 p-2">delete</button> */}
+                  </div>
+                  <p>
+                    {currentIndex + 1}/{dailyHighlights?.length}
+                  </p>
+                  <div className="flex gap-2">
+                    {/* <button className="bg-yellow-200 px-4 p-2">star</button> */}
+                    <button
+                      onClick={handleNext}
+                      className="bg-yellow-200 px-4 p-2"
+                    >
+                      next
+                    </button>
+                  </div>
+                </div>
               </div>
-
-              <p>{activeHighlight && activeHighlight.text}</p>
+              <DailyReviewCard
+                bookTitle={activeHighlight.bookTitle}
+                bookAuthor={activeHighlight.bookAuthor}
+                text={activeHighlight.text}
+              />
             </div>
-          </div>
-        </main>
+          </main>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }

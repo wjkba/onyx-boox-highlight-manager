@@ -51,7 +51,7 @@ export default function DangerButton({ action }: DangerButtonProps) {
   return (
     <button
       onClick={handleAction}
-      className="text-red-600 border-black  hover:bg-black p-2 border"
+      className="text-red-600   hover:border-black border border-transparent hover:text-red-500 py-2"
     >
       CLEAR DATABASE TABLE
     </button>

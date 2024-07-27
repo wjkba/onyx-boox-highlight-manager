@@ -49,7 +49,7 @@ export default function DailyReviewButtons({
             onClick={onDelete}
             className="border border-black hover:text-white hover:bg-black px-4 p-2"
           >
-            {isDeleted ? "deleted" : "delete"}
+            {isDeleted ? "undo" : "delete"}
           </button>
           <button
             onClick={onStar}

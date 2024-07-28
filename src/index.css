@@ -3,6 +3,9 @@
 @tailwind components;
 @tailwind utilities;
 
+
+
+
 .star-icon{
   display: none;
 }
@@ -17,3 +20,16 @@
 .card-options.open ul{
   display: block;
 }
+:root {
+  --bg-color: #ffffff; /* Default light background */
+}
+
+.dark {
+  --bg-color: #000000; /* Dark background when .dark class is applied */
+}
+
+body {
+  background-color: var(--bg-color);
+  transition: background-color 0.3s ease;
+}
+

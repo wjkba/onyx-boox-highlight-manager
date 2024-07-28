@@ -18,9 +18,9 @@ export default function SidebarMenuButton({
 }: SidebarMenuButtonProps) {
   const buttonClasses = `${
     active
-      ? "bg-neutral-800 text-white dark:bg-neutral-100 dark:text-neutral-900"
-      : "bg-white text-neutral-800"
-  } dark:bg-neutral-800 dark:text-neutral-100 flex flex-col w-full items-center cursor-pointer p-2 gap-1 lg:gap-[12px] lg:flex-row`;
+      ? "dark:bg-neutral-100 dark:text-neutral-900 bg-neutral-800 text-white "
+      : "bg-white text-neutral-800 dark:bg-neutral-800 dark:text-neutral-100"
+  }  flex flex-col w-full items-center cursor-pointer p-2 gap-1 lg:gap-[12px] lg:flex-row`;
 
   return (
     <button

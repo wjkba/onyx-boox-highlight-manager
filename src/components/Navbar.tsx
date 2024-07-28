@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { BiMenu, BiX, BiAdjust } from "react-icons/bi";
 import { Link, useLocation } from "react-router-dom";
 
@@ -10,33 +10,25 @@ export default function Navbar() {
     setIsOpen(!isOpen);
   }
 
-  useEffect(() => {
-    function checkLocalStorageTheme() {
-      const theme = localStorage.getItem("theme");
-      if (theme) {
-        const body = document.querySelector("body");
-        if (theme === "light") {
-          body?.classList.remove("dark");
-        }
-        if (theme === "dark") {
-          body?.classList.add("dark");
-        }
-      } else {
-        localStorage.setItem("theme", "light");
-      }
+  const applyTheme = useCallback(() => {
+    if (localStorage.theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
     }
-    checkLocalStorageTheme();
   }, []);
 
+  useEffect(() => {
+    applyTheme();
+  }, [applyTheme]);
+
   function toggleDarkMode() {
-    const body = document.querySelector("body");
-    if (body?.classList.contains("dark")) {
-      body.classList.remove("dark");
-      localStorage.setItem("theme", "light");
+    if (localStorage.theme === "dark") {
+      localStorage.theme = "light";
     } else {
-      body?.classList.add("dark");
-      localStorage.setItem("theme", "dark");
+      localStorage.theme = "dark";
     }
+    applyTheme();
   }
 
   const LINKS = [

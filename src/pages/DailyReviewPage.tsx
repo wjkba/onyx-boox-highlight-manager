@@ -150,7 +150,7 @@ export default function DailyReviewPage() {
       <div className="grid place-items-center ">
         <div className=" w-full max-w-[600px] lg:max-w-[1200px] px-4">
           <Navbar />
-          <main className="bg-white min-h-screen lg:flex lg:gap-[32px] lg:pt-8">
+          <main className="min-h-screen lg:flex lg:gap-[32px] lg:pt-8">
             <div className="lg:w-full">
               <h1 className="text-xl mb-2">Daily review</h1>
               <div className="max-w-[600px]">
@@ -168,7 +168,7 @@ export default function DailyReviewPage() {
       <div className="grid place-items-center ">
         <div className=" w-full max-w-[600px] lg:max-w-[1200px] px-4">
           <Navbar />
-          <main className="bg-white min-h-screen lg:flex lg:gap-[32px] lg:pt-8">
+          <main className="min-h-screen lg:flex lg:gap-[32px] lg:pt-8">
             <div className="lg:w-full">
               <h1 className="text-xl mb-2">Daily review</h1>
               <div className="max-w-[600px]">
@@ -189,10 +189,10 @@ export default function DailyReviewPage() {
 
   if (activeHighlight) {
     return (
-      <div className="grid place-items-center ">
+      <div className="dark:bg-netural-800 grid place-items-center ">
         <div className=" w-full max-w-[600px] lg:max-w-[1200px] px-4">
           <Navbar />
-          <main className="bg-white min-h-screen lg:flex lg:gap-[32px] lg:pt-8">
+          <main className="min-h-screen lg:flex lg:gap-[32px] lg:pt-8">
             <div className="lg:w-full">
               <h1 className="text-xl mb-4">Daily review</h1>
               <div className="max-w-[600px]">

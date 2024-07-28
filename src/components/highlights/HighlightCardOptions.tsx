@@ -3,7 +3,12 @@ import {
   useHighlightCardEditStore,
   useHighlightCardOptionsStore,
 } from "@/store";
-import { BiDotsVerticalRounded } from "react-icons/bi";
+import {
+  BiDotsVerticalRounded,
+  BiEditAlt,
+  BiSolidTrash,
+  BiBookOpen,
+} from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 
 interface HighlightCardProps {
@@ -23,6 +28,7 @@ export default function HighlightCardOptions({
 
   const cardOptions = [
     {
+      icon: <BiBookOpen />,
       text: "Go to book",
       action: () => {
         handleOpen();
@@ -30,11 +36,13 @@ export default function HighlightCardOptions({
       },
     },
     {
+      icon: <BiEditAlt />,
       text: "Edit",
       action: () => handleEditQuote(quoteId),
     },
     {
-      text: "Delete highlight",
+      icon: <BiSolidTrash />,
+      text: "Delete",
       action: () => handleDeleteQuote(quoteId, bookId),
     },
   ];
@@ -72,14 +80,17 @@ export default function HighlightCardOptions({
       <button className="grid place-items-center " onClick={handleOpen}>
         <BiDotsVerticalRounded size={24} />
       </button>
-      <ul className="bg-white pb-4 border border-black text-black p-2 absolute max-w-[9rem] w-full  -translate-x-[6.4rem]">
+      <ul className="bg-white dark:bg-neutral-900 dark:text-white pb-4 border border-black text-black p-2 absolute max-w-[9rem] w-full  -translate-x-[6.4rem]">
         {cardOptions.map((option, index) => (
           <li
             key={index}
             onClick={option.action}
             className=" cursor-pointer border-b p-1 hover:bg-neutral-600 hover:text-white"
           >
-            {option.text}
+            <div className="flex items-center gap-2">
+              {option.icon}
+              {option.text}
+            </div>
           </li>
         ))}
       </ul>

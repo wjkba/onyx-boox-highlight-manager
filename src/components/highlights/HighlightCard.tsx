@@ -75,10 +75,10 @@ export default function HighlightCard({
   }
 
   return (
-    <div className="flex gap-[12px]  bg-white border-solid border border-black p-4 hover-trigger">
+    <div className="dark:border-neutral-100 flex gap-[12px] border-solid border border-black p-4 hover-trigger">
       <div className="w-full">
         <div className="flex items-center justify-between text-neutral-400 mb-2">
-          <p className="text-neutral-500">
+          <p className="text-neutral-500 dark:text-neutral-300">
             {bookTitle} - {bookAuthor}
           </p>
           <div className="flex items-center gap-1">
@@ -94,7 +94,7 @@ export default function HighlightCard({
         </div>
         {isEditing ? (
           <textarea
-            className="resize-none min-h-[12rem] mb-2 w-full border border-black p-2"
+            className="dark:bg-neutral-900 resize-none min-h-[12rem] mb-2 w-full border border-black p-2"
             value={editValue}
             onChange={handleEditChange}
           />

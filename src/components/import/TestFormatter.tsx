@@ -131,18 +131,18 @@ export default function TestFormatter() {
           onChange={handleTitleChange}
           value={bookTitle}
           id="bookTitle"
-          className="border border-black p-1"
+          className="dark:border-neutral-100 dark:text-black border border-black p-1 mb-2"
         />
         <label htmlFor="bookAuthor">Book author:</label>
         <input
           onChange={handleAuthorChange}
           value={bookAuthor}
           id="bookTitle"
-          className="border border-black p-1 mb-2"
+          className="dark:border-neutral-100 dark:text-black border border-black p-1 mb-2"
         />
         <button
           onClick={handleConfirm}
-          className="p-2 w-full bg-neutral-300 hover:bg-neutral-700 hover:text-white"
+          className="p-2 w-full border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
           type="submit"
         >
           Confirm
@@ -167,14 +167,14 @@ export default function TestFormatter() {
         <p>You can continue importing or view your highlights.</p>
         <div className="flex gap-2">
           <button
-            className="p-2 w-full bg-neutral-300 hover:bg-neutral-700 hover:text-white"
+            className="p-2 w-full border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
             type="button"
             onClick={handleContinue}
           >
             Continue
           </button>
           <button
-            className="p-2 w-full bg-neutral-300 hover:bg-neutral-700 hover:text-white"
+            className="p-2 w-full border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
             type="button"
             onClick={handleViewHighlights}
           >
@@ -202,7 +202,7 @@ export default function TestFormatter() {
 
         <button
           onClick={handleUpload}
-          className="bg-neutral-300 hover:bg-neutral-700 mt-2 hover:text-white p-2 w-full"
+          className="p-2 w-full border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
           type="submit"
         >
           Upload

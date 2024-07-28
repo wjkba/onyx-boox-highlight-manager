@@ -54,7 +54,7 @@ export default function ExportPage() {
 
           <select
             ref={selectRef}
-            className="p-2 w-full"
+            className="p-2 w-full dark:bg-neutral-900"
             name="books"
             id="book-select"
           >
@@ -65,7 +65,7 @@ export default function ExportPage() {
             ))}
           </select>
           <button
-            className="p-2 w-full bg-neutral-300 hover:bg-neutral-700 hover:text-white"
+            className="p-2 w-full border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
             type="button"
             onClick={handleExport}
           >
@@ -79,7 +79,7 @@ export default function ExportPage() {
             can export your highlights at any time by clicking the button below.
           </p>
           <button
-            className="p-2 w-full bg-neutral-300 hover:bg-neutral-700 hover:text-white"
+            className="p-2 w-full border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
             type="button"
             onClick={handleExportDatabase}
           >

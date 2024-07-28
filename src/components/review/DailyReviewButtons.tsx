@@ -47,13 +47,13 @@ export default function DailyReviewButtons({
         <div className="flex gap-2">
           <button
             onClick={onDelete}
-            className="border border-black hover:text-white hover:bg-black px-4 p-2"
+            className="border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black px-4 p-2"
           >
             {isDeleted ? "undo" : "delete"}
           </button>
           <button
             onClick={onStar}
-            className="border border-black hover:text-white hover:bg-black px-4 p-2"
+            className="border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black px-4 p-2"
           >
             {isStarred ? "starred" : "star"}
           </button>
@@ -64,13 +64,13 @@ export default function DailyReviewButtons({
         <div className="flex gap-2">
           <button
             onClick={onBack}
-            className="border border-black hover:text-white hover:bg-black px-4 p-2"
+            className="border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black px-4 p-2"
           >
             back
           </button>
           <button
             onClick={onNext}
-            className="border border-black hover:text-white hover:bg-black px-4 p-2"
+            className="border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black px-4 p-2"
           >
             next
           </button>

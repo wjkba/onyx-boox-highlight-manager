@@ -89,7 +89,7 @@ export default function SettingsPage() {
           <h3 className="mb-1 fo">Review delay</h3>
           <div className="lg:flex gap-2 items-center mb-4">
             <input
-              className="py-2 px-2 w-full lg:max-w-[4rem] border text-lg border-black"
+              className="py-2 px-2 w-full lg:max-w-[4rem] border text-lg border-black dark:border-white dark:bg-neutral-900"
               type="number"
               id="reviewDelay"
               placeholder="7"
@@ -104,7 +104,7 @@ export default function SettingsPage() {
           <h3 className="mb-1">Cards per review</h3>
           <div className="lg:flex gap-2 items-center mb-4">
             <input
-              className="py-2 px-2 w-full lg:max-w-[4rem] border text-lg border-black"
+              className="py-2 px-2 w-full lg:max-w-[4rem] border text-lg border-black dark:border-white dark:bg-neutral-900"
               type="number"
               id="cardsPerReview"
               placeholder="5"
@@ -131,7 +131,7 @@ export default function SettingsPage() {
           </div>
           <button
             onClick={handleSaveReviewSettings}
-            className="p-2 w-full border border-black  hover:bg-neutral-800 hover:text-white"
+            className="p-2 w-full border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
           >
             {isSaved ? "Saved" : "Save"}
           </button>

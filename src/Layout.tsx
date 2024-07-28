@@ -8,10 +8,10 @@ type LayoutProps = {
 
 export const Layout = ({ children }: LayoutProps) => {
   return (
-    <div className="grid place-items-center ">
+    <div className="grid place-items-center dark:bg-neutral-800 dark:text-white">
       <div className=" w-full max-w-[600px] lg:max-w-[1200px] px-4">
         <Navbar />
-        <main className="bg-white min-h-screen lg:flex lg:gap-[32px] lg:pt-8">
+        <main className="min-h-screen lg:flex lg:gap-[32px] lg:pt-8">
           <SidebarMenu />
           <div className="lg:w-full">{children}</div>
         </main>

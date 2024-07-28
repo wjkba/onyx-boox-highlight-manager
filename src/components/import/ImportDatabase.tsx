@@ -58,7 +58,7 @@ export default function ImportDatabase() {
 
       {errorMessage && <p className="text-red-500 text mb-2">{errorMessage}</p>}
       <button
-        className="bg-neutral-300 hover:bg-neutral-700 mt-2 hover:text-white p-2  w-full"
+        className="p-2 w-full border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
         type="submit"
       >
         Upload

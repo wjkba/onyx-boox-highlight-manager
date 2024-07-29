@@ -13,6 +13,8 @@ import BookPage from "./pages/BookPage.tsx";
 import DailyReviewPage from "./pages/DailyReviewPage.tsx";
 import AboutPage from "./pages/AboutPage.tsx";
 import HelpPage from "./pages/HelpPage.tsx";
+import ListsPage from "./pages/ListsPage.tsx";
+import ListPage from "./pages/ListPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -30,6 +32,14 @@ const router = createBrowserRouter([
   {
     path: "/books/:bookId",
     element: <BookPage />,
+  },
+  {
+    path: "/lists",
+    element: <ListsPage />,
+  },
+  {
+    path: "/lists/:listId",
+    element: <ListPage />,
   },
   {
     path: "/starred",
@@ -61,8 +71,12 @@ const router = createBrowserRouter([
   },
 ]);
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
-);
+function Main() {
+  return (
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")!).render(<Main />);

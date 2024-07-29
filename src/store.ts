@@ -21,3 +21,13 @@ export const useHighlightCardEditStore = create<HighlightCardEdit>((set) => ({
   editingQuoteId: null,
   setEditingQutoeId: (id) => set({ editingQuoteId: id }),
 }));
+
+type ZoomValue = {
+  zoomValue: number;
+  setZoomValue: (value: number) => void;
+};
+
+export const useZoomValueStore = create<ZoomValue>((set) => ({
+  zoomValue: 1,
+  setZoomValue: (value) => set({ zoomValue: value }),
+}));

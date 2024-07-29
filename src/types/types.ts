@@ -25,3 +25,20 @@ export type DailyReviewQuote = {
   date: string;
   lastReviewed: string | null;
 };
+
+export type ListQuote = {
+  bookAuthor: string;
+  bookTitle: string;
+  bookId: number;
+  id?: number;
+  text: string;
+  starred: boolean;
+  date: string;
+  lastReviewed: string | null;
+};
+
+export type List = {
+  id: number;
+  name: string;
+  quotes: ListQuote[];
+};

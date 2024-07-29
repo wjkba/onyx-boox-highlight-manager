@@ -2,6 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 import { BiMenu, BiX, BiAdjust } from "react-icons/bi";
 import { Link, useLocation } from "react-router-dom";
 
+//TODO: navbar rerenders
+
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
@@ -62,6 +64,7 @@ export default function Navbar() {
             <Link to={link.linkTo}>{link.text}</Link>
           </li>
         ))}
+
         <button className="px-2" onClick={toggleDarkMode}>
           <BiAdjust />
         </button>

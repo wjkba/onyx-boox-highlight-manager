@@ -84,58 +84,60 @@ export default function SettingsPage() {
     <Layout>
       <h1 className="text-xl mb-4">Settings</h1>
       <div className="mb-6">
-        <h2 className="text-lg mb-2">Review settings</h2>
-        <div className="lg:max-w-[420px]">
-          <h3 className="mb-1 fo">Review delay</h3>
-          <div className="lg:flex gap-2 items-center mb-4">
-            <input
-              className="py-2 px-2 w-full lg:max-w-[4rem] border text-lg border-black dark:border-white dark:bg-neutral-900"
-              type="number"
-              id="reviewDelay"
-              placeholder="7"
-              value={newReviewDelay}
-              onChange={handleReviewDelayChange}
-            />
-            <span>
-              Number of days highlights must wait before being included in the
-              daily review (default: 7)
-            </span>
+        <section id="reviewSettings" className="mb-8">
+          <h2 className="text-lg mb-2">Review settings</h2>
+          <div className="lg:max-w-[420px]">
+            <h3 className="mb-1 fo">Review delay</h3>
+            <div className="lg:flex gap-2 items-center mb-4">
+              <input
+                className="py-2 px-2 w-full lg:max-w-[4rem] border text-lg border-black dark:border-white dark:bg-neutral-900"
+                type="number"
+                id="reviewDelay"
+                placeholder="7"
+                value={newReviewDelay}
+                onChange={handleReviewDelayChange}
+              />
+              <span>
+                Number of days highlights must wait before being included in the
+                daily review (default: 7)
+              </span>
+            </div>
+            <h3 className="mb-1">Cards per review</h3>
+            <div className="lg:flex gap-2 items-center mb-4">
+              <input
+                className="py-2 px-2 w-full lg:max-w-[4rem] border text-lg border-black dark:border-white dark:bg-neutral-900"
+                type="number"
+                id="cardsPerReview"
+                placeholder="5"
+                value={newCardsPerReview}
+                onChange={handleCardsPerReviewChange}
+              />
+              <span>
+                Specify the maximum number of cards to be shown in each daily
+                review session (default: 5)
+              </span>
+            </div>
+            <h3 className="mb-1">Review status</h3>
+            <div className="lg:flex gap-2 items-center mb-4">
+              <input
+                className="py-2 px-2 w-full lg:max-w-[4rem] border text-lg border-black"
+                type="checkbox"
+                id="reviewStatus"
+                checked={isReviewCompleted}
+                onChange={handleReviewStatusChange}
+              />
+              <span>
+                Toggle to mark whether you have completed today's daily review.
+              </span>
+            </div>
+            <button
+              onClick={handleSaveReviewSettings}
+              className="p-2 w-full border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
+            >
+              {isSaved ? "Saved" : "Save"}
+            </button>
           </div>
-          <h3 className="mb-1">Cards per review</h3>
-          <div className="lg:flex gap-2 items-center mb-4">
-            <input
-              className="py-2 px-2 w-full lg:max-w-[4rem] border text-lg border-black dark:border-white dark:bg-neutral-900"
-              type="number"
-              id="cardsPerReview"
-              placeholder="5"
-              value={newCardsPerReview}
-              onChange={handleCardsPerReviewChange}
-            />
-            <span>
-              Specify the maximum number of cards to be shown in each daily
-              review session (default: 5)
-            </span>
-          </div>
-          <h3 className="mb-1">Review status:</h3>
-          <div className="lg:flex gap-2 items-center mb-4">
-            <input
-              className="py-2 px-2 w-full lg:max-w-[4rem] border text-lg border-black"
-              type="checkbox"
-              id="reviewStatus"
-              checked={isReviewCompleted}
-              onChange={handleReviewStatusChange}
-            />
-            <span>
-              Toggle to mark whether you have completed today's daily review.
-            </span>
-          </div>
-          <button
-            onClick={handleSaveReviewSettings}
-            className="p-2 w-full border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
-          >
-            {isSaved ? "Saved" : "Save"}
-          </button>
-        </div>
+        </section>
       </div>
       <div>
         <h2 className="text-lg mb-2">Danger zone</h2>

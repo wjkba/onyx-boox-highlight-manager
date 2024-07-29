@@ -131,14 +131,14 @@ export default function TestFormatter() {
           onChange={handleTitleChange}
           value={bookTitle}
           id="bookTitle"
-          className="dark:border-neutral-100 dark:text-black border border-black p-1 mb-2"
+          className="py-2 px-2 w-full border text-lg border-black dark:border-white dark:bg-neutral-900"
         />
         <label htmlFor="bookAuthor">Book author:</label>
         <input
           onChange={handleAuthorChange}
           value={bookAuthor}
           id="bookTitle"
-          className="dark:border-neutral-100 dark:text-black border border-black p-1 mb-2"
+          className="py-2 px-2 w-full border text-lg border-black dark:border-white dark:bg-neutral-900"
         />
         <button
           onClick={handleConfirm}

@@ -1,11 +1,14 @@
 import { ReactNode } from "react";
 import SidebarMenuButton from "./SidebarMenuButton";
-import { BiSolidQuoteRight } from "react-icons/bi";
-import { BiSolidBook } from "react-icons/bi";
-import { BiSolidStar } from "react-icons/bi";
-import { BiPlusCircle } from "react-icons/bi";
-import { BiExport } from "react-icons/bi";
-import { BiCog } from "react-icons/bi";
+import {
+  BiSolidQuoteRight,
+  BiSolidStar,
+  BiSolidBook,
+  BiPlusCircle,
+  BiExport,
+  BiCog,
+} from "react-icons/bi";
+
 import { useLocation, useNavigate } from "react-router-dom";
 
 // type SidebarMenuProps = {
@@ -37,9 +40,9 @@ export default function SidebarMenu() {
       page: "/books",
     },
     {
-      text: "Starred",
+      text: "Lists",
       icon: <BiSolidStar size={32} />,
-      page: "/starred",
+      page: "/lists",
     },
     {
       text: "Import",

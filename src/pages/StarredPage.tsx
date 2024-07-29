@@ -31,6 +31,7 @@ export default function StarredPage() {
 
     return (
       <Layout>
+        <h1 className="text-xl mb-2">Starred</h1>
         <div className="grid gap-2">
           {starredHighlights.map((highlight) =>
             highlight.quotes.map((quote, index) => (

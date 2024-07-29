@@ -13,6 +13,7 @@ interface HighlightCardProps {
   bookAuthor: string;
   starred: boolean;
   bookId: number;
+  options?: string[];
 }
 export default function HighlightCard({
   id,
@@ -21,17 +22,19 @@ export default function HighlightCard({
   bookAuthor,
   starred,
   bookId,
+  options,
 }: HighlightCardProps) {
   const [isStarred, setIsStarred] = useState(starred);
-  const { editingQuoteId, setEditingQutoeId } = useHighlightCardEditStore();
+  const { editingQuoteIds, setEditingQutoeIds } = useHighlightCardEditStore();
   const [editValue, setEditValue] = useState<string>(text);
-  let isEditing = editingQuoteId === id;
+  let isEditing =
+    editingQuoteIds?.bookId === bookId && editingQuoteIds.quoteId === id;
 
   useEffect(() => {
     if (isEditing) {
       setEditValue(text);
     }
-  }, [editingQuoteId, text, isEditing]);
+  }, [editingQuoteIds, text, isEditing]);
 
   async function handleStar() {
     setIsStarred(!isStarred);
@@ -50,7 +53,7 @@ export default function HighlightCard({
   }
 
   function handleEditCancel() {
-    setEditingQutoeId(null);
+    setEditingQutoeIds(null);
   }
 
   async function handleEditConfirm() {
@@ -66,7 +69,7 @@ export default function HighlightCard({
       quotes: updatedQuotes,
     });
     console.log(result);
-    setEditingQutoeId(null);
+    setEditingQutoeIds(null);
   }
 
   function handleEditChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -89,7 +92,11 @@ export default function HighlightCard({
             >
               {isStarred ? <BiSolidStar size={20} /> : <BiStar size={20} />}
             </button>
-            <HighlightCardOptions quoteId={id} bookId={bookId} />
+            <HighlightCardOptions
+              quoteId={id}
+              bookId={bookId}
+              options={options}
+            />
           </div>
         </div>
         {isEditing ? (

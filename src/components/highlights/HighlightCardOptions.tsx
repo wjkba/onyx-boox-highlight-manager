@@ -11,27 +11,34 @@ import {
   BiSolidTrash,
   BiBookOpen,
   BiListPlus,
+  BiListMinus,
 } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface HighlightCardProps {
   bookId: number;
   quoteId: number;
+  options?: string[];
 }
 
 export default function HighlightCardOptions({
   bookId,
   quoteId,
+  options = [],
 }: HighlightCardProps) {
   const navigate = useNavigate();
-  const { activeQuoteId, setActiveQuoteId } = useHighlightCardOptionsStore();
-  const { editingQuoteId, setEditingQutoeId } = useHighlightCardEditStore();
-  const isActive = activeQuoteId === quoteId;
-  const isEditing = editingQuoteId === quoteId;
+  const { activeQuoteIds, setActiveQuoteIds } = useHighlightCardOptionsStore();
+  const { editingQuoteIds, setEditingQutoeIds } = useHighlightCardEditStore();
+  const isActive =
+    activeQuoteIds?.bookId === bookId && activeQuoteIds?.quoteId === quoteId;
+  const isEditing =
+    editingQuoteIds?.bookId === bookId && editingQuoteIds.quoteId === quoteId;
   const [isShowingLists, setIsShowingLists] = useState(false);
   const [lists, setLists] = useState<List[] | null>(null);
+  const showRemoveOption = options.includes("showRemove");
+  const { listId } = useParams();
 
-  const cardOptions = [
+  let cardOptions = [
     {
       icon: <BiBookOpen />,
       text: "Go to book",
@@ -41,9 +48,9 @@ export default function HighlightCardOptions({
       },
     },
     {
-      icon: <BiListPlus />,
-      text: "Add to list",
-      action: () => handleAddToList(),
+      icon: !showRemoveOption ? <BiListPlus /> : <BiListMinus />,
+      text: !showRemoveOption ? "Add to list" : "Remove",
+      action: () => handleList(),
     },
     {
       icon: <BiEditAlt />,
@@ -57,11 +64,17 @@ export default function HighlightCardOptions({
     },
   ];
 
+  if (showRemoveOption) {
+    cardOptions = cardOptions.filter(
+      (option) => !(option.text === "Edit" || option.text === "Delete")
+    );
+  }
+
   function handleOpen() {
     if (isActive) {
-      setActiveQuoteId(null);
+      setActiveQuoteIds(null);
     } else {
-      setActiveQuoteId(quoteId);
+      setActiveQuoteIds({ bookId, quoteId });
     }
   }
 
@@ -72,23 +85,27 @@ export default function HighlightCardOptions({
       quotes: updatedQuotes,
     });
     console.log(result);
-    setActiveQuoteId(null);
-    setEditingQutoeId(null);
+    setActiveQuoteIds(null);
+    setEditingQutoeIds(null);
   }
 
   async function handleEditQuote(quoteId: number) {
     if (isEditing) {
-      setEditingQutoeId(null);
+      setEditingQutoeIds(null);
     } else {
-      setEditingQutoeId(quoteId);
+      setEditingQutoeIds({ bookId, quoteId });
     }
     handleOpen();
   }
 
-  async function handleAddToList() {
-    const lists = await db.lists.toArray();
-    setLists(lists);
-    setIsShowingLists(true);
+  async function handleList() {
+    if (!showRemoveOption) {
+      const lists = await db.lists.toArray();
+      setLists(lists);
+      setIsShowingLists(true);
+    } else {
+      await removeQuoteFromList(Number(listId));
+    }
   }
 
   async function addQuoteToList(listId: number) {
@@ -108,11 +125,11 @@ export default function HighlightCardOptions({
           const updatedQuotes = [...list.quotes, updatedQuote];
           await db.lists.update(listId, { quotes: updatedQuotes });
           setIsShowingLists(false);
-          setActiveQuoteId(null);
+          setActiveQuoteIds(null);
         } else {
           console.log("Quote is already added to list");
           setIsShowingLists(false);
-          setActiveQuoteId(null);
+          setActiveQuoteIds(null);
         }
       }
     } catch (error) {
@@ -135,6 +152,23 @@ export default function HighlightCardOptions({
     }
   }
 
+  async function removeQuoteFromList(listId: number) {
+    try {
+      const list = await db.lists.get(listId);
+      console.log(list);
+      if (list) {
+        const updatedQuotes = list?.quotes.filter(
+          (quote) => !(quote.id === quoteId && quote.bookId === bookId)
+        );
+        const result = await db.lists.update(listId, { quotes: updatedQuotes });
+        console.log(result);
+        navigate(0);
+      }
+    } catch (error) {
+      console.log("ERROR: Failed to remove item from list");
+    }
+  }
+
   return (
     <div className={`card-options ${isActive && "open"}`}>
       <button className="grid place-items-center " onClick={handleOpen}>
@@ -148,7 +182,7 @@ export default function HighlightCardOptions({
               onClick={option.action}
               className=" cursor-pointer border-b p-1 hover:bg-neutral-600 hover:text-white"
             >
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 text-sm">
                 {option.icon}
                 {option.text}
               </div>

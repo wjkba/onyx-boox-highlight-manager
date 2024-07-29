@@ -4,7 +4,7 @@ import {
   BiSolidQuoteRight,
   BiSolidStar,
   BiSolidBook,
-  BiPlusCircle,
+  BiImport,
   BiExport,
   BiCog,
 } from "react-icons/bi";
@@ -46,7 +46,7 @@ export default function SidebarMenu() {
     },
     {
       text: "Import",
-      icon: <BiPlusCircle size={32} />,
+      icon: <BiImport size={32} />,
       page: "/import",
     },
     {

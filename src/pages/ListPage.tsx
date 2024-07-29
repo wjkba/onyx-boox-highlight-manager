@@ -46,6 +46,7 @@ export default function ListPage() {
               starred={quote.starred}
               id={quote.id!}
               bookId={quote.bookId}
+              options={["showRemove"]}
             />
           ))}
         </div>

@@ -1,33 +1,30 @@
 import { create } from "zustand";
 
+type highlightIds = {
+  bookId: number;
+  quoteId: number;
+};
+
 type HighlightCardOptions = {
-  activeQuoteId: null | number;
-  setActiveQuoteId: (id: number | null) => void;
+  activeQuoteIds: null | highlightIds;
+  setActiveQuoteIds: (ids: highlightIds | null) => void;
 };
 
 export const useHighlightCardOptionsStore = create<HighlightCardOptions>(
   (set) => ({
-    activeQuoteId: null,
-    setActiveQuoteId: (id) => set({ activeQuoteId: id }),
+    activeQuoteIds: null,
+    setActiveQuoteIds: (ids: highlightIds | null) =>
+      set({ activeQuoteIds: ids }),
   })
 );
 
 type HighlightCardEdit = {
-  editingQuoteId: null | number;
-  setEditingQutoeId: (id: number | null) => void;
+  editingQuoteIds: null | highlightIds;
+  setEditingQutoeIds: (ids: highlightIds | null) => void;
 };
 
 export const useHighlightCardEditStore = create<HighlightCardEdit>((set) => ({
-  editingQuoteId: null,
-  setEditingQutoeId: (id) => set({ editingQuoteId: id }),
-}));
-
-type ZoomValue = {
-  zoomValue: number;
-  setZoomValue: (value: number) => void;
-};
-
-export const useZoomValueStore = create<ZoomValue>((set) => ({
-  zoomValue: 1,
-  setZoomValue: (value) => set({ zoomValue: value }),
+  editingQuoteIds: null,
+  setEditingQutoeIds: (ids: highlightIds | null) =>
+    set({ editingQuoteIds: ids }),
 }));

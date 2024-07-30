@@ -192,8 +192,8 @@ export default function ListsPage() {
         <div className="mb-4">
           <StarredList />
         </div>
+        <p className="mb-2">Your lists will appear here</p>
         <AddNewList />
-        <p>Your lists will appear here</p>
       </Layout>
     );
   }

@@ -1,10 +1,13 @@
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "../db";
 import { Layout } from "../Layout";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import BookCard from "@/components/BookCard";
 
 export default function BooksPage() {
   //const highlights = useHighlightsStore((store) => store.highlights);
+  const [activeOption, setActiveOption] = useState<number | null>(null);
+
   const highlights = useLiveQuery(() => db.highlights.toArray());
 
   function showBooks() {
@@ -12,16 +15,14 @@ export default function BooksPage() {
       return (
         <>
           {highlights.map((element) => (
-            <Link
-              to={`/books/${element.id}`}
+            <BookCard
+              activeOption={activeOption}
+              setActiveOption={setActiveOption}
               key={element.id}
-              className="p-4 border dark:border-white border-black lg:max-w-[276px] w-full dark:hover:bg-neutral-900  hover:bg-neutral-50"
-            >
-              <p className="text-lg">{element.bookTitle}</p>
-              <p className="text-neutral-600 dark:text-neutral-400">
-                {element.bookAuthor}
-              </p>
-            </Link>
+              bookId={element.id}
+              bookTitle={element.bookTitle}
+              bookAuthor={element.bookAuthor}
+            />
           ))}
         </>
       );

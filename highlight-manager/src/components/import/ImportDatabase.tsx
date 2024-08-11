@@ -53,7 +53,7 @@ export default function ImportDatabase() {
         to load your data into the app.
       </p>
       <div className="mb-0">
-        <input onChange={handleChange} type="file" />
+        <input className="w-full" onChange={handleChange} type="file" />
       </div>
 
       {errorMessage && <p className="text-red-500 text mb-2">{errorMessage}</p>}

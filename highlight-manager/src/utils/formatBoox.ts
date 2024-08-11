@@ -1,3 +1,4 @@
+import { parse } from "date-fns";
 import { type Quote, type HighlightType } from "../types/types";
 
 export function formatBoox(
@@ -75,8 +76,8 @@ function pushQuote(
 function getQuoteDateISO(lines: string[], start: number) {
   const lineWithDate = lines[start];
   const dateStringEnd = lineWithDate.indexOf("|");
-  const quoteDateString = lineWithDate.slice(0, dateStringEnd - 1);
-  const dateObj = new Date(quoteDateString);
+  const quoteDateString = lineWithDate.slice(0, dateStringEnd - 1).trim();
+  const dateObj = parse(quoteDateString, "yyyy-MM-dd HH:mm", new Date());
   return dateObj.toISOString();
 }
 

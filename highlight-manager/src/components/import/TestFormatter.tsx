@@ -196,7 +196,7 @@ export default function TestFormatter() {
           How to get onyx boox annotations file
         </Link>
         <div>
-          <input onChange={handleChange} type="file" />
+          <input className="w-full" onChange={handleChange} type="file" />
         </div>
 
         {errorMessage && (

@@ -43,34 +43,34 @@ export default function DailyReviewButtons({
 
   if (activeHighlight) {
     return (
-      <div className="flex justify-between mb-2">
-        <div className="flex gap-2">
+      <div className="flex gap-2 flex-col sm:grid grid-cols-3 items-center justify-between mb-2">
+        <div className="order-2 sm:order-none w-full grid grid-cols-2 gap-2">
           <button
             onClick={onDelete}
-            className="border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black px-4 p-2"
+            className="lg:px-4 p-2  border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
           >
             {isDeleted ? "undo" : "delete"}
           </button>
           <button
             onClick={onStar}
-            className="border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black px-4 p-2"
+            className="lg:px-4 p-2 border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
           >
             {isStarred ? "starred" : "star"}
           </button>
         </div>
-        <p>
+        <p className=" text-center p-2 text-xl">
           {currentIndex + 1}/{numberOfCards}
         </p>
-        <div className="flex gap-2">
+        <div className="order-last sm:order-none grid w-full grid-cols-2 gap-2">
           <button
             onClick={onBack}
-            className="border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black px-4 p-2"
+            className="lg:px-4 p-2 border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
           >
             back
           </button>
           <button
             onClick={onNext}
-            className="border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black px-4 p-2"
+            className="lg:px-4 p-2  border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
           >
             next
           </button>

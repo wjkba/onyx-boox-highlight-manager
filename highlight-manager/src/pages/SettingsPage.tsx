@@ -1,5 +1,3 @@
-import DangerButton from "@/components/DangerButton";
-import { clearDatabaseTable } from "../db";
 import { Layout } from "../Layout";
 import { useEffect, useState } from "react";
 
@@ -43,18 +41,23 @@ export default function SettingsPage() {
     }
   }, []);
 
-  function handleDatabaseDelete() {
-    clearDatabaseTable();
-  }
-  // ADD DAILY REVIEW SETTINGS
+  // function handleDatabaseDelete() {
+  //   clearDatabaseTable();
+  // }
 
   function handleReviewDelayChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setNewReviewDelay(Number(event.target.value));
+    const value = Number(event.target.value);
+    if (value < 0) {
+      setNewReviewDelay(0);
+    } else setNewReviewDelay(value);
   }
   function handleCardsPerReviewChange(
     event: React.ChangeEvent<HTMLInputElement>
   ) {
-    setNewCardsPerPreview(Number(event.target.value));
+    const value = Number(event.target.value);
+    if (value < 0) {
+      setNewCardsPerPreview(0);
+    } else setNewCardsPerPreview(value);
   }
   function handleReviewStatusChange() {
     setIsReviewCompleted(!isReviewCompleted);
@@ -88,7 +91,7 @@ export default function SettingsPage() {
           <h2 className="text-lg mb-2">Review settings</h2>
           <div className="lg:max-w-[420px]">
             <h3 className="mb-1 fo">Review delay</h3>
-            <div className="lg:flex gap-2 items-center mb-4">
+            <div className="lg:flex gap-4 items-center mb-4">
               <input
                 className="py-2 px-2 w-full lg:max-w-[4rem] border text-lg border-black dark:border-white dark:bg-neutral-900"
                 type="number"
@@ -103,7 +106,7 @@ export default function SettingsPage() {
               </span>
             </div>
             <h3 className="mb-1">Cards per review</h3>
-            <div className="lg:flex gap-2 items-center mb-4">
+            <div className="lg:flex gap-4 items-center mb-4">
               <input
                 className="py-2 px-2 w-full lg:max-w-[4rem] border text-lg border-black dark:border-white dark:bg-neutral-900"
                 type="number"
@@ -118,14 +121,16 @@ export default function SettingsPage() {
               </span>
             </div>
             <h3 className="mb-1">Review status</h3>
-            <div className="lg:flex gap-2 items-center mb-4">
-              <input
-                className="py-2 px-2 w-full lg:max-w-[4rem] border text-lg border-black"
-                type="checkbox"
-                id="reviewStatus"
-                checked={isReviewCompleted}
-                onChange={handleReviewStatusChange}
-              />
+            <div className="lg:flex gap-4 items-center mb-6">
+              <div className="py-2 px-2 w-full lg:max-w-[4rem] border text-lg border-black dark:border-white dark:bg-neutral-900">
+                <input
+                  className="min-w-[2rem] w-full border text-lg border-black dark:bg-white dark:text-black"
+                  type="checkbox"
+                  id="reviewStatus"
+                  checked={isReviewCompleted}
+                  onChange={handleReviewStatusChange}
+                />
+              </div>
               <span>
                 Toggle to mark whether you have completed today's daily review.
               </span>
@@ -139,12 +144,12 @@ export default function SettingsPage() {
           </div>
         </section>
       </div>
-      <div>
+      {/* <div>
         <h2 className="text-lg mb-2">Danger zone</h2>
         <div>
           <DangerButton action={handleDatabaseDelete} />
         </div>
-      </div>
+      </div> */}
     </Layout>
   );
 }

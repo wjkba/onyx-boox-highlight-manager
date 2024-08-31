@@ -1,12 +1,16 @@
 # Onyx Boox Highlight Manager
-![Desktop](preview/desktop.png)
-
 A React TypeScript app to manage your highlights from your Onyx Boox eReader.
+
+![Desktop](assets/preview.png)
+
+
 
 
 
 ## Try it out here
 https://ehighlights.netlify.app/
+
+
 
 ## Features
 

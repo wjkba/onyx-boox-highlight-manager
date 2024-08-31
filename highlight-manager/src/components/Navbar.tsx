@@ -65,9 +65,11 @@ export default function Navbar() {
           </li>
         ))}
 
-        <button className="px-2" onClick={toggleDarkMode}>
-          <BiAdjust />
-        </button>
+        <li>
+          <button className="px-2" onClick={toggleDarkMode}>
+            <BiAdjust />
+          </button>
+        </li>
       </ul>
       <button onClick={handleOpen} className="lg:hidden cursor-pointer">
         <BiMenu size={28} />
@@ -75,9 +77,9 @@ export default function Navbar() {
       {isOpen && (
         <div className="grid place-items-center bg-neutral-100 dark:bg-neutral-800 fixed top-0 bottom-0 right-0 left-0 w-full h-screen">
           <div className="w-full max-w-[568px] lg:max-w-[1168px] text-xl h-screen flex flex-col">
-            <div className="text-right flex justify-end h-[56px]">
+            <div className="px-4 text-right flex justify-end h-[56px]">
               <button onClick={handleOpen}>
-                <BiX size={28} />
+                <BiX size={32} />
               </button>
             </div>
             <div className="w-full flex flex-col gap-2">

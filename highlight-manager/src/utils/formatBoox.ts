@@ -1,5 +1,5 @@
 import { parse } from "date-fns";
-import { type Quote, type HighlightType } from "../types/types";
+import { type NewHighlight } from "../types/types";
 
 export function formatBoox(
   file: File,
@@ -11,6 +11,7 @@ export function formatBoox(
     reader.onload = () => {
       try {
         const result = handleFileLoad(reader.result as string);
+        console.log(result);
         resolve(result);
       } catch (error) {
         errorCallback("An unexpected error occurred.");
@@ -26,25 +27,30 @@ export function formatBoox(
 
 function handleFileLoad(content: string) {
   const lines = content.split("\n");
-  return extractHighlightsFromLines(lines);
+  const { bookTitle, bookAuthor } = extractBookInfo(lines[0]);
+  return {
+    bookAuthor,
+    bookTitle,
+    highlights: extractHighlightsFromLines(lines),
+  };
 }
 
-function extractHighlightsFromLines(lines: string[]): HighlightType {
+function extractHighlightsFromLines(lines: string[]) {
   const highlightBreak = "-------------------";
   let highlightStart: number | null = null;
-  let quotes: Quote[] = [];
-  const { bookTitle, bookAuthor } = extractBookInfo(lines[0]);
+  let highlights: NewHighlight[] = [];
+  //const { bookTitle, bookAuthor } = extractBookInfo(lines[0]);
 
   lines.forEach((line, index) => {
     if (/^\d{4}-\d{2}-\d{2}/.test(line) && highlightStart === null) {
       highlightStart = index;
     } else if (line.trim() === highlightBreak && highlightStart !== null) {
-      pushQuote(lines, highlightStart, index, quotes);
+      pushQuote(lines, highlightStart, index, highlights);
       highlightStart = null;
     }
   });
 
-  return { bookTitle, bookAuthor, quotes };
+  return highlights;
 }
 
 function extractBookInfo(firstLine: string): {
@@ -62,22 +68,22 @@ function pushQuote(
   lines: string[],
   start: number,
   end: number,
-  quotes: Quote[]
+  highlights: NewHighlight[]
 ) {
-  const quote = {
+  const highlight = {
     starred: false,
     text: cleanText(lines.slice(start + 1, end).join(" ")),
     date: getQuoteDateISO(lines, start),
     lastReviewed: null,
   };
-  quotes.push(quote);
+  highlights.push(highlight);
 }
 
 function getQuoteDateISO(lines: string[], start: number) {
   const lineWithDate = lines[start];
   const dateStringEnd = lineWithDate.indexOf("|");
-  const quoteDateString = lineWithDate.slice(0, dateStringEnd - 1).trim();
-  const dateObj = parse(quoteDateString, "yyyy-MM-dd HH:mm", new Date());
+  const highlightDateString = lineWithDate.slice(0, dateStringEnd - 1).trim();
+  const dateObj = parse(highlightDateString, "yyyy-MM-dd HH:mm", new Date());
   return dateObj.toISOString();
 }
 

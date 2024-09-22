@@ -1,8 +1,8 @@
 import HighlightCard from "./HighlightCard";
-import { type BookEntry } from "@/types/types";
+import { type Highlight } from "@/types/types";
 
 interface HighlightListProps {
-  highlights: BookEntry[];
+  highlights: Highlight[];
 }
 
 export default function HighlightsList({
@@ -10,19 +10,16 @@ export default function HighlightsList({
 }: HighlightListProps) {
   return (
     <div className="grid gap-2">
-      {highlights.map((highlight) =>
-        highlight.quotes.map((quote, index) => (
-          <HighlightCard
-            key={`${index}${highlight.bookTitle}`}
-            text={quote.text}
-            bookAuthor={highlight.bookAuthor}
-            bookTitle={highlight.bookTitle}
-            starred={quote.starred}
-            id={quote.id!}
-            bookId={highlight.id}
-          />
-        ))
-      )}
+      {highlights.map((highlight, index) => (
+        <HighlightCard
+          key={`${index}${highlight.bookTitle}`}
+          text={highlight.text}
+          bookAuthor={highlight.bookAuthor}
+          bookTitle={highlight.bookTitle}
+          starred={highlight.starred}
+          id={highlight.id!}
+        />
+      ))}
     </div>
   );
 }

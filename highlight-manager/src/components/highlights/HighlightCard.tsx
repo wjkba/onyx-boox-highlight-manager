@@ -4,7 +4,7 @@ import { BiSolidStar } from "react-icons/bi";
 import { db } from "../../db";
 import HighlightCardOptions from "./HighlightCardOptions";
 import { useHighlightCardEditStore } from "@/store";
-import { Quote } from "@/types/types";
+import { type Highlight } from "@/types/types";
 
 interface HighlightCardProps {
   id: number;
@@ -12,7 +12,6 @@ interface HighlightCardProps {
   bookTitle: string;
   bookAuthor: string;
   starred: boolean;
-  bookId: number;
   options?: string[];
 }
 export default function HighlightCard({
@@ -21,14 +20,14 @@ export default function HighlightCard({
   bookTitle,
   bookAuthor,
   starred,
-  bookId,
   options,
 }: HighlightCardProps) {
   const [isStarred, setIsStarred] = useState(starred);
   const { editingQuoteIds, setEditingQutoeIds } = useHighlightCardEditStore();
   const [editValue, setEditValue] = useState<string>(text);
-  let isEditing =
-    editingQuoteIds?.bookId === bookId && editingQuoteIds.quoteId === id;
+  const bookId = 0;
+  let isEditing = false;
+  // editingQuoteIds?.bookId === bookId && editingQuoteIds.quoteId === id;
 
   useEffect(() => {
     if (isEditing) {
@@ -38,18 +37,19 @@ export default function HighlightCard({
 
   async function handleStar() {
     setIsStarred(!isStarred);
-    const book = await db.highlights.get(bookId);
+    // TODO: reimplement star
+    // const book = await db.highlights.get(bookId);
 
-    if (book) {
-      const updatedQuotes = book.quotes.map((quote) => {
-        if (quote.id === id) {
-          return { ...quote, starred: !isStarred };
-        }
-        return quote;
-      });
-      const updatedBook = { ...book, quotes: updatedQuotes };
-      await db.highlights.put(updatedBook);
-    }
+    // if (book) {
+    //   const updatedQuotes = book.quotes.map((quote) => {
+    //     if (quote.id === id) {
+    //       return { ...quote, starred: !isStarred };
+    //     }
+    //     return quote;
+    //   });
+    //   const updatedBook = { ...book, quotes: updatedQuotes };
+    //   await db.highlights.put(updatedBook);
+    // }
   }
 
   function handleEditCancel() {
@@ -57,18 +57,19 @@ export default function HighlightCard({
   }
 
   async function handleEditConfirm() {
-    const book = await db.highlights.get(bookId);
-    if (!book || !book.quotes) return;
+    // TODO: reimplement edit
+    // const book = await db.highlights.get(bookId);
+    // if (!book || !book.quotes) return;
 
-    const targetQuote = book?.quotes.find((quote) => quote.id === id);
-    const updatedQuote = { ...targetQuote, text: editValue } as Quote;
-    const updatedQuotes = book.quotes.map((quote) =>
-      quote.id === id ? updatedQuote : quote
-    );
-    const result = await db.highlights.update(bookId, {
-      quotes: updatedQuotes,
-    });
-    console.log(result);
+    // const targetQuote = book?.quotes.find((quote) => quote.id === id);
+    // const updatedQuote = { ...targetQuote, text: editValue } as Quote;
+    // const updatedQuotes = book.quotes.map((quote) =>
+    //   quote.id === id ? updatedQuote : quote
+    // );
+    // const result = await db.highlights.update(bookId, {
+    //   quotes: updatedQuotes,
+    // });
+    // console.log(result);
     setEditingQutoeIds(null);
   }
 

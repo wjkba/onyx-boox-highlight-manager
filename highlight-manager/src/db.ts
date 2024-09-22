@@ -1,14 +1,14 @@
 import Dexie, { EntityTable } from "dexie";
-
-import { type List, type BookEntry } from "./types/types";
+import type { Highlight, List } from "./types/types";
 
 const db = new Dexie("HighlightsDatabase") as Dexie & {
-  highlights: EntityTable<BookEntry, "id">;
+  highlights: EntityTable<Highlight, "id">;
   lists: EntityTable<List, "id">;
 };
 
 db.version(2).stores({
-  highlights: "++id, bookTitle, bookAuthor, quotes, [bookTitle+bookAuthor]",
+  highlights:
+    "++id, bookTitle, bookAuthor, quote, starred, date, lastReviewed, lists",
   lists: "++id, name, quotes",
 });
 

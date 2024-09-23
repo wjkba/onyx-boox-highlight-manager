@@ -4,7 +4,7 @@ import { type Highlight } from "../../types/types";
 import { Link, useNavigate } from "react-router-dom";
 import { db } from "@/db";
 
-export default function TestFormatter() {
+export default function UploadBoox() {
   const [file, setFile] = useState<File | null>(null);
   const [isConfirming, setIsConfirming] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
@@ -66,30 +66,30 @@ export default function TestFormatter() {
   async function handleConfirm(event: React.FormEvent<HTMLButtonElement>) {
     event.preventDefault();
     if (uploadedHighlights) {
-      // confirm logic
-      // upload highlights to db
-      const highlightWithBookInfo = {
-        ...uploadedHighlights[0],
-        bookAuthor,
-        bookTitle,
-      };
-      db.highlights.add(highlightWithBookInfo);
+      updateDB(uploadedHighlights);
       setIsConfirming(false);
       setIsCompleted(true);
     }
   }
 
-  async function updateDB(newHighlights: HighlightType) {
-    // const book = await db.highlights.where({ bookTitle, bookAuthor }).first();
-    if (uploadedHighlights) {
-      // if there is already a book check for duplicates
-      // check for duplicates
-      //
-      setMessage("Updated highlights for existing book");
-    } else {
-      // else add all highlights
-      setMessage("Added new highlights");
+  async function updateDB(uploadedHighlights: Highlight[]) {
+    let foundDuplicates = false;
+    for (let highlight of uploadedHighlights) {
+      const highlightWithBookInfo = {
+        ...highlight,
+        bookAuthor,
+        bookTitle,
+      };
+      const foundHighlight = await db.highlights.get({
+        quote: highlight.quote,
+      });
+      if (foundHighlight) {
+        foundDuplicates = true;
+        console.log("Already in database");
+      } else db.highlights.add(highlightWithBookInfo);
     }
+    if (foundDuplicates) setMessage("Updated highlights for existing book");
+    else setMessage("Added new highlights");
   }
 
   if (isConfirming) {

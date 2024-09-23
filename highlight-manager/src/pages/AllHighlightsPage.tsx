@@ -4,7 +4,7 @@ import SearchBar from "../components/SearchBar";
 import { Layout } from "../Layout";
 import { db } from "../db";
 import { type Highlight } from "../types/types";
-import TestFormatter from "../components/import/TestFormatter";
+import UploadBoox from "../components/import/UploadBoox";
 import { useEffect, useMemo, useState } from "react";
 import { ScrollRestoration } from "react-router-dom";
 
@@ -61,7 +61,7 @@ export default function AllHighlightsPage() {
       return (
         <Layout>
           <div className="lg:max-w-[450px]">
-            <TestFormatter />
+            <UploadBoox />
           </div>
         </Layout>
       );

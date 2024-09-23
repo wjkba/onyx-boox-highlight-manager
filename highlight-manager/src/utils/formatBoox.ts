@@ -72,7 +72,7 @@ function pushQuote(
 ) {
   const highlight = {
     starred: false,
-    text: cleanText(lines.slice(start + 1, end).join(" ")),
+    quote: cleanText(lines.slice(start + 1, end).join(" ")),
     date: getQuoteDateISO(lines, start),
     lastReviewed: null,
   };

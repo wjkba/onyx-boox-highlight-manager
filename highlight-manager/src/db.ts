@@ -1,5 +1,5 @@
 import Dexie, { EntityTable } from "dexie";
-import type { Highlight, List } from "./types/types";
+import { type Highlight, type List } from "./types/types";
 
 const db = new Dexie("HighlightsDatabase") as Dexie & {
   highlights: EntityTable<Highlight, "id">;

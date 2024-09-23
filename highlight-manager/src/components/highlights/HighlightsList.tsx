@@ -13,7 +13,7 @@ export default function HighlightsList({
       {highlights.map((highlight, index) => (
         <HighlightCard
           key={`${index}${highlight.bookTitle}`}
-          text={highlight.text}
+          text={highlight.quote}
           bookAuthor={highlight.bookAuthor}
           bookTitle={highlight.bookTitle}
           starred={highlight.starred}

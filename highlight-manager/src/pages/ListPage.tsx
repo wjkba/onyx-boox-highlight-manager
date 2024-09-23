@@ -1,29 +1,27 @@
 import HighlightCard from "@/components/highlights/HighlightCard";
 import { db } from "@/db";
 import { Layout } from "@/Layout";
-import { List } from "@/types/types";
+import { Highlight, List } from "@/types/types";
+import { useLiveQuery } from "dexie-react-hooks";
 import { useEffect, useState } from "react";
 import { ScrollRestoration, useParams } from "react-router-dom";
 
 export default function ListPage() {
-  const [listInfo, setListInfo] = useState<List | null>(null);
   const { listId } = useParams();
+  const list = useLiveQuery(() => db.lists.get(Number(listId)));
+  const [highlights, setHighlights] = useState<null | Highlight[]>(null);
 
   useEffect(() => {
-    async function getList(id: number) {
-      try {
-        const list = await db.lists.get(id);
-        if (list) {
-          setListInfo(list);
-        }
-      } catch (error) {
-        console.error("Failed to get list");
+    if (list && list.highlightIds) {
+      async function fetchHighlights(list: List) {
+        const highlights = await db.highlights.bulkGet(list.highlightIds);
+        if (highlights) setHighlights(highlights as Highlight[]);
       }
+      fetchHighlights(list);
     }
-    getList(Number(listId));
-  }, []);
+  }, [list]);
 
-  if (listInfo && listInfo.quotes.length <= 0) {
+  if (list && list.highlightIds.length <= 0) {
     return (
       <Layout>
         <p>Highlights added to this list will appear here</p>
@@ -31,26 +29,23 @@ export default function ListPage() {
     );
   }
 
-  if (listInfo) {
+  if (list && highlights) {
     return (
       <Layout>
-        {listInfo && <h1 className="text-xl mb-2">{listInfo.name}</h1>}
+        {list && <h1 className="text-xl mb-2">{list.name}</h1>}
 
         <div className="grid gap-2">
-          {listInfo.quotes.map((quote, index) => (
+          {highlights.map((highlight) => (
             <HighlightCard
-              key={`${index}${quote.bookTitle}`}
-              text={quote.text}
-              bookAuthor={quote.bookAuthor}
-              bookTitle={quote.bookTitle}
-              starred={quote.starred}
-              id={quote.id!}
-              bookId={quote.bookId}
+              key={highlight.id}
+              text={highlight.quote}
+              bookId={highlight.bookId}
+              starred={highlight.starred}
+              id={highlight.id}
               options={["showRemove"]}
             />
           ))}
         </div>
-        {!listInfo && <p>List not found.</p>}
         <ScrollRestoration />
       </Layout>
     );
@@ -58,7 +53,7 @@ export default function ListPage() {
 
   return (
     <Layout>
-      {!listInfo && <p>List not found.</p>}
+      {!list && <p>List not found.</p>}
       <ScrollRestoration />
     </Layout>
   );

@@ -10,12 +10,11 @@ export default function HighlightsList({
 }: HighlightListProps) {
   return (
     <div className="grid gap-2">
-      {highlights.map((highlight, index) => (
+      {highlights.map((highlight) => (
         <HighlightCard
-          key={`${index}${highlight.bookTitle}`}
+          key={highlight.id}
           text={highlight.quote}
-          bookAuthor={highlight.bookAuthor}
-          bookTitle={highlight.bookTitle}
+          bookId={highlight.bookId}
           starred={highlight.starred}
           id={highlight.id!}
         />

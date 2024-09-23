@@ -3,57 +3,31 @@ import HighlightsList from "../components/highlights/HighlightsList";
 import SearchBar from "../components/SearchBar";
 import { Layout } from "../Layout";
 import { db } from "../db";
-import { type Highlight } from "../types/types";
 import UploadBoox from "../components/import/UploadBoox";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { ScrollRestoration } from "react-router-dom";
+import { type Highlight } from "@/types/types";
 
 export default function AllHighlightsPage() {
-  const highlights = useLiveQuery(() => db.highlights.toArray());
+  const allHighlights = useLiveQuery(() =>
+    db.highlights.orderBy("date").reverse().toArray()
+  );
+  const [highlights, setHighlights] = useState<null | Highlight[]>(null);
   const [searchValue, setSearchValue] = useState("");
-  const sortedHighlights = useMemo(getSortedHighlights, [highlights]);
-  function getSortedHighlights() {
-    return highlights;
-    // TODO: reimplement sort
-    // if (books) {
-    //   return books.map((highlight) => ({
-    //     ...highlight,
-    //     quotes: highlight.quotes.sort(
-    //       (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-    //     ),
-    //   }));
-    // }
-  }
 
   useEffect(() => {
-    // if (sortedHighlights !== undefined) {
-    //   setHighlights(sortedHighlights);
-    // }
-    console.log(highlights);
-  }, [highlights]);
+    if (allHighlights) setHighlights(allHighlights);
+  }, [allHighlights]);
+
+  // TODO: implement sorting
 
   useEffect(() => {
-    // TODO: reimplement search
-    // if (searchValue.trim() !== "") {
-    //   let searchedHighlights = highlights.map((book) => {
-    //     const searchedQuotes = book.quotes.filter((quote) =>
-    //       quote.text.toLowerCase().includes(searchValue.toLowerCase())
-    //     );
-    //     return {
-    //       bookAuthor: book.bookAuthor,
-    //       bookTitle: book.bookTitle,
-    //       quotes: searchedQuotes,
-    //       id: book.id,
-    //     };
-    //   });
-    //   setHighlights(searchedHighlights);
-    // } else {
-    //   const sortedHighlights = getSortedHighlights();
-    //   if (sortedHighlights !== undefined) {
-    //     setHighlights(sortedHighlights);
-    //   }
-    // }
-    console.log(searchValue);
+    if (searchValue.trim() !== "" && allHighlights) {
+      let searchedHighlights = allHighlights.filter((highlight) =>
+        highlight.quote.toLowerCase().includes(searchValue.toLowerCase())
+      );
+      setHighlights(searchedHighlights);
+    } else allHighlights ? setHighlights(allHighlights) : setHighlights(null);
   }, [searchValue]);
 
   if (highlights != undefined) {

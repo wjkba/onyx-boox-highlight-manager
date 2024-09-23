@@ -7,19 +7,23 @@ export default function StarredPage() {
   const highlights = useLiveQuery(() => db.highlights.toArray());
 
   if (highlights) {
-    const sortedHighlights = highlights.map((highlight) => ({
-      ...highlight,
-      quotes: highlight.quotes.sort(
-        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-      ),
-    }));
+    const starredHighlights = highlights.filter(
+      (highlight) => highlight.starred === true
+    );
+    console.log(starredHighlights);
+    // const sortedHighlights = highlights.map((highlight) => ({
+    //   ...highlight,
+    //   quotes: highlight.quotes.sort(
+    //     (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+    //   ),
+    // }));
 
-    const starredHighlights = sortedHighlights
-      .filter((highlight) => highlight.quotes.some((quote) => quote.starred))
-      .map((highlight) => ({
-        ...highlight,
-        quotes: highlight.quotes.filter((quote) => quote.starred),
-      }));
+    // const starredHighlights = sortedHighlights
+    //   .filter((highlight) => highlight.quotes.some((quote) => quote.starred))
+    //   .map((highlight) => ({
+    //     ...highlight,
+    //     quotes: highlight.quotes.filter((quote) => quote.starred),
+    //   }));
 
     if (starredHighlights.length <= 0) {
       return (
@@ -33,19 +37,15 @@ export default function StarredPage() {
       <Layout>
         <h1 className="text-xl mb-2">Starred</h1>
         <div className="grid gap-2">
-          {starredHighlights.map((highlight) =>
-            highlight.quotes.map((quote, index) => (
-              <HighlightCard
-                key={`${index}${highlight.bookTitle}`}
-                text={quote.text}
-                bookAuthor={highlight.bookAuthor}
-                bookTitle={highlight.bookTitle}
-                starred={quote.starred}
-                id={quote.id!}
-                bookId={highlight.id}
-              />
-            ))
-          )}
+          {starredHighlights.map((highlight) => (
+            <HighlightCard
+              key={highlight.id}
+              text={highlight.quote}
+              starred={highlight.starred}
+              id={highlight.id}
+              bookId={highlight.bookId}
+            />
+          ))}
         </div>
       </Layout>
     );

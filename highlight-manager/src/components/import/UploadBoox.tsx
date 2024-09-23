@@ -74,11 +74,19 @@ export default function UploadBoox() {
 
   async function updateDB(uploadedHighlights: Highlight[]) {
     let foundDuplicates = false;
+    let newBookId: null | number = null;
+    const foundBook = await db.books.get({ bookTitle: bookTitle });
+    if (!foundBook) {
+      newBookId = await db.books.add({ bookTitle, bookAuthor });
+    }
+    const bookId = foundBook ? foundBook.id : (newBookId as number);
+    console.log("🚀 ~ updateDB ~ newBookId:", newBookId);
+    console.log("🚀 ~ updateDB ~ foundBook:", foundBook);
+    console.log("🚀 ~ updateDB ~ bookID:", bookId);
     for (let highlight of uploadedHighlights) {
       const highlightWithBookInfo = {
         ...highlight,
-        bookAuthor,
-        bookTitle,
+        bookId,
       };
       const foundHighlight = await db.highlights.get({
         quote: highlight.quote,

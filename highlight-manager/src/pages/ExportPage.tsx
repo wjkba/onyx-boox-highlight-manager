@@ -6,27 +6,35 @@ import { saveAs } from "file-saver";
 import { exportDbToString } from "@/utils/exportDb";
 
 export default function ExportPage() {
-  const books = useLiveQuery(() => db.highlights.toArray());
+  const books = useLiveQuery(() => db.books.toArray());
   const selectRef = useRef<HTMLSelectElement>(null);
 
   async function handleExport() {
     if (selectRef.current) {
       const selectedBookTitle = selectRef.current?.value;
-      const book = books!.find((book) => book.bookTitle === selectedBookTitle);
+      const book = await db.books.get({ bookTitle: selectedBookTitle });
       if (book) {
-        const highlights = book.quotes.map((quote) => `- ${quote.text}\n`);
-        const markdownContent = [
-          "# Book info",
-          `Author: ${book.bookAuthor}\n`,
-          `Title: ${book.bookTitle}\n`,
-          "",
-          "# Highlights",
-          ...highlights,
-        ].join("\n");
-        const blob = new Blob([markdownContent], {
-          type: "text/markdown;charset=utf-8",
-        });
-        saveAs(blob, `${selectedBookTitle} - Highlights.md`);
+        const highlights = await db.highlights
+          .where("bookId")
+          .equals(book.id)
+          .toArray();
+        const formattedHighlights = highlights?.map(
+          (highlight) => `- ${highlight.quote}\n`
+        );
+        if (formattedHighlights) {
+          const markdownContent = [
+            "# Book info",
+            `Author: ${book.bookAuthor}\n`,
+            `Title: ${book.bookTitle}\n`,
+            "",
+            "# Highlights",
+            ...formattedHighlights,
+          ].join("\n");
+          const blob = new Blob([markdownContent], {
+            type: "text/markdown;charset=utf-8",
+          });
+          saveAs(blob, `${selectedBookTitle} - Highlights.md`);
+        }
       }
     }
   }
@@ -58,8 +66,8 @@ export default function ExportPage() {
             name="books"
             id="book-select"
           >
-            {books.map((book, index) => (
-              <option key={index} value={book.bookTitle}>
+            {books.map((book) => (
+              <option key={book.id} value={book.bookTitle}>
                 {book.bookTitle}
               </option>
             ))}

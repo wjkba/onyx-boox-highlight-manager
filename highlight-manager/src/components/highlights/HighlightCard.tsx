@@ -4,73 +4,56 @@ import { BiSolidStar } from "react-icons/bi";
 import { db } from "../../db";
 import HighlightCardOptions from "./HighlightCardOptions";
 import { useHighlightCardEditStore } from "@/store";
-import { type Highlight } from "@/types/types";
+import { useLiveQuery } from "dexie-react-hooks";
 
 interface HighlightCardProps {
   id: number;
   text: string;
-  bookTitle: string;
-  bookAuthor: string;
+  bookId: number;
   starred: boolean;
   options?: string[];
 }
 export default function HighlightCard({
   id,
   text,
-  bookTitle,
-  bookAuthor,
+  bookId,
   starred,
   options,
 }: HighlightCardProps) {
   const [isStarred, setIsStarred] = useState(starred);
-  const { editingQuoteIds, setEditingQutoeIds } = useHighlightCardEditStore();
+  const { editingHighlightId, setEditingHighlightId } =
+    useHighlightCardEditStore();
   const [editValue, setEditValue] = useState<string>(text);
-  const bookId = 0;
-  let isEditing = false;
-  // editingQuoteIds?.bookId === bookId && editingQuoteIds.quoteId === id;
+  const book = useLiveQuery(() => db.books.get(bookId));
+  let isEditing = editingHighlightId === id;
 
   useEffect(() => {
     if (isEditing) {
       setEditValue(text);
     }
-  }, [editingQuoteIds, text, isEditing]);
+  }, [editingHighlightId, text, isEditing]);
 
   async function handleStar() {
     setIsStarred(!isStarred);
-    // TODO: reimplement star
-    // const book = await db.highlights.get(bookId);
-
-    // if (book) {
-    //   const updatedQuotes = book.quotes.map((quote) => {
-    //     if (quote.id === id) {
-    //       return { ...quote, starred: !isStarred };
-    //     }
-    //     return quote;
-    //   });
-    //   const updatedBook = { ...book, quotes: updatedQuotes };
-    //   await db.highlights.put(updatedBook);
-    // }
+    const highlight = await db.highlights.get(id);
+    if (highlight) {
+      await db.highlights.where("id").equals(id).modify({ starred: !starred });
+    }
   }
 
   function handleEditCancel() {
-    setEditingQutoeIds(null);
+    setEditingHighlightId(null);
   }
 
   async function handleEditConfirm() {
-    // TODO: reimplement edit
-    // const book = await db.highlights.get(bookId);
-    // if (!book || !book.quotes) return;
-
-    // const targetQuote = book?.quotes.find((quote) => quote.id === id);
-    // const updatedQuote = { ...targetQuote, text: editValue } as Quote;
-    // const updatedQuotes = book.quotes.map((quote) =>
-    //   quote.id === id ? updatedQuote : quote
-    // );
-    // const result = await db.highlights.update(bookId, {
-    //   quotes: updatedQuotes,
-    // });
-    // console.log(result);
-    setEditingQutoeIds(null);
+    const highlight = await db.highlights.get(id);
+    if (!highlight) return;
+    const result = await db.highlights
+      .where("id")
+      .equals(highlight.id)
+      .modify({ quote: editValue });
+    console.log(result);
+    setEditingHighlightId(null);
   }
 
   function handleEditChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -83,7 +66,7 @@ export default function HighlightCard({
       <div className="w-full">
         <div className="flex items-center justify-between text-neutral-400 mb-2">
           <p className="text-neutral-500 dark:text-neutral-300">
-            {bookTitle} - {bookAuthor}
+            {book?.bookTitle} - {book?.bookAuthor}
           </p>
           <div className="flex items-center gap-1">
             <button
@@ -94,7 +77,7 @@ export default function HighlightCard({
               {isStarred ? <BiSolidStar size={20} /> : <BiStar size={20} />}
             </button>
             <HighlightCardOptions
-              quoteId={id}
+              highlightId={id}
               bookId={bookId}
               options={options}
             />

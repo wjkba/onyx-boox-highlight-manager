@@ -142,7 +142,7 @@ export default function ListsPage() {
     function handleFormSubmit(event: React.FormEvent) {
       event.preventDefault();
       console.log(newListName);
-      db.lists.add({ name: newListName, quotes: [] });
+      db.lists.add({ name: newListName, highlightIds: [] });
       setIsFormActive(false);
     }
 

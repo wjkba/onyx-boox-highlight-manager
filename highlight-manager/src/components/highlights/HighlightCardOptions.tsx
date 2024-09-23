@@ -16,23 +16,23 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 
 interface HighlightCardProps {
+  highlightId: number;
   bookId: number;
-  quoteId: number;
   options?: string[];
 }
 
 export default function HighlightCardOptions({
+  highlightId,
   bookId,
-  quoteId,
   options = [],
 }: HighlightCardProps) {
   const navigate = useNavigate();
-  const { activeQuoteIds, setActiveQuoteIds } = useHighlightCardOptionsStore();
-  const { editingQuoteIds, setEditingQutoeIds } = useHighlightCardEditStore();
-  const isActive =
-    activeQuoteIds?.bookId === bookId && activeQuoteIds?.quoteId === quoteId;
-  const isEditing =
-    editingQuoteIds?.bookId === bookId && editingQuoteIds.quoteId === quoteId;
+  const { activeHighlightId, setActiveHighlightId } =
+    useHighlightCardOptionsStore();
+  const { editingHighlightId, setEditingHighlightId } =
+    useHighlightCardEditStore();
+  const isActive = activeHighlightId === highlightId;
+  const isEditing = editingHighlightId === highlightId;
   const [isShowingLists, setIsShowingLists] = useState(false);
   const [lists, setLists] = useState<List[] | null>(null);
   const showRemoveOption = options.includes("showRemove");
@@ -55,12 +55,12 @@ export default function HighlightCardOptions({
     {
       icon: <BiEditAlt />,
       text: "Edit",
-      action: () => handleEditQuote(quoteId),
+      action: () => handleEditHighlight(highlightId),
     },
     {
       icon: <BiSolidTrash />,
       text: "Delete",
-      action: () => handleDeleteQuote(quoteId, bookId),
+      action: () => handleDeleteHighlight(highlightId),
     },
   ];
 
@@ -72,28 +72,24 @@ export default function HighlightCardOptions({
 
   function handleOpen() {
     if (isActive) {
-      setActiveQuoteIds(null);
+      setActiveHighlightId(null);
     } else {
-      setActiveQuoteIds({ bookId, quoteId });
+      setActiveHighlightId(highlightId);
     }
   }
 
-  async function handleDeleteQuote(quoteId: number, bookId: number) {
-    const book = await db.highlights.get(bookId);
-    const updatedQuotes = book?.quotes.filter((quote) => quote.id !== quoteId);
-    const result = await db.highlights.update(bookId, {
-      quotes: updatedQuotes,
-    });
-    console.log(result);
-    setActiveQuoteIds(null);
-    setEditingQutoeIds(null);
+  async function handleDeleteHighlight(highlightId: number) {
+    // TODO: check if highlight is in list
+    await db.highlights.where("id").equals(highlightId).delete();
+    setActiveHighlightId(null);
+    setEditingHighlightId(null);
   }
 
-  async function handleEditQuote(quoteId: number) {
+  async function handleEditHighlight(highlightId: number) {
     if (isEditing) {
-      setEditingQutoeIds(null);
+      setEditingHighlightId(null);
     } else {
-      setEditingQutoeIds({ bookId, quoteId });
+      setEditingHighlightId(highlightId);
     }
     handleOpen();
   }
@@ -110,59 +106,53 @@ export default function HighlightCardOptions({
 
   async function addQuoteToList(listId: number) {
     try {
-      const book = await db.highlights.get(bookId);
-      const quote = book?.quotes.find((quote) => quote.id === quoteId);
       const list = await db.lists.get(listId);
-      if (list && quote && book && quote) {
-        const updatedQuote = {
-          ...quote,
-          bookAuthor: book.bookAuthor,
-          bookTitle: book.bookTitle,
-          bookId: bookId,
-        };
-        const isAlreadyAdded = checkIfQuoteAlreadyAdded(quoteId, bookId, list);
+      console.log("🚀 ~ addQuoteToList ~ list:", list);
+      if (list) {
+        const isAlreadyAdded = await checkIfHighlightAlreadyAdded(
+          highlightId,
+          list
+        );
         if (!isAlreadyAdded) {
-          const updatedQuotes = [...list.quotes, updatedQuote];
-          await db.lists.update(listId, { quotes: updatedQuotes });
+          const updatedListHighlightIds = [...list.highlightIds, highlightId];
+          const result = await db.lists
+            .where("id")
+            .equals(listId)
+            .modify({ highlightIds: updatedListHighlightIds });
+          console.log("🚀 ~ addQuoteToList ~ result:", result);
           setIsShowingLists(false);
-          setActiveQuoteIds(null);
+          setActiveHighlightId(null);
         } else {
           console.log("Quote is already added to list");
           setIsShowingLists(false);
-          setActiveQuoteIds(null);
+          setActiveHighlightId(null);
         }
       }
     } catch (error) {
+      console.log(error);
       console.log("ERROR: Failed to add quote to this list");
     }
-
-    function checkIfQuoteAlreadyAdded(
-      quoteId: number,
-      bookId: number,
+    async function checkIfHighlightAlreadyAdded(
+      highlightId: number,
       list: List
     ) {
-      const result = list.quotes.filter(
-        (quote) => quote.id === quoteId && quote.bookId === bookId
-      );
-      if (result.length === 0) {
-        return false;
-      } else {
-        return true;
-      }
+      const found = list.highlightIds.find((id) => id === highlightId);
+      if (found) return true;
+      else return false;
     }
   }
 
   async function removeQuoteFromList(listId: number) {
     try {
       const list = await db.lists.get(listId);
-      console.log(list);
       if (list) {
-        const updatedQuotes = list?.quotes.filter(
-          (quote) => !(quote.id === quoteId && quote.bookId === bookId)
+        const updatedListHighlightIds = list.highlightIds.filter(
+          (id) => id !== highlightId
         );
-        const result = await db.lists.update(listId, { quotes: updatedQuotes });
+        const result = await db.lists.update(listId, {
+          highlightIds: updatedListHighlightIds,
+        });
         console.log(result);
-        navigate(0);
       }
     } catch (error) {
       console.log("ERROR: Failed to remove item from list");

@@ -2,31 +2,28 @@ import { ScrollRestoration, useParams } from "react-router-dom";
 import { Layout } from "../Layout";
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "../db";
-import { useEffect, useState } from "react";
-import { type BookEntry } from "../types/types";
 import HighlightsList from "../components/highlights/HighlightsList";
 
 export default function BookPage() {
-  const [bookInfo, setBookInfo] = useState<BookEntry | null>(null);
   const { bookId } = useParams();
-  const books = useLiveQuery(() => db.highlights.toArray());
+  const book = useLiveQuery(() => db.books.get(Number(bookId)));
+  const highlights = useLiveQuery(() =>
+    db.highlights.where("bookId").equals(Number(bookId)).toArray()
+  );
 
-  useEffect(() => {
-    if (books) {
-      const bookObject = books.find((book) => String(book.id) === bookId);
-      if (bookObject === undefined) {
-        console.log("book not found");
-      } else {
-        setBookInfo(bookObject);
-      }
-    }
-  }, [books]);
+  if (book && highlights) {
+    return (
+      <Layout>
+        <h1 className="text-xl mb-2">{book.bookTitle}</h1>
+        <HighlightsList highlights={highlights} />
+        <ScrollRestoration />
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
-      {bookInfo && <h1 className="text-xl mb-2">{bookInfo.bookTitle}</h1>}
-      {bookInfo && <HighlightsList highlights={[bookInfo]} />}
-      {!bookInfo && <p>Book not found.</p>}
+      <h1 className="text-xl mb-2">Book not found</h1>
       <ScrollRestoration />
     </Layout>
   );

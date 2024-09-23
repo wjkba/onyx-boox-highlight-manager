@@ -5,30 +5,28 @@ import { useState } from "react";
 import BookCard from "@/components/BookCard";
 
 export default function BooksPage() {
-  //const highlights = useHighlightsStore((store) => store.highlights);
   const [activeOption, setActiveOption] = useState<number | null>(null);
-
-  const highlights = useLiveQuery(() => db.highlights.toArray());
+  const books = useLiveQuery(() => db.books.toArray());
 
   function showBooks() {
-    if (highlights) {
+    if (books) {
       return (
         <>
-          {highlights.map((element) => (
+          {books.map((book) => (
             <BookCard
               activeOption={activeOption}
               setActiveOption={setActiveOption}
-              key={element.id}
-              bookId={element.id}
-              bookTitle={element.bookTitle}
-              bookAuthor={element.bookAuthor}
+              key={book.id}
+              bookId={book.id}
+              bookTitle={book.bookTitle}
+              bookAuthor={book.bookAuthor}
             />
           ))}
         </>
       );
     }
   }
-  if (highlights && highlights.length <= 0) {
+  if (books && books.length <= 0) {
     return (
       <Layout>
         <p>No highlights found.</p>

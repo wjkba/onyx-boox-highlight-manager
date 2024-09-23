@@ -32,7 +32,7 @@ export default function BookCard({
   async function handleEditConfirm(event: React.FormEvent) {
     event.preventDefault();
     if (newBookTitle.length > 0 && newBookAuthor.length > 0) {
-      const result = await db.highlights.update(bookId, {
+      const result = await db.books.update(bookId, {
         bookTitle: newBookTitle,
         bookAuthor: newBookAuthor,
       });
@@ -44,8 +44,8 @@ export default function BookCard({
 
   async function handleDeleteConfirm(event: React.FormEvent) {
     event.preventDefault();
-    const result = await db.highlights.delete(bookId);
-    console.log(result);
+    await db.highlights.where("bookId").equals(bookId).delete();
+    await db.books.where("id").equals(bookId).delete();
     handleCancel();
   }
 

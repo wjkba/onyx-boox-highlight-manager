@@ -3,61 +3,39 @@ import HighlightsList from "../components/highlights/HighlightsList";
 import SearchBar from "../components/SearchBar";
 import { Layout } from "../Layout";
 import { db } from "../db";
-import { type BookEntry } from "../types/types";
-import TestFormatter from "../components/import/TestFormatter";
-import { useEffect, useMemo, useState } from "react";
+import UploadBoox from "../components/import/UploadBoox";
+import { useEffect, useState } from "react";
 import { ScrollRestoration } from "react-router-dom";
+import { type Highlight } from "@/types/types";
 
 export default function AllHighlightsPage() {
-  const books = useLiveQuery(() => db.highlights.toArray());
-  const [highlights, setHighlights] = useState<BookEntry[]>([]);
+  const allHighlights = useLiveQuery(() =>
+    db.highlights.orderBy("date").reverse().toArray()
+  );
+  const [highlights, setHighlights] = useState<null | Highlight[]>(null);
   const [searchValue, setSearchValue] = useState("");
-  const sortedHighlights = useMemo(getSortedHighlights, [books]);
-  function getSortedHighlights() {
-    if (books) {
-      return books.map((highlight) => ({
-        ...highlight,
-        quotes: highlight.quotes.sort(
-          (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
-        ),
-      }));
-    }
-  }
 
   useEffect(() => {
-    if (sortedHighlights !== undefined) {
-      setHighlights(sortedHighlights);
-    }
-  }, [books]);
+    if (allHighlights) setHighlights(allHighlights);
+  }, [allHighlights]);
+
+  // TODO: implement sorting
 
   useEffect(() => {
-    if (searchValue.trim() !== "") {
-      let searchedHighlights = highlights.map((book) => {
-        const searchedQuotes = book.quotes.filter((quote) =>
-          quote.text.toLowerCase().includes(searchValue.toLowerCase())
-        );
-        return {
-          bookAuthor: book.bookAuthor,
-          bookTitle: book.bookTitle,
-          quotes: searchedQuotes,
-          id: book.id,
-        };
-      });
+    if (searchValue.trim() !== "" && allHighlights) {
+      let searchedHighlights = allHighlights.filter((highlight) =>
+        highlight.quote.toLowerCase().includes(searchValue.toLowerCase())
+      );
       setHighlights(searchedHighlights);
-    } else {
-      const sortedHighlights = getSortedHighlights();
-      if (sortedHighlights !== undefined) {
-        setHighlights(sortedHighlights);
-      }
-    }
+    } else allHighlights ? setHighlights(allHighlights) : setHighlights(null);
   }, [searchValue]);
 
-  if (books != undefined) {
-    if (books.length <= 0) {
+  if (highlights != undefined) {
+    if (highlights.length <= 0) {
       return (
         <Layout>
           <div className="lg:max-w-[450px]">
-            <TestFormatter />
+            <UploadBoox />
           </div>
         </Layout>
       );

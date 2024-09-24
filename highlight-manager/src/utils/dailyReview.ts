@@ -1,33 +1,21 @@
-import { BookEntry } from "@/types/types";
+import { db } from "@/db";
 
-export async function getDailyReviewQuotes(books: BookEntry[]) {
+export async function getDailyReviewQuotes() {
   const reviewDelay: number = getReviewDelay();
   const cardsPerReview: number = getCardsPerReview();
-  const allQuotes = await getAllQuotes(books);
-  const dailyReviewable = allQuotes?.filter((quote) => {
-    if (quote.lastReviewed === null) {
+  const highlights = await db.highlights.toArray();
+  const dailyReviewable = highlights.filter((highlight) => {
+    if (highlight.lastReviewed === null) {
       return true;
     } else {
-      const lastReviewedDate = new Date(quote.lastReviewed);
+      const lastReviewedDate = new Date(highlight.lastReviewed);
       const delayDate = new Date();
       delayDate.setDate(delayDate.getDate() - reviewDelay);
       return lastReviewedDate < delayDate;
     }
   });
-  const shuffled = dailyReviewable?.sort(() => 0.5 - Math.random());
-  return shuffled?.slice(0, cardsPerReview);
-}
-
-export async function getAllQuotes(books: BookEntry[]) {
-  let allQuotes = books?.flatMap((book) =>
-    book.quotes.map(({ id, ...quote }) => ({
-      ...quote,
-      bookAuthor: book.bookAuthor,
-      bookTitle: book.bookTitle,
-      id: `${book.id}/${id}`,
-    }))
-  );
-  return allQuotes;
+  const shuffled = dailyReviewable.sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, cardsPerReview);
 }
 
 function getReviewDelay() {
@@ -61,5 +49,3 @@ function getCardsPerReview() {
     return defaultCardsPerReview;
   }
 }
-
-export async function testing() {}

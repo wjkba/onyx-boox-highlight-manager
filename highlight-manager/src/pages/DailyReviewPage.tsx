@@ -1,23 +1,20 @@
 import DailyReviewCard from "@/components/review/DailyReviewCard";
 import Navbar from "@/components/Navbar";
 import { db } from "@/db";
-import { DailyReviewQuote } from "@/types/types";
 import { getDailyReviewQuotes } from "@/utils/dailyReview";
-import { useLiveQuery } from "dexie-react-hooks";
 import { useEffect, useState } from "react";
 import DailyReviewButtons from "@/components/review/DailyReviewButtons";
+import { Highlight } from "@/types/types";
 
 export default function DailyReviewPage() {
-  const books = useLiveQuery(() => db.highlights.toArray());
-
-  const [dailyHighlights, setDailyHighlights] = useState<
-    DailyReviewQuote[] | null
-  >(null);
-  const [activeHighlight, setActiveHighlight] =
-    useState<DailyReviewQuote | null>(null);
+  const [dailyHighlights, setDailyHighlights] = useState<Highlight[] | null>(
+    null
+  );
+  const [activeHighlight, setActiveHighlight] = useState<Highlight | null>(
+    null
+  );
   const [currentIndex, setCurrentIndex] = useState(0);
   const [reviewIsCompleted, setReviewIsCompleted] = useState<boolean>(false);
-  const [starredIds, setStarredIds] = useState<number[]>([]);
   const [toDeleteIds, setToDeleteIds] = useState<number[]>([]);
 
   useEffect(() => {
@@ -33,22 +30,20 @@ export default function DailyReviewPage() {
         setReviewIsCompleted(true);
       }
     }
-  }, []);
-
-  useEffect(() => {
-    const fetchDaily = async () => {
+    async function fetchDaily() {
       try {
-        const daily = await getDailyReviewQuotes(books!);
+        const daily = await getDailyReviewQuotes();
         if (daily) {
+          console.log("🚀 ~ fetchDaily ~ daily:", daily);
           setDailyHighlights(daily);
           setActiveHighlight(daily[0]);
         }
       } catch (error) {
         console.error("Failed to fetch daily highlights:", error);
       }
-    };
+    }
     fetchDaily();
-  }, [books]);
+  }, []);
 
   function handleNext() {
     if (dailyHighlights) {
@@ -62,9 +57,9 @@ export default function DailyReviewPage() {
         setActiveHighlight(dailyHighlights[nextIndex]);
         setCurrentIndex(nextIndex);
       }
-      console.log(dailyHighlights[nextIndex]);
     }
   }
+
   function handleBack() {
     if (dailyHighlights) {
       const nextIndex = currentIndex - 1;
@@ -77,75 +72,60 @@ export default function DailyReviewPage() {
       console.log(dailyHighlights[nextIndex]);
     }
   }
-  function handleAddToStarred() {
-    const activeHighlightId = Number(activeHighlight?.id.split("/")[1]);
-    if (!starredIds.includes(activeHighlightId)) {
-      setStarredIds((s) => [...s, activeHighlightId]);
-      return;
+  async function handleAddToStarred() {
+    if (activeHighlight) {
+      await db.highlights
+        .where("id")
+        .equals(activeHighlight.id)
+        .modify({ starred: !activeHighlight.starred });
+      const updatedDailyHighlights = dailyHighlights?.map((highlight) => {
+        if (highlight.id === activeHighlight.id)
+          return { ...highlight, starred: !highlight.starred };
+        else return highlight;
+      });
+      if (updatedDailyHighlights) setDailyHighlights(updatedDailyHighlights);
     }
-    setStarredIds((s) => s.filter((id) => id !== activeHighlightId));
   }
   function handleMarkForDelete() {
-    const activeHighlightId = Number(activeHighlight?.id.split("/")[1]);
-    if (!toDeleteIds.includes(activeHighlightId)) {
-      setToDeleteIds((s) => [...s, activeHighlightId]);
-      return;
+    if (activeHighlight) {
+      const activeHighlightId = activeHighlight.id;
+      if (!toDeleteIds.includes(activeHighlightId)) {
+        setToDeleteIds((s) => [...s, activeHighlightId]);
+        return;
+      }
+      setToDeleteIds((s) => s.filter((id) => id !== activeHighlightId));
     }
-    setToDeleteIds((s) => s.filter((id) => id !== activeHighlightId));
   }
 
   async function updateReviewedQuotes() {
     try {
-      const ids = dailyHighlights?.map((highlight) => ({
-        bookId: Number(highlight.id.split("/")[0]),
-        quoteId: highlight.id.split("/")[1],
-      }));
-      const uniqueBookIds = Array.from(new Set(ids?.map((id) => id.bookId)));
-
-      if (books) {
-        const now = new Date();
-        for (let x in uniqueBookIds) {
-          const bookId = uniqueBookIds[x];
-          const bookIndex = books.findIndex((book) => book.id === bookId);
-          if (bookIndex !== -1) {
-            const book = books[bookIndex];
-            let updatedQuotes = book.quotes.map((quote) => {
-              const quoteId = ids?.find(
-                (id) => id.bookId === bookId && Number(id.quoteId) === quote.id
-              );
-              if (quoteId) {
-                const isStarred = starredIds.includes(Number(quoteId.quoteId));
-                if (isStarred) {
-                  return {
-                    ...quote,
-                    lastReviewed: now.toISOString(),
-                    starred: true,
-                  };
-                } else {
-                  return { ...quote, lastReviewed: now.toISOString() };
-                }
-              } else {
-                return quote;
-              }
-            });
-            updatedQuotes = updatedQuotes.filter(
-              (quote) => !toDeleteIds.includes(Number(quote.id))
-            );
-            console.log(updatedQuotes);
-            const result = await db.highlights.update(bookId, {
-              quotes: updatedQuotes,
-            });
-            console.log(result);
-          }
+      const newReviewedDate = new Date().toISOString();
+      const reviewedHighlights = dailyHighlights?.map((highlight) => {
+        return { ...highlight, lastReviewed: newReviewedDate };
+      });
+      if (reviewedHighlights) {
+        for (let highlight of reviewedHighlights) {
+          await db.highlights.update(highlight.id, highlight);
         }
-      }
+      } else throw new Error();
+      await deleteHighlights();
     } catch (error) {
       console.log("error updating reviewed quotes");
       console.log(error);
     }
   }
 
-  if (dailyHighlights === undefined || (dailyHighlights?.length ?? 0) <= 0) {
+  async function deleteHighlights() {
+    try {
+      await db.highlights.bulkDelete(toDeleteIds);
+      console.log(`deleted ${toDeleteIds.length} highlights`);
+    } catch (error) {
+      console.log("error deleting quotes");
+      console.log(error);
+    }
+  }
+
+  if (!dailyHighlights || (dailyHighlights?.length ?? 0) <= 0) {
     return (
       <div className="grid place-items-center ">
         <div className=" w-full max-w-[600px] lg:max-w-[1200px] px-4">
@@ -154,7 +134,7 @@ export default function DailyReviewPage() {
             <div className="lg:w-full">
               <h1 className="text-xl mb-2">Daily review</h1>
               <div className="max-w-[600px]">
-                <p>No highlights available.</p>
+                <p>No highlights available for daily review.</p>
               </div>
             </div>
           </main>
@@ -173,9 +153,9 @@ export default function DailyReviewPage() {
               <h1 className="text-xl mb-2">Daily review</h1>
               <div className="max-w-[600px]">
                 <p className="mb-4">You've completed your review for today.</p>
-                {starredIds.length > 0 && (
+                {/* {starredIds.length > 0 && (
                   <p>Starred {starredIds.length} highlights</p>
-                )}
+                )} */}
                 {toDeleteIds.length > 0 && (
                   <p>Deleted {toDeleteIds.length} highlights</p>
                 )}
@@ -204,13 +184,11 @@ export default function DailyReviewPage() {
                   onDelete={handleMarkForDelete}
                   toDeleteIds={toDeleteIds}
                   onStar={handleAddToStarred}
-                  starredIds={starredIds}
                   numberOfCards={dailyHighlights?.length}
                 />
                 <DailyReviewCard
-                  bookTitle={activeHighlight.bookTitle}
-                  bookAuthor={activeHighlight.bookAuthor}
-                  text={activeHighlight.text}
+                  bookId={activeHighlight.bookId}
+                  text={activeHighlight.quote}
                 />
               </div>
             </div>

@@ -1,10 +1,9 @@
-import { type DailyReviewQuote } from "@/types/types";
+import { type Highlight } from "@/types/types";
 import { useEffect, useState } from "react";
 
 interface DailyReviewButtonsProps {
-  activeHighlight: DailyReviewQuote | null;
+  activeHighlight: Highlight | null;
   onStar: () => void;
-  starredIds: number[] | null;
   onDelete: () => void;
   toDeleteIds: number[] | null;
   currentIndex: number;
@@ -20,26 +19,24 @@ export default function DailyReviewButtons({
   onBack,
   onNext,
   numberOfCards,
-  starredIds,
   toDeleteIds,
 }: DailyReviewButtonsProps) {
   const [isStarred, setIsStarred] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
+
   useEffect(() => {
     if (activeHighlight) {
-      const activeHighlightId = Number(activeHighlight?.id.split("/")[1]);
-      if (starredIds?.includes(activeHighlightId)) {
-        setIsStarred(true);
-      } else {
-        setIsStarred(false);
-      }
-      if (toDeleteIds?.includes(activeHighlightId)) {
-        setIsDeleted(true);
-      } else {
-        setIsDeleted(false);
-      }
+      if (activeHighlight.starred) setIsStarred(true);
+      else setIsStarred(false);
+      if (toDeleteIds?.includes(activeHighlight.id)) setIsDeleted(true);
+      else setIsDeleted(false);
     }
-  }, [starredIds, toDeleteIds, activeHighlight]);
+  }, [toDeleteIds, activeHighlight]);
+
+  function handleStarClick() {
+    setIsStarred(!isStarred);
+    onStar();
+  }
 
   if (activeHighlight) {
     return (
@@ -52,7 +49,7 @@ export default function DailyReviewButtons({
             {isDeleted ? "undo" : "delete"}
           </button>
           <button
-            onClick={onStar}
+            onClick={handleStarClick}
             className="lg:px-4 p-2 border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
           >
             {isStarred ? "starred" : "star"}

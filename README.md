@@ -8,7 +8,7 @@ A React TypeScript app to manage your highlights from your Onyx Boox eReader.
 
 
 ## Try it out here
-https://ehighlights.netlify.app/
+https://booxmanager.netlify.app/
 
 
 

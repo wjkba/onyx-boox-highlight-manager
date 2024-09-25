@@ -71,7 +71,7 @@ export default function ListsPage() {
     }
 
     return (
-      <div className="flex justify-between gap-2 items-center border dark:border-white border-black  w-full dark:hover:bg-neutral-900  hover:bg-neutral-50">
+      <div className="flex justify-between gap-2 items-center border dark:border-stone-500 border-stone-400  w-full dark:hover:bg-neutral-900  hover:bg-stone-100">
         {!isEditing ? (
           <>
             <Link to={`/lists/${listId}`} className="text-lg p-4  w-[90%]">
@@ -122,7 +122,7 @@ export default function ListsPage() {
     return (
       <Link
         to={`/starred`}
-        className=" flex gap-2 items-center p-4 border dark:border-white border-black  w-full dark:hover:bg-neutral-900  hover:bg-neutral-50"
+        className=" flex gap-2 items-center p-4 border dark:border-stone-500 border-stone-400  w-full dark:hover:bg-neutral-900  hover:bg-stone-100"
       >
         <BiSolidStar size={20} />
         <p className="text-lg">Starred</p>

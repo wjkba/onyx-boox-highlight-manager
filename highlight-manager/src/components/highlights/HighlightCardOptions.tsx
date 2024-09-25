@@ -1,4 +1,4 @@
-import { db } from "@/db";
+import { db, deleteHighlight } from "@/db";
 import {
   useHighlightCardEditStore,
   useHighlightCardOptionsStore,
@@ -79,8 +79,7 @@ export default function HighlightCardOptions({
   }
 
   async function handleDeleteHighlight(highlightId: number) {
-    // TODO: check if highlight is in list
-    await db.highlights.where("id").equals(highlightId).delete();
+    await deleteHighlight(highlightId);
     setActiveHighlightId(null);
     setEditingHighlightId(null);
   }

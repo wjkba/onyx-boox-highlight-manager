@@ -62,10 +62,10 @@ export default function HighlightCard({
   }
 
   return (
-    <div className="dark:border-neutral-100 flex gap-[12px] border-solid border border-black p-4 hover-trigger">
+    <div className="dark:border-stone-500 flex gap-[12px] border-solid border border-stone-400 p-4 hover-trigger">
       <div className="w-full">
         <div className="flex items-center justify-between text-neutral-400 mb-2">
-          <p className="text-neutral-500 dark:text-neutral-300">
+          <p className="text-neutral-600 dark:text-neutral-300">
             {book?.bookTitle} - {book?.bookAuthor}
           </p>
           <div className="flex items-center gap-1">

@@ -7,7 +7,7 @@ export default function HelpPage() {
         <Navbar />
         <main className="min-h-screen lg:flex lg:gap-[32px] lg:pt-8">
           <div className="lg:w-full">
-            <h1 className="text-xl font-medium mb-2">
+            <h1 className="text-2xl font-medium mb-2">
               How to export onyx boox annotations
             </h1>
             <div className="pl-4 max-w-[600px]">

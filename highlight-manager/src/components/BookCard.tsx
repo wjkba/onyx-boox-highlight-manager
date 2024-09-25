@@ -118,7 +118,7 @@ export default function BookCard({
 
             <button
               type="submit"
-              className="p-2 w-full border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
+              className="p-2 w-full border-l-0 border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
             >
               Confirm
             </button>
@@ -129,10 +129,10 @@ export default function BookCard({
   }
 
   return (
-    <div className="flex justify-between border dark:border-white border-black lg:max-w-[276px] w-full dark:hover:bg-neutral-900  hover:bg-neutral-50">
-      <Link className="p-4" to={`/books/${bookId}`} key={bookId}>
+    <div className="flex justify-between border dark:border-stone-500 border-stone-400 lg:max-w-[276px] w-full dark:hover:bg-neutral-900  hover:bg-stone-100">
+      <Link className="p-4 w-full" to={`/books/${bookId}`} key={bookId}>
         <p className="text-lg">{bookTitle}</p>
-        <p className=" text-neutral-600 dark:text-neutral-400">{bookAuthor}</p>
+        <p className=" text-stone-600 dark:text-neutral-400">{bookAuthor}</p>
       </Link>
       <div className="flex items-star">
         <BookOptions

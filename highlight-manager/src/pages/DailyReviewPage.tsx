@@ -1,6 +1,6 @@
 import DailyReviewCard from "@/components/review/DailyReviewCard";
 import Navbar from "@/components/Navbar";
-import { db } from "@/db";
+import { db, deleteHighlights } from "@/db";
 import { getDailyReviewQuotes } from "@/utils/dailyReview";
 import { useEffect, useState } from "react";
 import DailyReviewButtons from "@/components/review/DailyReviewButtons";
@@ -108,16 +108,16 @@ export default function DailyReviewPage() {
           await db.highlights.update(highlight.id, highlight);
         }
       } else throw new Error();
-      await deleteHighlights();
+      await deleteMarkedHighlights(toDeleteIds);
     } catch (error) {
       console.log("error updating reviewed quotes");
       console.log(error);
     }
   }
 
-  async function deleteHighlights() {
+  async function deleteMarkedHighlights(toDeleteIds: number[]) {
     try {
-      await db.highlights.bulkDelete(toDeleteIds);
+      await deleteHighlights(toDeleteIds);
       console.log(`deleted ${toDeleteIds.length} highlights`);
     } catch (error) {
       console.log("error deleting quotes");

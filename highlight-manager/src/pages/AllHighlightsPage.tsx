@@ -9,38 +9,46 @@ import { ScrollRestoration } from "react-router-dom";
 import { type Highlight } from "@/types/types";
 
 export default function AllHighlightsPage() {
+  // TODO: implement sorting
+
   const allHighlights = useLiveQuery(() =>
     db.highlights.orderBy("date").reverse().toArray()
   );
-  const [highlights, setHighlights] = useState<null | Highlight[]>(null);
+  const [displayedHighlights, setDisplayedHighlights] = useState<
+    null | Highlight[]
+  >(null);
   const [searchValue, setSearchValue] = useState("");
+  const [limit, setLimit] = useState(20);
 
   useEffect(() => {
-    if (allHighlights) setHighlights(allHighlights);
-  }, [allHighlights]);
-
-  // TODO: implement sorting
-
-  useEffect(() => {
-    if (searchValue.trim() !== "" && allHighlights) {
-      let searchedHighlights = allHighlights.filter((highlight) =>
-        highlight.quote.toLowerCase().includes(searchValue.toLowerCase())
-      );
-      setHighlights(searchedHighlights);
-    } else allHighlights ? setHighlights(allHighlights) : setHighlights(null);
-  }, [searchValue]);
-
-  if (highlights != undefined) {
-    if (highlights.length <= 0) {
-      return (
-        <Layout>
-          <div className="lg:max-w-[450px]">
-            <UploadBoox />
-          </div>
-        </Layout>
-      );
+    // SEARCH, LIMIT
+    if (allHighlights) {
+      let filteredHighlights = allHighlights;
+      if (searchValue.trim() !== "") {
+        filteredHighlights = allHighlights.filter((highlight) =>
+          highlight.quote.toLowerCase().includes(searchValue.toLowerCase())
+        );
+      }
+      const limitedHighlights = filteredHighlights.slice(0, limit);
+      setDisplayedHighlights(limitedHighlights);
     }
+  }, [allHighlights, searchValue, limit]);
 
+  function handleLoadMore() {
+    setLimit((prevLimit) => prevLimit + 20);
+  }
+
+  if (allHighlights && allHighlights.length <= 0) {
+    return (
+      <Layout>
+        <div className="lg:max-w-[450px]">
+          <UploadBoox />
+        </div>
+      </Layout>
+    );
+  }
+
+  if (displayedHighlights) {
     return (
       <>
         <Layout>
@@ -48,7 +56,17 @@ export default function AllHighlightsPage() {
             <div className="mb-2">
               <SearchBar setSearchValue={setSearchValue} />
             </div>
-            <HighlightsList highlights={highlights} />
+            <HighlightsList highlights={displayedHighlights} />
+            <div className="flex justify-center mb-12">
+              <button
+                onClick={handleLoadMore}
+                className={`${
+                  limit > displayedHighlights.length ? "hidden " : " "
+                }} mt-6 lg:max-w-[60%] w-full p-3 border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black`}
+              >
+                Load more
+              </button>
+            </div>
           </div>
         </Layout>
         <ScrollRestoration />

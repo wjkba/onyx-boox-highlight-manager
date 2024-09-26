@@ -3,8 +3,17 @@
 @tailwind components;
 @tailwind utilities;
 
+body {
+  background-color: var(--bg-color);
+  transition: background-color 0.3s ease;
+}
 
-
+@media (hover: none) {
+  button:hover {
+    background-color: unset !important; 
+    color: unset !important;
+  }
+}
 
 .star-icon{
   display: none;
@@ -28,8 +37,4 @@
   --bg-color: #000000; /* Dark background when .dark class is applied */
 }
 
-body {
-  background-color: var(--bg-color);
-  transition: background-color 0.3s ease;
-}
 

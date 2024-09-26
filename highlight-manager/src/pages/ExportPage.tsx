@@ -4,6 +4,7 @@ import { Layout } from "../Layout";
 import { useRef } from "react";
 import { saveAs } from "file-saver";
 import { exportDbToString } from "@/utils/exportDb";
+import Button from "@/components/Button";
 
 export default function ExportPage() {
   const books = useLiveQuery(() => db.books.toArray());
@@ -72,13 +73,13 @@ export default function ExportPage() {
               </option>
             ))}
           </select>
-          <button
-            className="p-2 w-full border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
+
+          <Button
+            text="Export"
             type="button"
             onClick={handleExport}
-          >
-            Export
-          </button>
+            className="p-2 w-full"
+          />
         </form>
         <form className="grid gap-2 lg:max-w-[450px]  p-2 mb-2">
           <h1 className="text-xl">Export highlights database</h1>
@@ -86,13 +87,12 @@ export default function ExportPage() {
             Your highlights data is stored locally in IndexedDB database. You
             can export your highlights at any time by clicking the button below.
           </p>
-          <button
-            className="p-2 w-full border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
+          <Button
+            text="Export"
             type="button"
             onClick={handleExportDatabase}
-          >
-            Export
-          </button>
+            className="p-2 w-full"
+          />
         </form>
       </Layout>
     );

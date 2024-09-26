@@ -1,5 +1,6 @@
 import { type Highlight } from "@/types/types";
 import { useEffect, useState } from "react";
+import Button from "../Button";
 
 interface DailyReviewButtonsProps {
   activeHighlight: Highlight | null;
@@ -42,35 +43,24 @@ export default function DailyReviewButtons({
     return (
       <div className="flex gap-2 flex-col sm:grid grid-cols-3 items-center justify-between mb-2">
         <div className="order-2 sm:order-none w-full grid grid-cols-2 gap-2">
-          <button
+          <Button
+            text={isDeleted ? "undo" : "delete"}
             onClick={onDelete}
-            className="lg:px-4 p-2  border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
-          >
-            {isDeleted ? "undo" : "delete"}
-          </button>
-          <button
+            className="lg:px-4 p-2"
+          />
+
+          <Button
+            text={isStarred ? "starred" : "star"}
             onClick={handleStarClick}
-            className="lg:px-4 p-2 border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
-          >
-            {isStarred ? "starred" : "star"}
-          </button>
+            className="lg:px-4 p-2"
+          />
         </div>
         <p className=" text-center p-2 text-xl">
           {currentIndex + 1}/{numberOfCards}
         </p>
         <div className="order-last sm:order-none grid w-full grid-cols-2 gap-2">
-          <button
-            onClick={onBack}
-            className="lg:px-4 p-2 border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
-          >
-            back
-          </button>
-          <button
-            onClick={onNext}
-            className="lg:px-4 p-2  border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
-          >
-            next
-          </button>
+          <Button text={"back"} onClick={onBack} className="lg:px-4 p-2" />
+          <Button text={"next"} onClick={onNext} className="lg:px-4 p-2" />
         </div>
       </div>
     );

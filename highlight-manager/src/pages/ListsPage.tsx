@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { BiSolidStar } from "react-icons/bi";
 import { useState } from "react";
 import ListOptions from "@/components/ListOptions";
+import Button from "@/components/Button";
 
 interface ListProps {
   listId: number;
@@ -53,18 +54,13 @@ export default function ListsPage() {
             onSubmit={handleDeleteConfirm}
             className="lg:flex grid gap-2 w-full"
           >
-            <button
-              type="submit"
-              className="p-1 border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
-            >
-              Confirm
-            </button>
-            <button
+            <Button type="submit" className="p-2 w-full" text="Confirm" />
+            <Button
               onClick={handleCancel}
-              className="p-1 border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
-            >
-              Cancel
-            </button>
+              type="button"
+              className="p-2 w-full border-none"
+              text="Cancel"
+            />
           </form>
         </div>
       );
@@ -98,19 +94,13 @@ export default function ListsPage() {
               className="w-full mb-2 lg:m-0 p-1 border text-lg border-black dark:border-white dark:bg-neutral-900"
             />
             <div className="lg:flex grid gap-2 w-full">
-              <button
-                type="submit"
-                className="p-1 border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
-              >
-                Confirm
-              </button>
-              <button
-                type="button"
+              <Button type="submit" className="p-2 w-full" text="Confirm" />
+              <Button
                 onClick={handleCancel}
-                className="p-1 border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
-              >
-                Cancel
-              </button>
+                type="button"
+                className="p-2 w-full border-none"
+                text="Cancel"
+              />
             </div>
           </form>
         )}
@@ -148,12 +138,12 @@ export default function ListsPage() {
 
     if (!isFormActive) {
       return (
-        <button
+        <Button
+          text="Add a new list"
+          type="button"
           onClick={() => setIsFormActive(!isFormActive)}
-          className=" max-w-[276px] p-2 mb-4 w-full border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
-        >
-          Add new list
-        </button>
+          className="max-w-[276px] p-2 mb-4 w-full"
+        />
       );
     }
 
@@ -168,19 +158,13 @@ export default function ListsPage() {
             value={newListName}
             onChange={handleNewListNameChange}
           />
-          <button
-            type="submit"
-            className="p-2 w-full border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
-          >
-            Add list
-          </button>
-          <button
-            type="submit"
+          <Button type="submit" className="p-2 w-full" text="Add list" />
+          <Button
             onClick={() => setIsFormActive(false)}
-            className="p-2 w-full  border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
-          >
-            Cancel
-          </button>
+            type="button"
+            className="p-2 w-full border-none"
+            text="Cancel"
+          />
         </div>
       </form>
     );

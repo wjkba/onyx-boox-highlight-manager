@@ -2,6 +2,7 @@ import { db } from "@/db";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import BookOptions from "./BookOptions";
+import Button from "./Button";
 
 interface BookCardProps {
   bookId: number;
@@ -80,20 +81,12 @@ export default function BookCard({
             ></input>
           </div>
           <div className="flex">
-            <button
-              type="button"
+            <Button
               onClick={handleCancel}
-              className="p-2 w-full border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
-            >
-              Cancel
-            </button>
-
-            <button
-              type="submit"
-              className="p-2 w-full border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
-            >
-              Confirm
-            </button>
+              className="p-2 w-full"
+              text="Cancel"
+            />
+            <Button type="submit" className="p-2 w-full" text="Confirm" />
           </div>
         </form>
       </div>
@@ -108,20 +101,12 @@ export default function BookCard({
         </p>
         <form onSubmit={handleDeleteConfirm}>
           <div className="flex">
-            <button
-              type="button"
+            <Button
               onClick={handleCancel}
-              className="p-2 w-full border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
-            >
-              Cancel
-            </button>
-
-            <button
-              type="submit"
-              className="p-2 w-full border-l-0 border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
-            >
-              Confirm
-            </button>
+              className="p-2 w-full"
+              text="Cancel"
+            />
+            <Button type="submit" className="p-2 w-full" text="Confirm" />
           </div>
         </form>
       </div>

@@ -3,6 +3,7 @@ import { formatBoox } from "../../utils/formatBoox";
 import { type Highlight } from "../../types/types";
 import { Link, useNavigate } from "react-router-dom";
 import { db } from "@/db";
+import Button from "../Button";
 
 export default function UploadBoox() {
   const [file, setFile] = useState<File | null>(null);
@@ -117,13 +118,12 @@ export default function UploadBoox() {
           id="bookTitle"
           className="py-2 px-2 w-full border text-lg border-black dark:border-white dark:bg-neutral-900"
         />
-        <button
-          onClick={handleConfirm}
-          className="p-2 w-full border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
+        <Button
           type="submit"
-        >
-          Confirm
-        </button>
+          onClick={handleConfirm}
+          className="p-2 w-full"
+          text="Confirm"
+        />
       </form>
     );
   }
@@ -143,20 +143,18 @@ export default function UploadBoox() {
         {message && <p className="text-lg font-medium">{message}</p>}
         <p>You can continue importing or view your highlights.</p>
         <div className="flex gap-2">
-          <button
-            className="p-2 w-full border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
+          <Button
+            text="Continue"
             type="button"
             onClick={handleContinue}
-          >
-            Continue
-          </button>
-          <button
-            className="p-2 w-full border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
+            className="p-2 w-full"
+          />
+          <Button
+            text="View highlights"
             type="button"
             onClick={handleViewHighlights}
-          >
-            View highlights
-          </button>
+            className="p-2 w-full"
+          />
         </div>
       </form>
     );
@@ -180,13 +178,12 @@ export default function UploadBoox() {
           <p className="text-red-500 text mb-2">{errorMessage}</p>
         )}
 
-        <button
+        <Button
+          text="Upload"
+          type="button"
           onClick={handleUpload}
-          className="p-2 w-full border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
-          type="submit"
-        >
-          Upload
-        </button>
+          className="p-2 w-full"
+        />
       </form>
       <div></div>
     </div>

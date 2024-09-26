@@ -1,3 +1,4 @@
+import Button from "@/components/Button";
 import { Layout } from "../Layout";
 import { useEffect, useState } from "react";
 
@@ -135,12 +136,12 @@ export default function SettingsPage() {
                 Toggle to mark whether you have completed today's daily review.
               </span>
             </div>
-            <button
+            <Button
+              text={isSaved ? "Saved" : "Save"}
+              type="button"
               onClick={handleSaveReviewSettings}
-              className="p-2 w-full border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
-            >
-              {isSaved ? "Saved" : "Save"}
-            </button>
+              className="p-2 w-full"
+            />
           </div>
         </section>
       </div>

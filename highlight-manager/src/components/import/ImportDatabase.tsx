@@ -2,6 +2,7 @@ import { db } from "@/db";
 import { clearDatabase, importFromJson } from "@/utils/exportDb";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Button from "../Button";
 
 export default function ImportDatabase() {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -57,12 +58,7 @@ export default function ImportDatabase() {
       </div>
 
       {errorMessage && <p className="text-red-500 text mb-2">{errorMessage}</p>}
-      <button
-        className="p-2 w-full border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
-        type="submit"
-      >
-        Upload
-      </button>
+      <Button text="Upload" type="submit" className="p-2 w-full" />
     </form>
   );
 }

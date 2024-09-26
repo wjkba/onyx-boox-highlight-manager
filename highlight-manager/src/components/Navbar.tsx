@@ -2,8 +2,6 @@ import { useCallback, useEffect, useState } from "react";
 import { BiMenu, BiX, BiAdjust } from "react-icons/bi";
 import { Link, useLocation } from "react-router-dom";
 
-//TODO: navbar rerenders
-
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();

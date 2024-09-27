@@ -7,13 +7,19 @@ import UploadBoox from "../components/import/UploadBoox";
 import { useEffect, useState } from "react";
 import { ScrollRestoration } from "react-router-dom";
 import { type Highlight } from "@/types/types";
+import SortOptions from "@/components/highlights/SortOptions";
 
 export default function AllHighlightsPage() {
   // TODO: implement sorting
+  const [sortOption, setSortOption] = useState("dateHighlighted");
+  const allHighlights = useLiveQuery<Highlight[]>(() => {
+    if (sortOption === "dateAdded")
+      return db.highlights.orderBy("dateAdded").reverse().toArray();
+    if (sortOption === "alphabet")
+      return db.highlights.orderBy("quote").toArray();
+    else return db.highlights.orderBy("date").reverse().toArray();
+  }, [sortOption]);
 
-  const allHighlights = useLiveQuery(() =>
-    db.highlights.orderBy("date").reverse().toArray()
-  );
   const [displayedHighlights, setDisplayedHighlights] = useState<
     null | Highlight[]
   >(null);
@@ -53,8 +59,14 @@ export default function AllHighlightsPage() {
       <>
         <Layout>
           <div className="lg:max-w-[892px]">
-            <div className="mb-2">
+            <div className="mb-4">
               <SearchBar setSearchValue={setSearchValue} />
+            </div>
+            <div className="mb-2">
+              <SortOptions
+                sortOption={sortOption}
+                setSortOption={setSortOption}
+              />
             </div>
             <HighlightsList highlights={displayedHighlights} />
             <div className="flex justify-center mb-12">

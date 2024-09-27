@@ -84,10 +84,12 @@ export default function UploadBoox() {
     console.log("🚀 ~ updateDB ~ newBookId:", newBookId);
     console.log("🚀 ~ updateDB ~ foundBook:", foundBook);
     console.log("🚀 ~ updateDB ~ bookID:", bookId);
+    const dateAdded = new Date().toISOString();
     for (let highlight of uploadedHighlights) {
       const highlightWithBookInfo = {
         ...highlight,
         bookId,
+        dateAdded,
       };
       const foundHighlight = await db.highlights.get({
         quote: highlight.quote,

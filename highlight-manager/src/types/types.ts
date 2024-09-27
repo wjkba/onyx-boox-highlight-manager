@@ -17,6 +17,7 @@ export type Highlight = {
   quote: string;
   starred: boolean;
   date: string;
+  dateAdded: string;
   lastReviewed: string | null;
 };
 

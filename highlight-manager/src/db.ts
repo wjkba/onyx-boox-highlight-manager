@@ -8,7 +8,8 @@ const db = new Dexie("HighlightsDatabase") as Dexie & {
 };
 
 db.version(3).stores({
-  highlights: "++id, bookId, quote, starred, date, lastReviewed, lists",
+  highlights:
+    "++id, bookId, quote, starred, date, dateAdded, lastReviewed, lists",
   books: "++id, bookTitle, bookAuthor",
   lists: "++id, name, highlightIds",
 });

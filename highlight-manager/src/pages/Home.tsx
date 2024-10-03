@@ -77,11 +77,13 @@ export default function Home() {
     );
 
   return (
-    <div className="lg:max-w-[450px]">
-      <h1 className="mb-2 text-2xl font-medium">
-        Import your highlights to get started
-      </h1>
-      <UploadBoox />
-    </div>
+    <Layout>
+      <div className="lg:max-w-[450px]">
+        <h1 className="mb-2 text-2xl font-medium">
+          Import your highlights to get started
+        </h1>
+        <UploadBoox />
+      </div>
+    </Layout>
   );
 }

@@ -1,7 +1,10 @@
 import DailyReviewCard from "@/components/review/DailyReviewCard";
 import Navbar from "@/components/Navbar";
 import { db, deleteHighlights } from "@/db";
-import { getDailyReviewQuotes } from "@/utils/dailyReview";
+import {
+  getDailyReviewQuotes,
+  isDailyReviewCompleted,
+} from "@/utils/dailyReview";
 import { useEffect, useState } from "react";
 import DailyReviewButtons from "@/components/review/DailyReviewButtons";
 import { Highlight } from "@/types/types";
@@ -18,18 +21,9 @@ export default function DailyReviewPage() {
   const [toDeleteIds, setToDeleteIds] = useState<number[]>([]);
 
   useEffect(() => {
-    const lastReview = localStorage.getItem("lastDailyReview");
-    if (lastReview) {
-      const lastReviewDate = new Date(Date.parse(lastReview));
-      const now = new Date();
-      if (
-        lastReviewDate.getFullYear() === now.getFullYear() &&
-        lastReviewDate.getMonth() === now.getMonth() &&
-        lastReviewDate.getDate() === now.getDate()
-      ) {
-        setReviewIsCompleted(true);
-      }
-    }
+    const isCompleted = isDailyReviewCompleted();
+    setReviewIsCompleted(isCompleted);
+
     async function fetchDaily() {
       try {
         const daily = await getDailyReviewQuotes();

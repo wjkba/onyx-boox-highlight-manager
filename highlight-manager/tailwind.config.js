@@ -21,6 +21,9 @@ module.exports = {
         roboto: ["Roboto", "sans-serif"],
         robotoSlab: ["Roboto Slab", "serif"],
       },
+      screens: {
+        xs: "360px",
+      },
     },
   },
   plugins: [require("tailwindcss-animate")],

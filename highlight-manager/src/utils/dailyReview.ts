@@ -49,3 +49,13 @@ function getCardsPerReview() {
     return defaultCardsPerReview;
   }
 }
+
+export function isDailyReviewCompleted() {
+  const lastReview = localStorage.getItem("lastDailyReview");
+  if (lastReview) {
+    const lastReviewDate = new Date(Date.parse(lastReview));
+    const today = new Date();
+    if (lastReviewDate.toDateString() === today.toDateString()) return true;
+  }
+  return false;
+}

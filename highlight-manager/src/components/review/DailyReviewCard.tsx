@@ -22,7 +22,7 @@ export default function DailyReviewCard({
       }
     }
     fetchBookDetails();
-  }, []);
+  }, [bookId]);
 
   return (
     <div className="max-w-[600px] border dark:border-white border-black">

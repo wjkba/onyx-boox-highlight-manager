@@ -1,6 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
 import "./index.css";
 import Home from "./pages/Home.tsx";
 import AllHighlightsPage from "./pages/AllHighlightsPage.tsx";
@@ -19,6 +23,10 @@ import ListPage from "./pages/ListPage.tsx";
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <Navigate to="/home" />,
+  },
+  {
+    path: "/home",
     element: <Home />,
   },
   {

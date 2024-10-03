@@ -30,9 +30,9 @@ export default function SidebarMenu() {
 
   const buttons: ButtonArray = [
     {
-      text: "All Highlights",
+      text: "Home",
       icon: <BiSolidQuoteRight size={32} />,
-      page: "/all",
+      page: "/home",
     },
     {
       text: "Books",

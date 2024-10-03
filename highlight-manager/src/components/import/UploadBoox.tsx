@@ -164,7 +164,7 @@ export default function UploadBoox() {
 
   return (
     <div>
-      <form className="grid gap-2  p-2 mb-8">
+      <form className="grid gap-2">
         <h1 className="text-xl">Import boox annotations file</h1>
         <Link
           to="/help"

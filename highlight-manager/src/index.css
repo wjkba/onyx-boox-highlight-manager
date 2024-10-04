@@ -8,13 +8,6 @@ body {
   transition: background-color 0.3s ease;
 }
 
-@media (hover: none) {
-  button:hover {
-    background-color: unset !important; 
-    color: unset !important;
-  }
-}
-
 .star-icon{
   display: none;
 }

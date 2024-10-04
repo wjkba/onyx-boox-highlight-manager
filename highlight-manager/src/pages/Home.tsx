@@ -45,7 +45,7 @@ export default function Home() {
           <section className="mb-8">
             {highlights && highlights.length > 0 && (
               <div>
-                <h1 className="text-xl mb-2">Newest Highlights</h1>
+                <h1 className="text-xl font-medium mb-2">Newest Highlights</h1>
                 <div className="grid xs:grid-cols-3 gap-2">
                   {highlights.map((highlight) => (
                     <div
@@ -64,7 +64,7 @@ export default function Home() {
           </section>
 
           <section>
-            <h1 className="text-xl mb-2">All Highlights</h1>
+            <h1 className="text-xl font-medium mb-2">All Highlights</h1>
             <Button
               className="w-full lg:max-w-[276px] p-2"
               text="View All Highlights"

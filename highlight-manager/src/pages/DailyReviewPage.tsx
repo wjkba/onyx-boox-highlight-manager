@@ -21,6 +21,10 @@ export default function DailyReviewPage() {
   const [toDeleteIds, setToDeleteIds] = useState<number[]>([]);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [reviewIsCompleted]);
+
+  useEffect(() => {
     const isCompleted = isDailyReviewCompleted();
     setReviewIsCompleted(isCompleted);
 

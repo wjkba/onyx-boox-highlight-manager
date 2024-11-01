@@ -14,7 +14,15 @@ export default function Button({
   return (
     <button
       type={type}
-      className={`${className} border border-black active:bg-neutral-800 dark:active:bg-white hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black`}
+      className={`${className} border border-black 
+                active:bg-neutral-800 active:text-white 
+                dark:active:bg-white dark:active:text-black
+                can-hover:hover:bg-neutral-800 
+                can-hover:hover:text-white 
+                dark:border-white 
+                can-hover:dark:hover:bg-white 
+                can-hover:dark:hover:text-black 
+                text-black dark:text-white`}
       {...rest}
     >
       {text}

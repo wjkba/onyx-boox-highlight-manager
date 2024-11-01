@@ -23,6 +23,7 @@ module.exports = {
       },
       screens: {
         xs: "360px",
+        "can-hover": { raw: "(hover: hover) and (pointer: fine)" },
       },
     },
   },

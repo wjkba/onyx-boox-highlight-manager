@@ -26,7 +26,7 @@ export default function SortOptions({
         <button
           type="button"
           onClick={handleSortVisibility}
-          className="p-2 flex gap-1 text-neutral-600 dark:text-neutral-300 active:bg-neutral-800 dark:active:bg-white hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
+          className="p-2 flex gap-1 text-neutral-600 dark:text-neutral-300 "
         >
           <BiSortAlt2 size={24} />
           <label className="cursor-pointer">Sort by</label>

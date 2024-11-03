@@ -4,12 +4,17 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="theme-color" content='#262626' id="meta-theme-color">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Highlight Manager</title>
   </head>
   <body class="dark:bg-neutral-800">
     <div class="dark:bg-neutral-800 bg-white dark:text-white" id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      const metaThemeColor = document.getElementById("meta-theme-color")
+      const darkMode = localStorage.getItem("theme") === "dark"
+      metaThemeColor.setAttribute("content",`${darkMode ? "#262626" : "#ffffff"}`)
+    </script>
   </body>
 </html>

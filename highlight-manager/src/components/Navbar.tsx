@@ -23,9 +23,12 @@ export default function Navbar() {
   }, [applyTheme]);
 
   function toggleDarkMode() {
+    const metaThemeColor = document.getElementById("meta-theme-color");
     if (localStorage.theme === "dark") {
+      metaThemeColor?.setAttribute("content", "#ffffff");
       localStorage.theme = "light";
     } else {
+      metaThemeColor?.setAttribute("content", "#262626");
       localStorage.theme = "dark";
     }
     applyTheme();
@@ -50,9 +53,9 @@ export default function Navbar() {
     return (
       <div className="grid place-items-center bg-neutral-100 dark:bg-neutral-800 fixed top-0 bottom-0 right-0 left-0 w-full h-screen">
         <div className="w-full max-w-[568px] lg:max-w-[1168px] text-xl h-screen flex flex-col">
-          <div className="pl-4 text-right flex justify-end h-[56px]">
+          <div className="p-4 text-right flex justify-end h-[56px]">
             <button onClick={handleOpen}>
-              <BiX size={32} />
+              <BiX size={30} />
             </button>
           </div>
           <div className="w-full flex flex-col gap-2">

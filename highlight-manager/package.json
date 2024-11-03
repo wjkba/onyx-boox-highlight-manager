@@ -25,6 +25,7 @@
     "slugify": "^1.6.6",
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
+    "vite-plugin-pwa": "^0.20.5",
     "zustand": "^4.5.4"
   },
   "devDependencies": {

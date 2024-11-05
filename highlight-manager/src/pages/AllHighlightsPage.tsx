@@ -12,13 +12,22 @@ import SortOptions from "@/components/highlights/SortOptions";
 export default function AllHighlightsPage() {
   // TODO: implement sorting
   const [sortOption, setSortOption] = useState("dateHighlighted");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+
   const allHighlights = useLiveQuery<Highlight[]>(() => {
     if (sortOption === "dateAdded")
-      return db.highlights.orderBy("dateAdded").reverse().toArray();
+      return sortOrder === "desc"
+        ? db.highlights.orderBy("dateAdded").reverse().toArray()
+        : db.highlights.orderBy("dateAdded").toArray();
     if (sortOption === "alphabet")
-      return db.highlights.orderBy("quote").toArray();
-    else return db.highlights.orderBy("date").reverse().toArray();
-  }, [sortOption]);
+      return sortOrder === "desc"
+        ? db.highlights.orderBy("quote").reverse().toArray()
+        : db.highlights.orderBy("quote").toArray();
+    else
+      return sortOrder === "desc"
+        ? db.highlights.orderBy("date").reverse().toArray()
+        : db.highlights.orderBy("date").toArray();
+  }, [sortOption, sortOrder]);
 
   const [displayedHighlights, setDisplayedHighlights] = useState<
     null | Highlight[]
@@ -66,6 +75,8 @@ export default function AllHighlightsPage() {
               <SortOptions
                 sortOption={sortOption}
                 setSortOption={setSortOption}
+                sortOrder={sortOrder}
+                setSortOrder={setSortOrder}
               />
             </div>
             <HighlightsList highlights={displayedHighlights} />

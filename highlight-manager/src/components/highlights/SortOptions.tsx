@@ -1,14 +1,20 @@
 import { useState } from "react";
 import { BiSortAlt2 } from "react-icons/bi";
+import { BiSortUp } from "react-icons/bi";
+import { BiSortDown } from "react-icons/bi";
 
 interface SortOptionsProps {
   sortOption: string;
   setSortOption: (option: string) => void;
+  sortOrder: "desc" | "asc";
+  setSortOrder: (option: "desc" | "asc") => void;
 }
 
 export default function SortOptions({
   sortOption,
   setSortOption,
+  sortOrder,
+  setSortOrder,
 }: SortOptionsProps) {
   const [isSortHidden, setIsSortHidden] = useState(true);
 
@@ -20,9 +26,25 @@ export default function SortOptions({
     setSortOption(option);
   }
 
+  function handleSortOrderChange() {
+    if (sortOrder === "desc") setSortOrder("asc");
+    if (sortOrder === "asc") setSortOrder("desc");
+  }
+
   return (
     <div>
       <div className="flex justify-end mb-2">
+        <button
+          type="button"
+          onClick={handleSortOrderChange}
+          className="text-neutral-600 dark:text-neutral-300 "
+        >
+          {sortOrder === "desc" ? (
+            <BiSortDown size={24} />
+          ) : (
+            <BiSortUp size={24} />
+          )}
+        </button>
         <button
           type="button"
           onClick={handleSortVisibility}

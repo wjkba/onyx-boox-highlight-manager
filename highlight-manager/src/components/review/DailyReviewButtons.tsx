@@ -55,12 +55,16 @@ export default function DailyReviewButtons({
             className="lg:px-4 p-2"
           />
         </div>
-        <p className=" text-center p-2 text-xl">
+        <p className="text-center p-2 text-xl">
           {currentIndex + 1}/{numberOfCards}
         </p>
         <div className="order-last sm:order-none grid w-full grid-cols-2 gap-2">
           <Button text={"back"} onClick={onBack} className="lg:px-4 p-2" />
-          <Button text={"next"} onClick={onNext} className="lg:px-4 p-2" />
+          <Button
+            text={currentIndex + 1 === numberOfCards ? "finish" : "next"}
+            onClick={onNext}
+            className="lg:px-4 p-2"
+          />
         </div>
       </div>
     );

@@ -10,7 +10,6 @@ import { type Highlight } from "@/types/types";
 import SortOptions from "@/components/highlights/SortOptions";
 
 export default function AllHighlightsPage() {
-  // TODO: implement sorting
   const [sortOption, setSortOption] = useState("dateHighlighted");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
 

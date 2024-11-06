@@ -6,7 +6,7 @@ export default function ImportPage() {
   return (
     <Layout>
       <div className="lg:max-w-[450px]">
-        <div className="mb-4">
+        <div className="mb-8">
           <UploadBoox />
         </div>
         <ImportDatabase />

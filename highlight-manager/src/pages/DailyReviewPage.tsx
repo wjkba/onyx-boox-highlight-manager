@@ -8,6 +8,8 @@ import {
 import { useEffect, useState } from "react";
 import DailyReviewButtons from "@/components/review/DailyReviewButtons";
 import { Highlight } from "@/types/types";
+import Button from "@/components/Button";
+import { useNavigate } from "react-router-dom";
 
 export default function DailyReviewPage() {
   const [dailyHighlights, setDailyHighlights] = useState<Highlight[] | null>(
@@ -19,6 +21,7 @@ export default function DailyReviewPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [reviewIsCompleted, setReviewIsCompleted] = useState<boolean>(false);
   const [toDeleteIds, setToDeleteIds] = useState<number[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -150,13 +153,17 @@ export default function DailyReviewPage() {
             <div className="lg:w-full">
               <h1 className="text-xl mb-2">Daily review</h1>
               <div className="max-w-[600px]">
-                <p className="mb-4">You've completed your review for today.</p>
-                {/* {starredIds.length > 0 && (
-                  <p>Starred {starredIds.length} highlights</p>
-                )} */}
-                {toDeleteIds.length > 0 && (
-                  <p>Deleted {toDeleteIds.length} highlights</p>
-                )}
+                <div className="grid gap-2 mb-4">
+                  <p>You've completed your review for today.</p>
+                  {toDeleteIds.length > 0 && (
+                    <p>Deleted {toDeleteIds.length} highlights</p>
+                  )}
+                </div>
+                <Button
+                  text="Return to home"
+                  onClick={() => navigate("/")}
+                  className="w-full lg:max-w-[300px] p-2"
+                />
               </div>
             </div>
           </main>
@@ -172,7 +179,7 @@ export default function DailyReviewPage() {
           <Navbar />
           <main className="min-h-screen lg:flex lg:gap-[32px] lg:pt-8">
             <div className="lg:w-full">
-              <h1 className="text-xl mb-4">Daily review</h1>
+              {/* <h1 className="text-xl mb-4">Daily review</h1> */}
               <div className="max-w-[600px]">
                 <DailyReviewButtons
                   activeHighlight={activeHighlight}

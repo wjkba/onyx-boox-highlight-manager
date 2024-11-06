@@ -36,7 +36,7 @@ export default function Navbar() {
 
   const LINKS = [
     {
-      text: "Highlights",
+      text: "All Highlights",
       linkTo: "/all",
     },
     {

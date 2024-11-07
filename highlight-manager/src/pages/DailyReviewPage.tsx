@@ -180,7 +180,7 @@ export default function DailyReviewPage() {
           <main className="min-h-screen lg:flex lg:gap-[32px] lg:pt-8">
             <div className="lg:w-full">
               {/* <h1 className="text-xl mb-4">Daily review</h1> */}
-              <div className="max-w-[600px]">
+              <div className="max-w-[600px] pb-16">
                 <DailyReviewButtons
                   activeHighlight={activeHighlight}
                   currentIndex={currentIndex}

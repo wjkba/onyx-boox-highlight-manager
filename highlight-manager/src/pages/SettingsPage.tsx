@@ -89,7 +89,6 @@ export default function SettingsPage() {
       <h1 className="text-xl mb-4">Settings</h1>
       <div className="mb-6">
         <section id="reviewSettings" className="mb-8">
-          <h2 className="text-lg mb-2">Review settings</h2>
           <div className="lg:max-w-[420px]">
             <h3 className="mb-1 fo">Review delay</h3>
             <div className="lg:flex gap-4 items-center mb-4">

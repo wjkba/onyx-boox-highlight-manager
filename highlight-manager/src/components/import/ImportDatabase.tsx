@@ -47,7 +47,7 @@ export default function ImportDatabase() {
   }
 
   return (
-    <form onSubmit={handleUpload} className="grid gap-2  p-2 mb-2">
+    <form onSubmit={handleUpload} className="grid gap-2 mb-2">
       <h1 className="text-xl">Import highlights database</h1>
       <p className="mb-2">
         Import your highlights easily from a saved file. Click the button below

@@ -3,44 +3,61 @@ import { Layout } from "../Layout";
 import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "../db";
 import HighlightsList from "../components/highlights/HighlightsList";
-import { useEffect, useState } from "react";
+import { useMemo, useState } from "react";
 import SearchBar from "@/components/SearchBar";
-import { Highlight } from "@/types/types";
+import SortOptions from "@/components/highlights/SortOptions";
 
 export default function BookPage() {
   const { bookId } = useParams();
   const book = useLiveQuery(() => db.books.get(Number(bookId)));
+  const [sortOption, setSortOption] = useState("dateHighlighted");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+  const [searchValue, setSearchValue] = useState("");
+  const [limit, setLimit] = useState(20);
+
   const highlights = useLiveQuery(() =>
     db.highlights.where("bookId").equals(Number(bookId)).toArray()
   );
 
-  const [displayedHighlights, setDisplayedHighlights] = useState<
-    null | Highlight[]
-  >(null);
+  const sortedHighlights = useMemo(() => {
+    if (!highlights) return [];
 
-  const [searchValue, setSearchValue] = useState("");
-  const [limit, setLimit] = useState(20);
+    const sorted = [...highlights];
 
-  useEffect(() => {
-    if (highlights) {
-      const highlightsToDisplay = highlights.slice(0, limit);
-      setDisplayedHighlights(highlightsToDisplay);
+    if (sortOption === "dateAdded") {
+      sorted.sort((a, b) =>
+        sortOrder === "desc"
+          ? new Date(b.dateAdded).getTime() - new Date(a.dateAdded).getTime()
+          : new Date(a.dateAdded).getTime() - new Date(b.dateAdded).getTime()
+      );
     }
-  }, [highlights]);
-
-  useEffect(() => {
-    // SEARCH, LIMIT
-    if (highlights) {
-      let filteredHighlights = highlights;
-      if (searchValue.trim() !== "") {
-        filteredHighlights = highlights.filter((highlight) =>
-          highlight.quote.toLowerCase().includes(searchValue.toLowerCase())
-        );
-      }
-      const limitedHighlights = filteredHighlights.slice(0, limit);
-      setDisplayedHighlights(limitedHighlights);
+    if (sortOption === "alphabet") {
+      sorted.sort((a, b) =>
+        sortOrder === "desc"
+          ? b.quote.localeCompare(a.quote)
+          : a.quote.localeCompare(b.quote)
+      );
+    } else {
+      sorted.sort((a, b) =>
+        sortOrder === "desc"
+          ? new Date(b.date).getTime() - new Date(a.date).getTime()
+          : new Date(a.date).getTime() - new Date(b.date).getTime()
+      );
     }
-  }, [highlights, searchValue, limit]);
+
+    return sorted;
+  }, [highlights, sortOption, sortOrder]);
+
+  const displayedHighlights = useMemo(() => {
+    return sortedHighlights.slice(0, limit);
+  }, [sortedHighlights, limit]);
+
+  const filteredHighlights = useMemo(() => {
+    if (!searchValue.trim()) return displayedHighlights;
+    return displayedHighlights.filter((highlight) =>
+      highlight.quote.toLowerCase().includes(searchValue.toLowerCase())
+    );
+  }, [displayedHighlights, searchValue]);
 
   function handleLoadMore() {
     setLimit((prevLimit) => prevLimit + 20);
@@ -53,7 +70,15 @@ export default function BookPage() {
         <div className="mb-4">
           <SearchBar setSearchValue={setSearchValue} />
         </div>
-        <HighlightsList highlights={displayedHighlights} />
+        <div className="mb-2">
+          <SortOptions
+            sortOption={sortOption}
+            setSortOption={setSortOption}
+            sortOrder={sortOrder}
+            setSortOrder={setSortOrder}
+          />
+        </div>
+        <HighlightsList highlights={filteredHighlights} />
         <div className="flex justify-center mb-12">
           <button
             onClick={handleLoadMore}

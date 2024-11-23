@@ -35,7 +35,7 @@ export default function BooksPage() {
   }
   return (
     <Layout>
-      <div className="grid gap-2 lg:flex lg:gap-[16px] lg:flex-wrap">
+      <div className="grid gap-2 mb-16 lg:flex lg:gap-[16px] lg:flex-wrap">
         {showBooks()}
       </div>
     </Layout>

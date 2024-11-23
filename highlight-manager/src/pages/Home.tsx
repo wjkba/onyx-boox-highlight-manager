@@ -36,13 +36,11 @@ export default function Home() {
     } else return;
   }
 
-  //TODO: add starred highlights to home
-
   if (highlights && highlights.length > 0)
     return (
       <>
         <Layout>
-          <section className="mb-8">
+          <section id="newest-highlights" className="mb-8">
             {highlights && highlights.length > 0 && (
               <div>
                 <h1 className="text-xl font-medium mb-2">Newest Highlights</h1>
@@ -50,7 +48,7 @@ export default function Home() {
                   {highlights.map((highlight) => (
                     <div
                       key={highlight.id}
-                      className="max-h-[10rem] lg:max-h-[12rem] text-sm lg:text-base w-full overflow-hidden dark:border-stone-500 border-stone-400 border-solid border p-2 hover-trigger"
+                      className="max-h-[10rem] lg:max-h-[12rem] text-xs lg:text-base w-full overflow-hidden dark:border-stone-500 border-stone-400 border-solid border p-2 hover-trigger"
                     >
                       {highlight.quote}
                     </div>
@@ -59,11 +57,10 @@ export default function Home() {
               </div>
             )}
           </section>
-          <section className="mb-8">
+          <section id="daily-review" className="mb-8">
             <DailyReview />
           </section>
-
-          <section>
+          <section id="all-highlights">
             <h1 className="text-xl font-medium mb-2">All Highlights</h1>
             <Button
               className="w-full lg:max-w-[276px] p-2"

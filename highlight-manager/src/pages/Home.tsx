@@ -1,4 +1,5 @@
 import Button from "@/components/Button";
+import ImportDatabase from "@/components/import/ImportDatabase";
 import UploadBoox from "@/components/import/UploadBoox";
 import { db } from "@/db";
 import { Layout } from "@/Layout";
@@ -11,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 export default function Home() {
   const navigate = useNavigate();
   const highlights = useLiveQuery(() =>
-    db.highlights.orderBy("dateAdded").limit(3).toArray()
+    db.highlights.orderBy("dateAdded").reverse().limit(3).toArray()
   );
   const [isReviewCompleted, setIsReviewCompleted] = useState(true);
 
@@ -48,6 +49,7 @@ export default function Home() {
                   {highlights.map((highlight) => (
                     <div
                       key={highlight.id}
+                      onClick={() => navigate(`/highlight/${highlight.id}`)}
                       className="max-h-[10rem] lg:max-h-[12rem] text-xs lg:text-base w-full overflow-hidden dark:border-stone-500 border-stone-400 border-solid border p-2 hover-trigger"
                     >
                       {highlight.quote}
@@ -76,10 +78,13 @@ export default function Home() {
   return (
     <Layout>
       <div className="lg:max-w-[450px]">
-        <h1 className="mb-2 text-2xl font-medium">
+        <h1 className="mb-6 text-2xl font-medium">
           Import your highlights to get started
         </h1>
-        <UploadBoox />
+        <div className="mb-8">
+          <UploadBoox />
+        </div>
+        <ImportDatabase />
       </div>
     </Layout>
   );

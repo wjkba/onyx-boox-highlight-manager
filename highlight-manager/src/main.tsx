@@ -19,6 +19,7 @@ import AboutPage from "./pages/AboutPage.tsx";
 import HelpPage from "./pages/HelpPage.tsx";
 import ListsPage from "./pages/ListsPage.tsx";
 import ListPage from "./pages/ListPage.tsx";
+import HighlightPage from "./pages/HighlightPage.tsx";
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
   {
     path: "/books/:bookId",
     element: <BookPage />,
+  },
+  {
+    path: "/highlight/:highlightId",
+    element: <HighlightPage />,
   },
   {
     path: "/lists",

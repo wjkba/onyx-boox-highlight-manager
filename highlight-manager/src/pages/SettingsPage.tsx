@@ -86,12 +86,11 @@ export default function SettingsPage() {
 
   return (
     <Layout>
-      <h1 className="text-xl mb-4">Settings</h1>
       <div className="mb-6">
         <section id="reviewSettings" className="mb-8">
-          <div className="lg:max-w-[420px]">
-            <h3 className="mb-1 fo">Review delay</h3>
-            <div className="lg:flex gap-4 items-center mb-4">
+          <div className="lg:max-w-[450px]">
+            <h1 className="text-lg mb-2">Review delay</h1>
+            <div className="lg:flex gap-4 items-start mb-4">
               <input
                 className="py-2 px-2 w-full lg:max-w-[4rem] border text-lg border-black dark:border-white dark:bg-neutral-900"
                 type="number"
@@ -105,8 +104,8 @@ export default function SettingsPage() {
                 daily review (default: 7)
               </span>
             </div>
-            <h3 className="mb-1">Cards per review</h3>
-            <div className="lg:flex gap-4 items-center mb-4">
+            <h1 className="text-lg mb-2">Review delay</h1>
+            <div className="lg:flex gap-4 items-start mb-4">
               <input
                 className="py-2 px-2 w-full lg:max-w-[4rem] border text-lg border-black dark:border-white dark:bg-neutral-900"
                 type="number"
@@ -120,8 +119,8 @@ export default function SettingsPage() {
                 review session (default: 5)
               </span>
             </div>
-            <h3 className="mb-1">Review status</h3>
-            <div className="lg:flex gap-4 items-center mb-6">
+            <h1 className="text-lg mb-2">Review status</h1>
+            <div className="lg:flex gap-4 items-start mb-6">
               <div className="py-2 px-2 w-full lg:max-w-[4rem] border text-lg border-black dark:border-white dark:bg-neutral-900">
                 <input
                   className="min-w-[2rem] w-full border text-lg border-black dark:bg-white dark:text-black"

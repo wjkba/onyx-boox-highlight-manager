@@ -4,7 +4,12 @@ export async function getDailyReviewQuotes() {
   const reviewDelay: number = getReviewDelay();
   const cardsPerReview: number = getCardsPerReview();
   const highlights = await db.highlights.toArray();
+  const localExcludedBooks = localStorage.getItem("excludedBooks");
+  const excludedBooks = localExcludedBooks
+    ? JSON.parse(localExcludedBooks)
+    : [];
   const dailyReviewable = highlights.filter((highlight) => {
+    if (excludedBooks.includes(highlight.bookId)) return false;
     if (highlight.lastReviewed === null) {
       return true;
     } else {

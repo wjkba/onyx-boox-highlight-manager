@@ -10,6 +10,7 @@ import DailyReviewButtons from "@/components/review/DailyReviewButtons";
 import { Highlight } from "@/types/types";
 import Button from "@/components/Button";
 import { useNavigate } from "react-router-dom";
+import { useWakeLock } from "react-screen-wake-lock";
 
 export default function DailyReviewPage() {
   const [dailyHighlights, setDailyHighlights] = useState<Highlight[] | null>(
@@ -21,11 +22,33 @@ export default function DailyReviewPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [reviewIsCompleted, setReviewIsCompleted] = useState<boolean>(false);
   const [toDeleteIds, setToDeleteIds] = useState<number[]>([]);
+  const { request, release } = useWakeLock();
   const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [reviewIsCompleted]);
+
+  useEffect(() => {
+    let wakeLockActive = false;
+
+    async function activateWakeLock() {
+      try {
+        await request();
+        wakeLockActive = true;
+        console.log(wakeLockActive);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    activateWakeLock();
+
+    return () => {
+      if (wakeLockActive) {
+        release();
+      }
+    };
+  }, [request, release]);
 
   useEffect(() => {
     const isCompleted = isDailyReviewCompleted();

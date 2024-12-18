@@ -1,4 +1,3 @@
-import DailyReviewCard from "@/components/review/DailyReviewCard";
 import Navbar from "@/components/Navbar";
 import { db, deleteHighlights } from "@/db";
 import {
@@ -11,6 +10,7 @@ import { Highlight } from "@/types/types";
 import Button from "@/components/Button";
 import { useNavigate } from "react-router-dom";
 import { useWakeLock } from "react-screen-wake-lock";
+import HighlightCard from "@/components/highlights/HighlightCard";
 
 export default function DailyReviewPage() {
   const [dailyHighlights, setDailyHighlights] = useState<Highlight[] | null>(
@@ -214,9 +214,12 @@ export default function DailyReviewPage() {
                   onStar={handleAddToStarred}
                   numberOfCards={dailyHighlights?.length}
                 />
-                <DailyReviewCard
+                <HighlightCard
                   bookId={activeHighlight.bookId}
+                  id={activeHighlight.id}
+                  starred={activeHighlight.starred}
                   text={activeHighlight.quote}
+                  options={["hideDelete", "hideStar"]}
                 />
               </div>
             </div>

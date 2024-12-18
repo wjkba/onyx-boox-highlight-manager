@@ -12,18 +12,24 @@ import {
   BiBookOpen,
   BiListPlus,
   BiListMinus,
+  BiSolidStar,
+  BiStar,
 } from "react-icons/bi";
 import { useNavigate, useParams } from "react-router-dom";
 
 interface HighlightCardProps {
   highlightId: number;
   bookId: number;
-  options?: string[];
+  starred: boolean;
+  options?: CardOptions[];
 }
+
+export type CardOptions = "showRemove" | "hideDelete" | "hideStar";
 
 export default function HighlightCardOptions({
   highlightId,
   bookId,
+  starred,
   options = [],
 }: HighlightCardProps) {
   const navigate = useNavigate();
@@ -33,12 +39,22 @@ export default function HighlightCardOptions({
     useHighlightCardEditStore();
   const isActive = activeHighlightId === highlightId;
   const isEditing = editingHighlightId === highlightId;
+  const [isStarred, setIsStarred] = useState(starred);
   const [isShowingLists, setIsShowingLists] = useState(false);
   const [lists, setLists] = useState<List[] | null>(null);
+
   const showRemoveOption = options.includes("showRemove");
+  const hideDeleteOption = options.includes("hideDelete");
+  const hideStarOption = options.includes("hideStar");
+
   const { listId } = useParams();
 
   let cardOptions = [
+    {
+      icon: isStarred ? <BiSolidStar /> : <BiStar />,
+      text: isStarred ? "Unstar" : "Star",
+      action: () => handleStar(highlightId),
+    },
     {
       icon: <BiBookOpen />,
       text: "Go to book",
@@ -68,6 +84,27 @@ export default function HighlightCardOptions({
     cardOptions = cardOptions.filter(
       (option) => !(option.text === "Edit" || option.text === "Delete")
     );
+  }
+
+  if (hideDeleteOption) {
+    cardOptions = cardOptions.filter((option) => !(option.text === "Delete"));
+  }
+
+  if (hideStarOption) {
+    cardOptions = cardOptions.filter(
+      (option) => !(option.text === "Star" || option.text === "Unstar")
+    );
+  }
+
+  async function handleStar(highlightId: number) {
+    setIsStarred(!isStarred);
+    const highlight = await db.highlights.get(highlightId);
+    if (highlight) {
+      await db.highlights
+        .where("id")
+        .equals(highlightId)
+        .modify({ starred: !starred });
+    }
   }
 
   function handleOpen() {

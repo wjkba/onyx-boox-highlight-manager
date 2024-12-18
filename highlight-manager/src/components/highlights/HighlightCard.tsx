@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
-import { BiStar } from "react-icons/bi";
-import { BiSolidStar } from "react-icons/bi";
 import { db } from "../../db";
-import HighlightCardOptions from "./HighlightCardOptions";
+import HighlightCardOptions, { type CardOptions } from "./HighlightCardOptions";
 import { useHighlightCardEditStore } from "@/store";
 import { useLiveQuery } from "dexie-react-hooks";
 
@@ -11,7 +9,7 @@ interface HighlightCardProps {
   text: string;
   bookId: number;
   starred: boolean;
-  options?: string[];
+  options?: CardOptions[];
 }
 export default function HighlightCard({
   id,
@@ -20,7 +18,6 @@ export default function HighlightCard({
   starred,
   options,
 }: HighlightCardProps) {
-  const [isStarred, setIsStarred] = useState(starred);
   const { editingHighlightId, setEditingHighlightId } =
     useHighlightCardEditStore();
   const [editValue, setEditValue] = useState<string>(text);
@@ -32,14 +29,6 @@ export default function HighlightCard({
       setEditValue(text);
     }
   }, [editingHighlightId, text, isEditing]);
-
-  async function handleStar() {
-    setIsStarred(!isStarred);
-    const highlight = await db.highlights.get(id);
-    if (highlight) {
-      await db.highlights.where("id").equals(id).modify({ starred: !starred });
-    }
-  }
 
   function handleEditCancel() {
     setEditingHighlightId(null);
@@ -69,17 +58,11 @@ export default function HighlightCard({
             {book?.bookTitle} - {book?.bookAuthor}
           </p>
           <div className="flex items-center gap-1">
-            <button
-              type="button"
-              onClick={handleStar}
-              className="star-icon cursor-pointer"
-            >
-              {isStarred ? <BiSolidStar size={20} /> : <BiStar size={20} />}
-            </button>
             <HighlightCardOptions
               highlightId={id}
               bookId={bookId}
               options={options}
+              starred={starred}
             />
           </div>
         </div>

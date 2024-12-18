@@ -111,7 +111,7 @@ export default function SettingsPage() {
           </section>
 
           <section className="mb-4">
-            <h1 className="text-lg mb-2">Review delay</h1>
+            <h1 className="text-lg mb-2">Cards per review</h1>
             <div className="lg:flex gap-4 items-start">
               <input
                 className="py-2 px-2 w-full lg:max-w-[4rem] border text-lg border-black dark:border-white dark:bg-neutral-900"

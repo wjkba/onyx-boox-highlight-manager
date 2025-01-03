@@ -1,3 +1,4 @@
+import AddHighlight from "@/components/AddHighlight";
 import Button from "@/components/Button";
 import ImportDatabase from "@/components/import/ImportDatabase";
 import UploadBoox from "@/components/import/UploadBoox";
@@ -59,16 +60,23 @@ export default function Home() {
               </div>
             )}
           </section>
+
           <section id="daily-review" className="mb-8">
             <DailyReview />
           </section>
-          <section id="all-highlights">
+
+          <section className="mb-8" id="all-highlights">
             <h1 className="text-xl font-medium mb-2">All Highlights</h1>
             <Button
               className="w-full lg:max-w-[276px] p-2"
               text="View All Highlights"
               onClick={() => navigate("/all")}
             />
+          </section>
+
+          <section id="add-highlight">
+            <h1 className="text-xl mb-2 font-medium">Add New Highlight</h1>
+            <AddHighlight />
           </section>
         </Layout>
         <ScrollRestoration />

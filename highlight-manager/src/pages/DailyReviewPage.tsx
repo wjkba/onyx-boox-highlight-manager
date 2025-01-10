@@ -29,6 +29,7 @@ export default function DailyReviewPage() {
     window.scrollTo(0, 0);
   }, [reviewIsCompleted]);
 
+  // SCREEN CAFFEINE
   useEffect(() => {
     let wakeLockActive = false;
 
@@ -93,7 +94,6 @@ export default function DailyReviewPage() {
         setActiveHighlight(dailyHighlights[nextIndex]);
         setCurrentIndex(nextIndex);
       }
-      console.log(dailyHighlights[nextIndex]);
     }
   }
   async function handleAddToStarred() {
@@ -215,6 +215,7 @@ export default function DailyReviewPage() {
                   numberOfCards={dailyHighlights?.length}
                 />
                 <HighlightCard
+                  key={`${activeHighlight.id}-${currentIndex}`}
                   bookId={activeHighlight.bookId}
                   id={activeHighlight.id}
                   starred={activeHighlight.starred}

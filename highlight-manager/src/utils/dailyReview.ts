@@ -56,11 +56,9 @@ function getCardsPerReview() {
 }
 
 export function isDailyReviewCompleted() {
-  const lastReview = localStorage.getItem("lastDailyReview");
-  if (lastReview) {
-    const lastReviewDate = new Date(Date.parse(lastReview));
-    const today = new Date();
-    if (lastReviewDate.toDateString() === today.toDateString()) return true;
-  }
+  const isReviewCompleted = localStorage.getItem("isReviewCompleted");
+  if (isReviewCompleted == "true") return true;
+  if (isReviewCompleted == "false") return false;
+  else localStorage.setItem("isReviewCompleted", "false");
   return false;
 }

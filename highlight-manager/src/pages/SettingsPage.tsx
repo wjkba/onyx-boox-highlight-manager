@@ -70,12 +70,9 @@ export default function SettingsPage() {
 
   async function handleSaveReviewSettings() {
     try {
-      if (!isReviewCompleted) {
-        localStorage.removeItem("lastDailyReview");
-      } else {
-        const now = new Date();
-        localStorage.setItem("lastDailyReview", now.toISOString());
-      }
+      if (!isReviewCompleted)
+        localStorage.setItem("isReviewCompleted", "false");
+      else localStorage.setItem("isReviewCompleted", "true");
       localStorage.setItem("reviewDelay", String(newReviewDelay));
       localStorage.setItem("cardsPerReview", String(newCardsPerReview));
       setIsSaved(true);

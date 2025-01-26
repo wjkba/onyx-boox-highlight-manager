@@ -74,8 +74,34 @@ export default function DailyReviewPage() {
     if (dailyHighlights) {
       const nextIndex = currentIndex + 1;
       if (nextIndex > dailyHighlights.length - 1) {
+        const streakCount = localStorage.getItem("streakCount") || "0";
+        const lastDailyReview = localStorage.getItem("lastDailyReview");
         const now = new Date();
+
+        if (lastDailyReview) {
+          const lastReviewDate = new Date(lastDailyReview);
+          const timeDifference = now.getTime() - lastReviewDate.getTime();
+          const hoursDifference = timeDifference / (1000 * 3600);
+
+          if (hoursDifference < 24) {
+            const lastReviewDay = lastReviewDate.getDate();
+            const currentDay = now.getDate();
+
+            if (lastReviewDay !== currentDay) {
+              localStorage.setItem(
+                "streakCount",
+                (parseInt(streakCount) + 1).toString()
+              );
+            }
+          } else {
+            localStorage.setItem("streakCount", "1");
+          }
+        } else {
+          localStorage.setItem("streakCount", "1");
+        }
+
         localStorage.setItem("lastDailyReview", now.toISOString());
+        localStorage.setItem("isReviewCompleted", "true");
         setReviewIsCompleted(true);
         updateReviewedQuotes();
       } else {

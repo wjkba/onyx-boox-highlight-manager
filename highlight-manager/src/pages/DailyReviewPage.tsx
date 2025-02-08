@@ -9,7 +9,6 @@ import DailyReviewButtons from "@/components/review/DailyReviewButtons";
 import { Highlight } from "@/types/types";
 import Button from "@/components/Button";
 import { useNavigate } from "react-router-dom";
-import { useWakeLock } from "react-screen-wake-lock";
 import HighlightCard from "@/components/highlights/HighlightCard";
 
 export default function DailyReviewPage() {
@@ -22,7 +21,6 @@ export default function DailyReviewPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [reviewIsCompleted, setReviewIsCompleted] = useState<boolean>(false);
   const [toDeleteIds, setToDeleteIds] = useState<number[]>([]);
-  const { request, release } = useWakeLock();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,25 +29,22 @@ export default function DailyReviewPage() {
 
   // SCREEN CAFFEINE
   useEffect(() => {
-    let wakeLockActive = false;
+    let wakeLock: any = null;
 
-    async function activateWakeLock() {
-      try {
-        await request();
-        wakeLockActive = true;
-        console.log(wakeLockActive);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    activateWakeLock();
-
-    return () => {
-      if (wakeLockActive) {
-        release();
+    const requestWakeLock = async () => {
+      if ("wakeLock" in navigator) {
+        wakeLock = await navigator.wakeLock.request("screen");
       }
     };
-  }, [request, release]);
+
+    requestWakeLock();
+
+    return () => {
+      if (wakeLock) wakeLock.release();
+    };
+  }, []);
+
+  // ---
 
   useEffect(() => {
     const isCompleted = isDailyReviewCompleted();

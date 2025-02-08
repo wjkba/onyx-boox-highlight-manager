@@ -2,14 +2,6 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <script>
-      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      const localTheme = localStorage.getItem("theme")
-      if(!localTheme && prefersDark) localStorage.setItem("theme", "dark")
-      const metaThemeColor = document.getElementById("meta-theme-color")
-      const darkMode = localTheme === "dark"
-      metaThemeColor.setAttribute("content",`${darkMode ? "#262626" : "#ffffff"}`)
-    </script>
     <link rel="icon" type="image/svg+xml" href="/favicon.png" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180">
     <meta name="theme-color" content='#262626' id="meta-theme-color">
@@ -19,5 +11,13 @@
   <body class="dark:bg-neutral-800">
     <div class="dark:bg-neutral-800 bg-white dark:text-white" id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const localTheme = localStorage.getItem("theme")
+      if(!localTheme && prefersDark) localStorage.setItem("theme", "dark")
+      const metaThemeColor = document.getElementById("meta-theme-color")
+      const darkMode = localTheme === "dark"
+      metaThemeColor.setAttribute("content",`${darkMode ? "#262626" : "#ffffff"}`)
+    </script>
   </body>
 </html>

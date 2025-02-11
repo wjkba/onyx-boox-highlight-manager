@@ -30,18 +30,10 @@ export default function SettingsPage() {
   }, []);
 
   useEffect(() => {
-    const lastReview = localStorage.getItem("lastDailyReview");
-    if (lastReview) {
-      const lastReviewDate = new Date(Date.parse(lastReview));
-      const now = new Date();
-      if (
-        lastReviewDate.getFullYear() === now.getFullYear() &&
-        lastReviewDate.getMonth() === now.getMonth() &&
-        lastReviewDate.getDate() === now.getDate()
-      ) {
-        setIsReviewCompleted(true);
-      }
-    } else {
+    const isReviewCompleted = localStorage.getItem("isReviewCompleted");
+    if (isReviewCompleted === "true") setIsReviewCompleted(true);
+    else {
+      localStorage.setItem("isReviewCompleted", "false");
       setIsReviewCompleted(false);
     }
   }, []);

@@ -53,8 +53,10 @@ export default function Home() {
             <p>Daily review is available</p>
             {streakCount > 0 && (
               <div className="flex  items-center gap-1">
-                <BiSolidFlame size={16} />{" "}
-                <p className="text-sm">{streakCount} days</p>
+                <BiSolidFlame size={16} />
+                <p className="text-sm">
+                  {streakCount} {streakCount === 1 ? "day" : "days"}
+                </p>
               </div>
             )}
           </div>

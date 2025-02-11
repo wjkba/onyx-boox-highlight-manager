@@ -56,9 +56,21 @@ function getCardsPerReview() {
 }
 
 export function isDailyReviewCompleted() {
+  const lastDailyReview = localStorage.getItem("lastDailyReview");
+  const now = new Date();
+
+  if (lastDailyReview) {
+    const lastReviewDate = new Date(lastDailyReview);
+    if (
+      now.getFullYear() !== lastReviewDate.getFullYear() ||
+      now.getMonth() !== lastReviewDate.getMonth() ||
+      now.getDate() !== lastReviewDate.getDate()
+    ) {
+      localStorage.setItem("isReviewCompleted", "false");
+      return false;
+    }
+  }
+
   const isReviewCompleted = localStorage.getItem("isReviewCompleted");
-  if (isReviewCompleted == "true") return true;
-  if (isReviewCompleted == "false") return false;
-  else localStorage.setItem("isReviewCompleted", "false");
-  return false;
+  return isReviewCompleted === "true";
 }

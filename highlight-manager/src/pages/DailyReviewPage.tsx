@@ -10,6 +10,7 @@ import { Highlight } from "@/types/types";
 import Button from "@/components/Button";
 import { useNavigate } from "react-router-dom";
 import HighlightCard from "@/components/highlights/HighlightCard";
+import { BiSolidFlame } from "react-icons/bi";
 
 export default function DailyReviewPage() {
   const [dailyHighlights, setDailyHighlights] = useState<Highlight[] | null>(
@@ -198,6 +199,11 @@ export default function DailyReviewPage() {
               <h1 className="text-xl mb-2">Daily review</h1>
               <div className="max-w-[600px]">
                 <div className="grid gap-2 mb-4">
+                  <div className="flex items-center gap-1">
+                    <BiSolidFlame size={16} />
+                    <p>Streak: </p>
+                    <p>{localStorage.getItem("streakCount")}</p>
+                  </div>
                   <p>You've completed your review for today.</p>
                   {toDeleteIds.length > 0 && (
                     <p>Deleted {toDeleteIds.length} highlights</p>

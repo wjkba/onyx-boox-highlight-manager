@@ -76,25 +76,24 @@ export default function DailyReviewPage() {
 
         if (lastDailyReview) {
           const lastReviewDate = new Date(lastDailyReview);
-          const timeDifference = now.getTime() - lastReviewDate.getTime();
-          const hoursDifference = timeDifference / (1000 * 3600);
+          const lastReviewDay = new Date(lastReviewDate.setHours(0, 0, 0, 0));
 
-          if (hoursDifference < 24) {
-            const lastReviewDay = lastReviewDate.getDate();
-            const currentDay = now.getDate();
+          const today = new Date(now.setHours(0, 0, 0, 0));
 
-            if (lastReviewDay !== currentDay) {
-              localStorage.setItem(
-                "streakCount",
-                (parseInt(streakCount) + 1).toString()
-              );
-            }
-          } else {
-            localStorage.setItem("streakCount", "1");
-          }
-        } else {
-          localStorage.setItem("streakCount", "1");
-        }
+          const oneDayInMs = 24 * 60 * 60 * 1000;
+          const daysDifference = Math.round(
+            (today.getTime() - lastReviewDay.getTime()) / oneDayInMs
+          );
+
+          if (daysDifference === 1) {
+            localStorage.setItem(
+              "streakCount",
+              (parseInt(streakCount) + 1).toString()
+            );
+          } else if (daysDifference === 0)
+            localStorage.setItem("streakCount", streakCount);
+          else localStorage.setItem("streakCount", "1");
+        } else localStorage.setItem("streakCount", "1");
 
         localStorage.setItem("lastDailyReview", now.toISOString());
         localStorage.setItem("isReviewCompleted", "true");

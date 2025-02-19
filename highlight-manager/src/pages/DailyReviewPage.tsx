@@ -3,6 +3,7 @@ import { db, deleteHighlights } from "@/db";
 import {
   getDailyReviewQuotes,
   isDailyReviewCompleted,
+  updateStreak,
 } from "@/utils/dailyReview";
 import { useEffect, useState } from "react";
 import DailyReviewButtons from "@/components/review/DailyReviewButtons";
@@ -70,31 +71,8 @@ export default function DailyReviewPage() {
     if (dailyHighlights) {
       const nextIndex = currentIndex + 1;
       if (nextIndex > dailyHighlights.length - 1) {
-        const streakCount = localStorage.getItem("streakCount") || "0";
-        const lastDailyReview = localStorage.getItem("lastDailyReview");
         const now = new Date();
-
-        if (lastDailyReview) {
-          const lastReviewDate = new Date(lastDailyReview);
-          const lastReviewDay = new Date(lastReviewDate.setHours(0, 0, 0, 0));
-
-          const today = new Date(now.setHours(0, 0, 0, 0));
-
-          const oneDayInMs = 24 * 60 * 60 * 1000;
-          const daysDifference = Math.round(
-            (today.getTime() - lastReviewDay.getTime()) / oneDayInMs
-          );
-
-          if (daysDifference === 1) {
-            localStorage.setItem(
-              "streakCount",
-              (parseInt(streakCount) + 1).toString()
-            );
-          } else if (daysDifference === 0)
-            localStorage.setItem("streakCount", streakCount);
-          else localStorage.setItem("streakCount", "1");
-        } else localStorage.setItem("streakCount", "1");
-
+        updateStreak();
         localStorage.setItem("lastDailyReview", now.toISOString());
         localStorage.setItem("isReviewCompleted", "true");
         setReviewIsCompleted(true);

@@ -74,3 +74,48 @@ export function isDailyReviewCompleted() {
   const isReviewCompleted = localStorage.getItem("isReviewCompleted");
   return isReviewCompleted === "true";
 }
+
+export function getCurrentStreak() {
+  const streakCount = localStorage.getItem("streakCount") || "0";
+  const lastDailyReview = localStorage.getItem("lastDailyReview");
+
+  if (!lastDailyReview) return 0;
+
+  const now = new Date();
+  const today = new Date(now.setHours(0, 0, 0, 0));
+  const lastReviewDate = new Date(lastDailyReview);
+  const lastReviewDay = new Date(lastReviewDate.setHours(0, 0, 0, 0));
+
+  const daysDifference = Math.round(
+    (today.getTime() - lastReviewDay.getTime()) / (24 * 60 * 60 * 1000)
+  );
+
+  if (daysDifference > 1) return 0;
+  return parseInt(streakCount);
+}
+
+export function updateStreak() {
+  const lastDailyReview = localStorage.getItem("lastDailyReview");
+  const now = new Date();
+  const today = new Date(now.setHours(0, 0, 0, 0));
+
+  if (!lastDailyReview) {
+    localStorage.setItem("streakCount", "1");
+    return;
+  }
+
+  const lastReviewDate = new Date(lastDailyReview);
+  const lastReviewDay = new Date(lastReviewDate.setHours(0, 0, 0, 0));
+  const daysDifference = Math.round(
+    (today.getTime() - lastReviewDay.getTime()) / (24 * 60 * 60 * 1000)
+  );
+
+  let newStreak = 1;
+  if (daysDifference === 1) {
+    newStreak = parseInt(localStorage.getItem("streakCount") || "0") + 1;
+  } else if (daysDifference === 0) {
+    newStreak = parseInt(localStorage.getItem("streakCount") || "1");
+  }
+
+  localStorage.setItem("streakCount", newStreak.toString());
+}

@@ -5,7 +5,7 @@ import ImportDatabase from "@/components/import/ImportDatabase";
 import UploadBoox from "@/components/import/UploadBoox";
 import { db } from "@/db";
 import { Layout } from "@/Layout";
-import { isDailyReviewCompleted } from "@/utils/dailyReview";
+import { getCurrentStreak, isDailyReviewCompleted } from "@/utils/dailyReview";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useEffect, useState } from "react";
 import { ScrollRestoration } from "react-router-dom";
@@ -21,27 +21,9 @@ export default function Home() {
 
   useEffect(() => {
     const isCompleted = isDailyReviewCompleted();
-    const lastDailyReview = localStorage.getItem("lastDailyReview");
-    const now = new Date();
-
-    if (lastDailyReview) {
-      const lastReviewDate = new Date(lastDailyReview);
-      const timeDifference = now.getTime() - lastReviewDate.getTime();
-      const hoursDifference = timeDifference / (1000 * 3600);
-
-      if (hoursDifference < 24) {
-        const localStreakCount = localStorage.getItem("streakCount");
-        if (localStreakCount) setStreakCount(parseInt(localStreakCount));
-      } else {
-        localStorage.setItem("streakCount", "0");
-        setStreakCount(0);
-      }
-    } else {
-      localStorage.setItem("streakCount", "0");
-      setStreakCount(0);
-    }
-
+    const currentStreak = getCurrentStreak();
     setIsReviewCompleted(isCompleted);
+    setStreakCount(currentStreak);
   }, []);
 
   function DailyReview() {

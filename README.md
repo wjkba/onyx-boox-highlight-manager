@@ -1,5 +1,5 @@
 # Onyx Boox Highlight Manager
-A React TypeScript app to manage your highlights from your Onyx Boox eReader.
+An easy-to-use app that helps you organize and manage highlights from your Onyx Boox eReader.
 
 ![Desktop](assets/preview.png)
 

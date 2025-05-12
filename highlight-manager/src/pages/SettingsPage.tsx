@@ -1,16 +1,13 @@
 import Button from "@/components/Button";
 import { Layout } from "../Layout";
 import { useEffect, useState } from "react";
-import { useLiveQuery } from "dexie-react-hooks";
-import { db } from "@/db";
-import ExcludeButton from "@/components/ExcludeButton";
+import ExcludeSettings from "@/components/settings/ExcludeSettings";
 
 export default function SettingsPage() {
   const [newReviewDelay, setNewReviewDelay] = useState(7);
   const [newCardsPerReview, setNewCardsPerPreview] = useState(5);
   const [isSaved, setIsSaved] = useState(false);
   const [isReviewCompleted, setIsReviewCompleted] = useState(false);
-  const books = useLiveQuery(() => db.books.toArray());
 
   useEffect(() => {
     const reviewDelay = localStorage.getItem("reviewDelay");
@@ -81,6 +78,11 @@ export default function SettingsPage() {
     <Layout>
       <div className="mb-6">
         <div className="lg:max-w-[450px]">
+          <section className="mb-6">
+            <h1 className="text-lg mb-2">Exclude books from daily review</h1>
+            <ExcludeSettings />
+          </section>
+
           <section className="mb-4">
             <h1 className="text-lg mb-2">Review delay</h1>
             <div className="lg:flex gap-4 items-start">
@@ -135,22 +137,11 @@ export default function SettingsPage() {
             </div>
           </section>
 
-          <section className="mb-6">
-            <h1 className="text-lg mb-2">Exclude books from daily review</h1>
-            <ul className="grid">
-              {books?.map((book) => (
-                <li key={book.id}>
-                  <ExcludeButton bookId={book.id} text={book.bookTitle} />
-                </li>
-              ))}
-            </ul>
-          </section>
-
           <Button
             text={isSaved ? "Saved" : "Save"}
             type="button"
             onClick={handleSaveReviewSettings}
-            className="p-2 w-full"
+            className="p-2 mb-8 w-full"
           />
         </div>
       </div>

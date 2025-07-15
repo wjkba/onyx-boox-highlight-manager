@@ -20,6 +20,7 @@ module.exports = {
       fontFamily: {
         roboto: ["Roboto", "sans-serif"],
         robotoSlab: ["Roboto Slab", "serif"],
+        literata: ["Literata", "serif"],
       },
       screens: {
         xs: "360px",
@@ -27,6 +28,6 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
   darkMode: "class",
 };

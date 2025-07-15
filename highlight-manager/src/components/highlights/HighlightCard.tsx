@@ -75,7 +75,9 @@ export default function HighlightCard({
             onChange={handleEditChange}
           />
         ) : (
-          <p className="font-robotoSlab">{text}</p>
+          <p className="font-literata max-w-prose leading-[clamp(1.4em,_1.5em+0.5vw,_1.65em)]">
+            {text}
+          </p>
         )}
         {isEditing && (
           <div className="flex w-full justify-end gap-4">

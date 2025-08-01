@@ -24,3 +24,17 @@ dist-ssr
 *.sw?
 
 dev-dist/
+
+# Capacitor / Android build artifacts
+android/app/build/
+android/build/
+android/.gradle/
+android/.idea/
+android/local.properties
+android/capacitor-cordova-android-plugins/
+
+# Android Studio
+*.iml
+*.apk
+*.aab
+*.keystore

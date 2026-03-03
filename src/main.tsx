@@ -1,10 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import {
-  createBrowserRouter,
-  Navigate,
-  RouterProvider,
-} from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
+import { StatusBar, Style } from "@capacitor/status-bar";
 import "./index.css";
 import Home from "./pages/Home.tsx";
 import AllHighlightsPage from "./pages/AllHighlightsPage.tsx";
@@ -85,6 +82,9 @@ const router = createBrowserRouter([
 ]);
 
 function Main() {
+  StatusBar.setStyle({ style: Style.Default }).catch(() => {});
+  StatusBar.setOverlaysWebView({ overlay: false }).catch(() => {});
+  
   return (
     <React.StrictMode>
       <RouterProvider router={router} />

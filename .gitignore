@@ -38,3 +38,10 @@ android/capacitor-cordova-android-plugins/
 *.apk
 *.aab
 *.keystore
+
+# Eclipse
+android/.project
+android/.settings/
+android/app/.classpath
+android/app/.project
+android/app/.settings/

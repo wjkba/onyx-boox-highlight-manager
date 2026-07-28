@@ -1,0 +1,10 @@
+allowBuilds:
+  esbuild: true
+minimumReleaseAge: 1440
+minimumReleaseAgeStrict: false
+minimumReleaseAgeExclude:
+  - acorn@8.18.0
+  - baseline-browser-mapping@2.11.5
+  - electron-to-chromium@1.5.397
+  - minimatch@10.2.6
+  - postcss@8.5.24

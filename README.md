@@ -1,6 +1,24 @@
 # Onyx Boox Highlight Manager
 An easy-to-use app that helps you organize and manage highlights from your Onyx Boox eReader.
 
+## Development
+
+Requires Node.js 22+ and pnpm 11.
+
+```sh
+pnpm install
+pnpm run dev
+pnpm run build
+pnpm run lint
+pnpm exec cap sync android
+```
+
+To build the Android debug application:
+
+```sh
+cd android && ./gradlew assembleDebug
+```
+
 ![Desktop](assets/preview.png)
 
 
@@ -33,4 +51,3 @@ https://booxmanager.netlify.app/
 ### 📋 Highlights Lists
 - Organize your highlights into **custom lists** for easy access and management.
 - Create, edit, and manage multiple lists to suit your needs.
-

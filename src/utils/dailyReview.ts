@@ -19,7 +19,14 @@ export async function getDailyReviewQuotes() {
       return lastReviewedDate < delayDate;
     }
   });
-  const shuffled = dailyReviewable.sort(() => 0.5 - Math.random());
+  const shuffled = [...dailyReviewable];
+  for (let index = shuffled.length - 1; index > 0; index--) {
+    const randomIndex = Math.floor(Math.random() * (index + 1));
+    [shuffled[index], shuffled[randomIndex]] = [
+      shuffled[randomIndex],
+      shuffled[index],
+    ];
+  }
   return shuffled.slice(0, cardsPerReview);
 }
 
@@ -31,7 +38,7 @@ function getReviewDelay() {
       return Number(reviewDelay);
     }
     localStorage.setItem("reviewDelay", String(defaultDelay));
-    return Number(reviewDelay);
+    return defaultDelay;
   } catch (error) {
     console.log("Error getting reviews delay, setting to default.");
     localStorage.setItem("reviewDelay", String(defaultDelay));

@@ -19,33 +19,45 @@ export async function clearDatabaseTable() {
 }
 
 export async function deleteHighlight(highlightId: number) {
-  // before deleting check if highlight is in any of the lists
-  // if it is then remove it and update list
-  const lists = await db.lists.toArray();
-  for (let list of lists) {
-    const index = list.highlightIds.indexOf(highlightId);
-    if (index !== -1) {
-      list.highlightIds.splice(index, 1);
-      await db.lists.put(list);
+  await db.transaction("rw", db.lists, db.highlights, async () => {
+    // before deleting check if highlight is in any of the lists
+    // if it is then remove it and update list
+    const lists = await db.lists.toArray();
+    const deletedIds = new Set([highlightId]);
+    const listsToUpdate = [];
+    for (const list of lists) {
+      const highlightIds = list.highlightIds.filter(
+        (id) => !deletedIds.has(id),
+      );
+      if (highlightIds.length !== list.highlightIds.length) {
+        list.highlightIds = highlightIds;
+        listsToUpdate.push(list);
+      }
     }
-  }
-  // delete highlight
-  await db.highlights.where("id").equals(highlightId).delete();
+    if (listsToUpdate.length > 0) await db.lists.bulkPut(listsToUpdate);
+    // delete highlight
+    await db.highlights.bulkDelete([highlightId]);
+  });
 }
 
 export async function deleteHighlights(highlightIds: number[]) {
-  const lists = await db.lists.toArray();
-  for (let highlightId of highlightIds) {
-    for (let list of lists) {
-      const index = list.highlightIds.indexOf(highlightId);
-      if (index !== -1) {
-        list.highlightIds.splice(index, 1);
-        await db.lists.put(list);
+  await db.transaction("rw", db.lists, db.highlights, async () => {
+    const lists = await db.lists.toArray();
+    const deletedIds = new Set(highlightIds);
+    const listsToUpdate = [];
+    for (const list of lists) {
+      const remainingHighlightIds = list.highlightIds.filter(
+        (id) => !deletedIds.has(id),
+      );
+      if (remainingHighlightIds.length !== list.highlightIds.length) {
+        list.highlightIds = remainingHighlightIds;
+        listsToUpdate.push(list);
       }
     }
-    // delete highlight
-    await db.highlights.where("id").equals(highlightId).delete();
-  }
+    if (listsToUpdate.length > 0) await db.lists.bulkPut(listsToUpdate);
+    // delete highlights
+    await db.highlights.bulkDelete(highlightIds);
+  });
 }
 
 export { db };

@@ -67,38 +67,49 @@ export default function UploadBoox() {
   async function handleConfirm(event: React.FormEvent<HTMLButtonElement>) {
     event.preventDefault();
     if (uploadedHighlights) {
-      updateDB(uploadedHighlights);
-      setIsConfirming(false);
-      setIsCompleted(true);
+      try {
+        await updateDB(uploadedHighlights);
+        setIsConfirming(false);
+        setIsCompleted(true);
+      } catch (error) {
+        setErrorMessage("Something went wrong.");
+      }
     }
   }
 
   async function updateDB(uploadedHighlights: Highlight[]) {
     let foundDuplicates = false;
-    let newBookId: null | number = null;
-    const foundBook = await db.books.get({ bookTitle: bookTitle });
-    if (!foundBook) {
-      newBookId = await db.books.add({ bookTitle, bookAuthor });
-    }
-    const bookId = foundBook ? foundBook.id : (newBookId as number);
-    console.log("🚀 ~ updateDB ~ newBookId:", newBookId);
-    console.log("🚀 ~ updateDB ~ foundBook:", foundBook);
-    console.log("🚀 ~ updateDB ~ bookID:", bookId);
-    const dateAdded = new Date().toISOString();
-    for (let highlight of uploadedHighlights) {
-      const highlightWithBookInfo = {
-        ...highlight,
-        bookId,
-        dateAdded,
-      };
-      const foundHighlight = await db.highlights.get({
-        quote: highlight.quote,
-      });
-      if (foundHighlight) {
-        foundDuplicates = true;
-        console.log("Already in database");
-      } else db.highlights.add(highlightWithBookInfo);
-    }
+
+    await db.transaction("rw", db.books, db.highlights, async () => {
+      const foundBook = await db.books.get({ bookTitle });
+      const bookId = foundBook
+        ? foundBook.id
+        : await db.books.add({ bookTitle, bookAuthor });
+      const dateAdded = new Date().toISOString();
+      const quotes = uploadedHighlights.map(({ quote }) => quote);
+      const existingHighlights = await db.highlights
+        .where("quote")
+        .anyOf(quotes)
+        .toArray();
+      const existingQuotes = new Set(
+        existingHighlights.map(({ quote }) => quote),
+      );
+      const highlightsToAdd: Highlight[] = [];
+
+      for (const highlight of uploadedHighlights) {
+        if (existingQuotes.has(highlight.quote)) {
+          foundDuplicates = true;
+          continue;
+        }
+
+        existingQuotes.add(highlight.quote);
+        highlightsToAdd.push({ ...highlight, bookId, dateAdded });
+      }
+
+      if (highlightsToAdd.length > 0) {
+        await db.highlights.bulkAdd(highlightsToAdd);
+      }
+    });
     if (foundDuplicates) setMessage("Updated highlights for existing book");
     else setMessage("Added new highlights");
   }

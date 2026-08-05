@@ -2,15 +2,19 @@ import { useLiveQuery } from "dexie-react-hooks";
 import { db } from "../db";
 import HighlightCard from "../components/highlights/HighlightCard";
 import { Layout } from "../Layout";
+import { type Book } from "@/types/types";
 
 export default function StarredPage() {
-  const highlights = useLiveQuery(() => db.highlights.toArray());
+  const starredHighlights = useLiveQuery(() =>
+    db.highlights.filter((highlight) => highlight.starred === true).toArray()
+  );
+  const books = useLiveQuery(() => db.books.toArray());
+  const booksById: Record<number, Book> = {};
+  books?.forEach((book) => {
+    booksById[book.id] = book;
+  });
 
-  if (highlights) {
-    const starredHighlights = highlights.filter(
-      (highlight) => highlight.starred === true
-    );
-    console.log(starredHighlights);
+  if (starredHighlights) {
     // const sortedHighlights = highlights.map((highlight) => ({
     //   ...highlight,
     //   quotes: highlight.quotes.sort(
@@ -44,6 +48,7 @@ export default function StarredPage() {
               starred={highlight.starred}
               id={highlight.id}
               bookId={highlight.bookId}
+              book={booksById[highlight.bookId]}
             />
           ))}
         </div>

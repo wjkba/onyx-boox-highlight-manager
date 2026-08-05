@@ -1,7 +1,7 @@
 import HighlightCard from "@/components/highlights/HighlightCard";
 import { db } from "@/db";
 import { Layout } from "@/Layout";
-import { Highlight, List } from "@/types/types";
+import { Book, Highlight, List } from "@/types/types";
 import { useLiveQuery } from "dexie-react-hooks";
 import { useEffect, useState } from "react";
 import { ScrollRestoration, useParams } from "react-router-dom";
@@ -9,6 +9,11 @@ import { ScrollRestoration, useParams } from "react-router-dom";
 export default function ListPage() {
   const { listId } = useParams();
   const list = useLiveQuery(() => db.lists.get(Number(listId)));
+  const books = useLiveQuery(() => db.books.toArray());
+  const booksById: Record<number, Book> = {};
+  books?.forEach((book) => {
+    booksById[book.id] = book;
+  });
   const [highlights, setHighlights] = useState<null | Highlight[]>(null);
 
   useEffect(() => {
@@ -42,6 +47,7 @@ export default function ListPage() {
               bookId={highlight.bookId}
               starred={highlight.starred}
               id={highlight.id}
+              book={booksById[highlight.bookId]}
               options={["showRemove"]}
             />
           ))}

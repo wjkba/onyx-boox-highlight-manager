@@ -2,12 +2,13 @@ import { useEffect, useState } from "react";
 import { db } from "../../db";
 import HighlightCardOptions, { type CardOptions } from "./HighlightCardOptions";
 import { useHighlightCardEditStore } from "@/store";
-import { useLiveQuery } from "dexie-react-hooks";
+import { type Book } from "@/types/types";
 
 interface HighlightCardProps {
   id: number;
   text: string;
   bookId: number;
+  book?: Book;
   starred: boolean;
   options?: CardOptions[];
 }
@@ -15,14 +16,13 @@ export default function HighlightCard({
   id,
   text,
   bookId,
+  book,
   starred,
   options,
 }: HighlightCardProps) {
   const { editingHighlightId, setEditingHighlightId } =
     useHighlightCardEditStore();
   const [editValue, setEditValue] = useState<string>(text);
-
-  const book = useLiveQuery(() => db.books.get(bookId), [bookId]);
 
   const isEditing = editingHighlightId === id;
 

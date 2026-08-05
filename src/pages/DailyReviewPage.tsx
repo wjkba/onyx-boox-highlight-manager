@@ -6,6 +6,7 @@ import {
   updateStreak,
 } from "@/utils/dailyReview";
 import { useEffect, useState } from "react";
+import { useLiveQuery } from "dexie-react-hooks";
 import DailyReviewButtons from "@/components/review/DailyReviewButtons";
 import { Highlight } from "@/types/types";
 import Button from "@/components/Button";
@@ -24,6 +25,11 @@ export default function DailyReviewPage() {
   const [reviewIsCompleted, setReviewIsCompleted] = useState<boolean>(false);
   const [toDeleteIds, setToDeleteIds] = useState<number[]>([]);
   const navigate = useNavigate();
+  const activeBook = useLiveQuery(
+    () =>
+      activeHighlight ? db.books.get(activeHighlight.bookId) : undefined,
+    [activeHighlight?.bookId]
+  );
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -224,6 +230,7 @@ export default function DailyReviewPage() {
                   id={activeHighlight.id}
                   starred={activeHighlight.starred}
                   text={activeHighlight.quote}
+                  book={activeBook}
                   options={["hideDelete", "hideStar"]}
                 />
               </div>

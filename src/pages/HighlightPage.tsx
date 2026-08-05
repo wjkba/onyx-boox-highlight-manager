@@ -7,6 +7,10 @@ import { useParams } from "react-router-dom";
 export default function HighlightPage() {
   const { highlightId } = useParams();
   const highlight = useLiveQuery(() => db.highlights.get(Number(highlightId)));
+  const book = useLiveQuery(
+    () => (highlight ? db.books.get(highlight.bookId) : undefined),
+    [highlight?.bookId]
+  );
 
   if (highlight) {
     return (
@@ -17,6 +21,7 @@ export default function HighlightPage() {
           starred={highlight.starred}
           text={highlight.quote}
           bookId={highlight?.bookId}
+          book={book}
         />
       </Layout>
     );

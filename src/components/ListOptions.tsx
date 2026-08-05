@@ -47,22 +47,21 @@ export default function ListOptions({
   }
 
   return (
-    <div className={`card-options ${isActive && "open"}`}>
-      <button className="grid place-items-center p-4" onClick={handleOpen}>
+    <div className={`card-options relative ${isActive && "open"}`}>
+      <button type="button" aria-label={`${isActive ? "Close" : "Open"} list options`} aria-expanded={isActive} className="grid min-h-11 min-w-11 place-items-center p-2" onClick={handleOpen}>
         <BiDotsVerticalRounded size={24} />
       </button>
-      <ul className="bg-white dark:bg-neutral-900 dark:text-white pb-4 border border-black text-black p-2 absolute max-w-[9rem] w-full  -translate-x-[6.4rem]">
+      <ul className="bg-white dark:bg-neutral-900 dark:text-white pb-4 border border-black text-black p-2 absolute right-0 top-full z-10 min-w-[9rem] max-w-[calc(100vw-2rem)] w-max">
         {isActive &&
-          cardOptions.map((option, index) => (
+          cardOptions.map((option) => (
             <li
-              key={index}
-              onClick={option.action}
-              className=" cursor-pointer border-b p-1 hover:bg-neutral-600 hover:text-white"
+              key={option.text}
+              className="border-b"
             >
-              <div className="flex items-center gap-2 text-sm">
+              <button type="button" onClick={option.action} className="flex min-h-11 w-full items-center gap-2 p-1 text-left text-sm can-hover:hover:bg-neutral-600 can-hover:hover:text-white">
                 {option.icon}
                 {option.text}
-              </div>
+              </button>
             </li>
           ))}
       </ul>

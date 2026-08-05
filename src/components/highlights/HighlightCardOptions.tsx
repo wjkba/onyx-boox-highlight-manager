@@ -196,22 +196,21 @@ export default function HighlightCardOptions({
   }
 
   return (
-    <div className={`card-options ${isActive && "open"}`}>
-      <button className="grid place-items-center " onClick={handleOpen}>
+    <div className={`card-options relative shrink-0 ${isActive && "open"}`}>
+      <button type="button" aria-label={`${isActive ? "Close" : "Open"} highlight options`} aria-expanded={isActive} className="grid min-h-11 min-w-11 place-items-center" onClick={handleOpen}>
         <BiDotsVerticalRounded size={24} />
       </button>
-      <ul className="bg-white dark:bg-neutral-900 dark:text-white pb-4 border border-black text-black p-2 absolute max-w-[9rem] w-full  -translate-x-[6.4rem]">
+      <ul className="bg-white dark:bg-neutral-900 dark:text-white pb-4 border border-black text-black p-2 absolute right-0 top-full z-10 min-w-[9rem] max-w-[calc(100vw-2rem)] w-max">
         {!isShowingLists &&
-          cardOptions.map((option, index) => (
+          cardOptions.map((option) => (
             <li
-              key={index}
-              onClick={option.action}
-              className=" cursor-pointer border-b p-1 hover:bg-neutral-600 hover:text-white"
+              key={option.text}
+              className="border-b"
             >
-              <div className="flex items-center gap-2 text-sm">
+              <button type="button" onClick={option.action} className="flex min-h-11 w-full items-center gap-2 p-1 text-left text-sm can-hover:hover:bg-neutral-600 can-hover:hover:text-white">
                 {option.icon}
                 {option.text}
-              </div>
+              </button>
             </li>
           ))}
         {isShowingLists && (
@@ -219,22 +218,20 @@ export default function HighlightCardOptions({
             {lists?.map((list) => (
               <li
                 key={list.id}
-                onClick={() => addQuoteToList(list.id)}
-                className="cursor-pointer border-b p-1 hover:bg-neutral-600 hover:text-white"
+                className="border-b"
               >
-                <div className="flex items-center gap-2">
+                <button type="button" onClick={() => addQuoteToList(list.id)} className="flex min-h-11 w-full items-center gap-2 p-1 text-left can-hover:hover:bg-neutral-600 can-hover:hover:text-white">
                   <p>{list.name}</p>
-                </div>
+                </button>
               </li>
             ))}
             <li
-              onClick={() => navigate("/lists")}
-              className="cursor-pointer border-b p-1 hover:bg-neutral-600 hover:text-white"
+              className="border-b"
             >
-              <div className="flex items-center gap-2">
+              <button type="button" onClick={() => navigate("/lists")} className="flex min-h-11 w-full items-center gap-2 p-1 text-left can-hover:hover:bg-neutral-600 can-hover:hover:text-white">
                 <p>+</p>
                 <p>Add new list</p>
-              </div>
+              </button>
             </li>
           </>
         )}

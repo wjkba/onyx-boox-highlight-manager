@@ -68,7 +68,7 @@ export default function BookCard({
               id="bookTitle"
               value={newBookTitle}
               onChange={handleTitleChange}
-              className="w-full mb-2 lg:m-0 p-1 border text-lg border-black dark:border-white dark:bg-neutral-900"
+              className="min-h-11 w-full mb-2 lg:m-0 px-2 border text-lg border-black dark:border-white dark:bg-neutral-900"
             ></input>
           </div>
           <div className="mb-4">
@@ -77,7 +77,7 @@ export default function BookCard({
               id="bookAuthor"
               value={newBookAuthor}
               onChange={handleAuthorChange}
-              className=" w-full mb-2 lg:m-0 p-1 border text-lg border-black dark:border-white dark:bg-neutral-900"
+              className="min-h-11 w-full mb-2 lg:m-0 px-2 border text-lg border-black dark:border-white dark:bg-neutral-900"
             ></input>
           </div>
           <div className="flex">

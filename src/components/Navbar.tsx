@@ -7,9 +7,25 @@ export default function Navbar() {
   const location = useLocation();
 
   function handleOpen() {
-    setIsOpen(!isOpen);
+    setIsOpen((open) => !open);
   }
 
+  const closeMenu = useCallback(() => {
+    setIsOpen(false);
+  }, []);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") closeMenu();
+    }
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [closeMenu, isOpen]);
+
+  useEffect(() => {
+    if (location.pathname) closeMenu();
+  }, [closeMenu, location.pathname]);
   const applyTheme = useCallback(() => {
     if (localStorage.theme === "dark") {
       document.documentElement.classList.add("dark");
@@ -51,38 +67,34 @@ export default function Navbar() {
 
   function NavModalMobile() {
     return (
-      <div className="grid place-items-center bg-neutral-100 dark:bg-neutral-800 fixed top-0 bottom-0 right-0 left-0 w-full h-screen">
-        <div className="w-full max-w-[568px] lg:max-w-[1168px] text-xl h-screen flex flex-col">
+      <nav id="mobile-navigation" aria-label="Mobile navigation" className="grid place-items-center bg-neutral-100 dark:bg-neutral-800 fixed inset-0 z-50 w-full h-dvh">
+        <div className="w-full max-w-[568px] lg:max-w-[1168px] text-xl h-dvh flex flex-col">
           <div className="p-4 text-right flex justify-end h-[56px]">
-            <button onClick={handleOpen}>
+            <button type="button" onClick={closeMenu} aria-label="Close navigation menu" className="grid min-h-11 min-w-11 place-items-center">
               <BiX size={30} />
             </button>
           </div>
           <div className="w-full flex flex-col gap-2">
-            {LINKS.map((link, index) => (
+            {LINKS.map((link) => (
               <Link
-                key={index}
+                key={link.linkTo}
                 to={link.linkTo}
-                className="border-b border-black/20 dark:border-white/20 w-full p-4 text-left"
+                onClick={closeMenu}
+                className="flex min-h-12 items-center border-b border-black/20 dark:border-white/20 w-full p-4 text-left"
               >
                 {link.text}
               </Link>
             ))}
             <button
-              className="border-b border-black/20 dark:border-white/20 w-full p-4 text-left"
-              onClick={toggleDarkMode}
+              type="button"
+              className="flex min-h-12 items-center border-b border-black/20 dark:border-white/20 w-full p-4 text-left"
+              onClick={() => { toggleDarkMode(); closeMenu(); }}
             >
               Toggle Dark Mode
             </button>
-            <Link
-              to={"/settings"}
-              className="border-b border-black/20 dark:border-white/20 w-full p-4 text-left"
-            >
-              Settings
-            </Link>
           </div>
         </div>
-      </div>
+      </nav>
     );
   }
 
@@ -92,24 +104,24 @@ export default function Navbar() {
         Highlights
       </Link>
       <ul className="hidden lg:flex gap-6 text-lg">
-        {LINKS.map((link, index) => (
+        {LINKS.map((link) => (
           <li
             className={`cursor-pointer ${
               location.pathname.startsWith(link.linkTo) ? "font-medium" : ""
             }`}
-            key={index}
+            key={link.linkTo}
           >
             <Link to={link.linkTo}>{link.text}</Link>
           </li>
         ))}
 
         <li className="flex items-center">
-          <button className="px-2" onClick={toggleDarkMode}>
+          <button type="button" className="px-2 min-h-11 min-w-11" aria-label="Toggle dark mode" onClick={toggleDarkMode}>
             <BiAdjust />
           </button>
         </li>
       </ul>
-      <button onClick={handleOpen} className="lg:hidden cursor-pointer">
+      <button type="button" onClick={handleOpen} aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"} aria-expanded={isOpen} aria-controls="mobile-navigation" className="lg:hidden cursor-pointer grid min-h-11 min-w-11 place-items-center">
         <BiMenu size={28} />
       </button>
       {isOpen && <NavModalMobile />}

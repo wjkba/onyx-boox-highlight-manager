@@ -10,12 +10,12 @@ body {
   padding-top: env(safe-area-inset-top);
 }
 
-.star-icon{
-  display: none;
-}
+/* Touch users should not need hover to discover card actions. */
+.star-icon { display: block; }
 
-.hover-trigger:hover .star-icon{
-  display: block;
+@media (hover: hover) and (pointer: fine) {
+  .star-icon { display: none; }
+  .hover-trigger:hover .star-icon { display: block; }
 }
 
 .card-options ul {
@@ -31,5 +31,4 @@ body {
 .dark {
   --bg-color: #000000; /* Dark background when .dark class is applied */
 }
-
 

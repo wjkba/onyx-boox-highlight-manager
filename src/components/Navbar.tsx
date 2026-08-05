@@ -99,11 +99,11 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="dark:bg-neutral-800 dark:text-white dark:border-white/20 bg-white mb-4 border-solid border-b border-black/20 lg:h-[70px] h-[56px] flex justify-between items-center">
-      <Link to="/" className="font-robotoSlab font-bold text-xl">
+    <nav className="dark:bg-neutral-800 dark:text-white dark:border-white/20 bg-white mb-4 border-solid border-b border-black/20 w-full lg:h-[70px] h-[56px] flex justify-between items-center">
+      <Link to="/" className="shrink-0 font-robotoSlab font-bold text-xl">
         Highlights
       </Link>
-      <ul className="hidden lg:flex gap-6 text-lg">
+      <ul className="hidden lg:flex shrink-0 items-center gap-6 text-lg">
         {LINKS.map((link) => (
           <li
             className={`cursor-pointer ${

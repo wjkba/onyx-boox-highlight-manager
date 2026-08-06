@@ -4,8 +4,6 @@ import { useRef } from "react";
 import { saveAs } from "file-saver";
 import { exportDbToString } from "@/lib/storage/export-db";
 import Button from "@/components/ui/button";
-import { Capacitor } from "@capacitor/core";
-import { Filesystem, Directory, Encoding } from "@capacitor/filesystem";
 
 export default function ExportPage() {
   const books = useExportBooks();
@@ -41,19 +39,8 @@ export default function ExportPage() {
   async function handleExportDatabase() {
     const jsonDbString = (await exportDbToString()) as string;
 
-    if (Capacitor.isNativePlatform()) {
-      // Capacitor android/ios
-      await Filesystem.writeFile({
-        path: "MyHighlightsDB.txt",
-        data: jsonDbString,
-        directory: Directory.Documents,
-        encoding: Encoding.UTF8,
-      });
-    } else {
-      // Web
-      const blob = new Blob([jsonDbString], { type: "text/plain" });
-      saveAs(blob, "MyHighlightsDB.txt");
-    }
+    const blob = new Blob([jsonDbString], { type: "text/plain" });
+    saveAs(blob, "MyHighlightsDB.txt");
   }
 
   if (books && books.length <= 0) {

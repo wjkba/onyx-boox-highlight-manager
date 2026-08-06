@@ -35,7 +35,7 @@ export const router: ReturnType<typeof createBrowserRouter> = createBrowserRoute
       { path: "/settings", element: <SettingsPage /> },
       { path: "/about", element: <AboutPage /> },
       { path: "/help", element: <HelpPage /> },
+      { path: "/review", element: <DailyReviewPage /> },
     ],
   },
-  { path: "/review", element: <DailyReviewPage /> },
 ]);

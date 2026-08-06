@@ -1,6 +1,19 @@
+import { Suspense } from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "@/components/layout/navbar";
 import SidebarMenu from "@/components/layout/sidebar-menu";
+
+function ContentFallback() {
+  return (
+    <div
+      aria-busy="true"
+      className="min-h-[240px] w-full rounded border border-black/10 p-6 dark:border-white/10"
+    >
+      <div className="h-4 w-1/3 rounded bg-black/10 dark:bg-white/10" />
+      <div className="mt-4 h-3 w-2/3 rounded bg-black/10 dark:bg-white/10" />
+    </div>
+  );
+}
 
 export const Layout = () => {
   return (
@@ -9,7 +22,11 @@ export const Layout = () => {
         <Navbar />
         <main className="min-h-screen lg:flex lg:gap-[32px] lg:pt-8">
           <SidebarMenu />
-          <div className="lg:w-full"><Outlet /></div>
+          <div className="lg:w-full">
+            <Suspense fallback={<ContentFallback />}>
+              <Outlet />
+            </Suspense>
+          </div>
         </main>
         <footer></footer>
       </div>

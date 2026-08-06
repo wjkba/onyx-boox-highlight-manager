@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React from "react";
 import ReactDOM from "react-dom/client";
 import { StatusBar, Style } from "@capacitor/status-bar";
 import { RouterProvider } from "react-router-dom";
@@ -10,8 +10,6 @@ StatusBar.setOverlaysWebView({ overlay: false }).catch(() => {});
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <Suspense fallback={<div className="p-4">Loading…</div>}>
-      <RouterProvider router={router} />
-    </Suspense>
+    <RouterProvider router={router} />
   </React.StrictMode>,
 );

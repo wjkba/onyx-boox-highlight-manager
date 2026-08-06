@@ -54,9 +54,13 @@ export default function ImportDatabase() {
         Import your highlights easily from a saved file. Click the button below
         to load your data into the app.
       </p>
-      <div className="mb-0">
-        <input className="w-full" onChange={handleChange} type="file" />
-      </div>
+      <label htmlFor="database-file">Highlights database file:</label>
+      <input
+        id="database-file"
+        className="w-full"
+        onChange={handleChange}
+        type="file"
+      />
 
       {errorMessage && <p className="text-red-500 text mb-2">{errorMessage}</p>}
       <Button text="Upload" type="submit" className="p-2 w-full" />

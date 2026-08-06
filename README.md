@@ -10,13 +10,6 @@ pnpm install
 pnpm run dev
 pnpm run build
 pnpm run lint
-pnpm exec cap sync android
-```
-
-To build the Android debug application:
-
-```sh
-cd android && ./gradlew assembleDebug
 ```
 
 ![Desktop](assets/preview.png)

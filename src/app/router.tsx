@@ -19,6 +19,7 @@ const HighlightPage = lazy(() => import("@/routes/highlights/detail"));
 
 export const router: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
   { path: "/", element: <Navigate to="/home" /> },
+  { path: "/review", element: <DailyReviewPage /> },
   {
     element: <Layout />,
     children: [
@@ -35,7 +36,6 @@ export const router: ReturnType<typeof createBrowserRouter> = createBrowserRoute
       { path: "/settings", element: <SettingsPage /> },
       { path: "/about", element: <AboutPage /> },
       { path: "/help", element: <HelpPage /> },
-      { path: "/review", element: <DailyReviewPage /> },
     ],
   },
 ]);

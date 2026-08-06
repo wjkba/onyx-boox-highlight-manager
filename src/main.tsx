@@ -1,95 +1,17 @@
-import React from "react";
+import React, { Suspense } from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import { StatusBar, Style } from "@capacitor/status-bar";
+import { RouterProvider } from "react-router-dom";
+import { router } from "@/app/router";
 import "./index.css";
-import Home from "./pages/Home.tsx";
-import AllHighlightsPage from "./pages/AllHighlightsPage.tsx";
-import BooksPage from "./pages/BooksPage.tsx";
-import StarredPage from "./pages/StarredPage.tsx";
-import ImportPage from "./pages/ImportPage.tsx";
-import ExportPage from "./pages/ExportPage.tsx";
-import SettingsPage from "./pages/SettingsPage.tsx";
-import BookPage from "./pages/BookPage.tsx";
-import DailyReviewPage from "./pages/DailyReviewPage.tsx";
-import AboutPage from "./pages/AboutPage.tsx";
-import HelpPage from "./pages/HelpPage.tsx";
-import ListsPage from "./pages/ListsPage.tsx";
-import ListPage from "./pages/ListPage.tsx";
-import HighlightPage from "./pages/HighlightPage.tsx";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Navigate to="/home" />,
-  },
-  {
-    path: "/home",
-    element: <Home />,
-  },
-  {
-    path: "/all",
-    element: <AllHighlightsPage />,
-  },
-  {
-    path: "/books",
-    element: <BooksPage />,
-  },
-  {
-    path: "/books/:bookId",
-    element: <BookPage />,
-  },
-  {
-    path: "/highlight/:highlightId",
-    element: <HighlightPage />,
-  },
-  {
-    path: "/lists",
-    element: <ListsPage />,
-  },
-  {
-    path: "/lists/:listId",
-    element: <ListPage />,
-  },
-  {
-    path: "/starred",
-    element: <StarredPage />,
-  },
-  {
-    path: "/import",
-    element: <ImportPage />,
-  },
-  {
-    path: "/export",
-    element: <ExportPage />,
-  },
-  {
-    path: "/settings",
-    element: <SettingsPage />,
-  },
-  {
-    path: "/review",
-    element: <DailyReviewPage />,
-  },
-  {
-    path: "/about",
-    element: <AboutPage />,
-  },
-  {
-    path: "/help",
-    element: <HelpPage />,
-  },
-]);
+StatusBar.setStyle({ style: Style.Default }).catch(() => {});
+StatusBar.setOverlaysWebView({ overlay: false }).catch(() => {});
 
-function Main() {
-  StatusBar.setStyle({ style: Style.Default }).catch(() => {});
-  StatusBar.setOverlaysWebView({ overlay: false }).catch(() => {});
-  
-  return (
-    <React.StrictMode>
+ReactDOM.createRoot(document.getElementById("root")!).render(
+  <React.StrictMode>
+    <Suspense fallback={<div className="p-4">Loading…</div>}>
       <RouterProvider router={router} />
-    </React.StrictMode>
-  );
-}
-
-ReactDOM.createRoot(document.getElementById("root")!).render(<Main />);
+    </Suspense>
+  </React.StrictMode>,
+);

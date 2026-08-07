@@ -1,4 +1,11 @@
-import { deleteHighlight, getAllLists, getHighlight, getListsByIds, saveList, updateHighlight } from "../api";
+import {
+  deleteHighlight,
+  getAllLists,
+  getHighlight,
+  getListsByIds,
+  saveList,
+  updateHighlight,
+} from "../api";
 import {
   useHighlightCardEditStore,
   useHighlightCardOptionsStore,
@@ -82,7 +89,7 @@ export default function HighlightCardOptions({
 
   if (showRemoveOption) {
     cardOptions = cardOptions.filter(
-      (option) => !(option.text === "Edit" || option.text === "Delete")
+      (option) => !(option.text === "Edit" || option.text === "Delete"),
     );
   }
 
@@ -92,7 +99,7 @@ export default function HighlightCardOptions({
 
   if (hideStarOption) {
     cardOptions = cardOptions.filter(
-      (option) => !(option.text === "Star" || option.text === "Unstar")
+      (option) => !(option.text === "Star" || option.text === "Unstar"),
     );
   }
 
@@ -144,11 +151,13 @@ export default function HighlightCardOptions({
       if (list) {
         const isAlreadyAdded = await checkIfHighlightAlreadyAdded(
           highlightId,
-          list
+          list,
         );
         if (!isAlreadyAdded) {
           const updatedListHighlightIds = [...list.highlightIds, highlightId];
-          const result = await saveList(listId, { highlightIds: updatedListHighlightIds });
+          const result = await saveList(listId, {
+            highlightIds: updatedListHighlightIds,
+          });
           console.log("🚀 ~ addQuoteToList ~ result:", result);
           setIsShowingLists(false);
           setActiveHighlightId(null);
@@ -164,7 +173,7 @@ export default function HighlightCardOptions({
     }
     async function checkIfHighlightAlreadyAdded(
       highlightId: number,
-      list: List
+      list: List,
     ) {
       const found = list.highlightIds.find((id) => id === highlightId);
       if (found) return true;
@@ -177,9 +186,11 @@ export default function HighlightCardOptions({
       const list = await getListsByIds([listId]).then((lists) => lists[0]);
       if (list) {
         const updatedListHighlightIds = list.highlightIds.filter(
-          (id) => id !== highlightId
+          (id) => id !== highlightId,
         );
-        const result = await saveList(listId, { highlightIds: updatedListHighlightIds });
+        const result = await saveList(listId, {
+          highlightIds: updatedListHighlightIds,
+        });
         console.log(result);
       }
     } catch (error) {
@@ -189,17 +200,24 @@ export default function HighlightCardOptions({
 
   return (
     <div className={`card-options relative shrink-0 ${isActive && "open"}`}>
-      <button type="button" aria-label={`${isActive ? "Close" : "Open"} highlight options`} aria-expanded={isActive} className="grid min-h-11 min-w-11 place-items-center" onClick={handleOpen}>
+      <button
+        type="button"
+        aria-label={`${isActive ? "Close" : "Open"} highlight options`}
+        aria-expanded={isActive}
+        className="grid place-items-center"
+        onClick={handleOpen}
+      >
         <BiDotsVerticalRounded size={24} />
       </button>
       <ul className="bg-white dark:bg-neutral-900 dark:text-white pb-4 border border-black text-black p-2 absolute right-0 top-full z-10 min-w-[9rem] max-w-[calc(100vw-2rem)] w-max">
         {!isShowingLists &&
           cardOptions.map((option) => (
-            <li
-              key={option.text}
-              className="border-b"
-            >
-              <button type="button" onClick={option.action} className="flex min-h-11 w-full items-center gap-2 p-1 text-left text-sm can-hover:hover:bg-neutral-600 can-hover:hover:text-white">
+            <li key={option.text} className="border-b">
+              <button
+                type="button"
+                onClick={option.action}
+                className="flex min-h-11 w-full items-center gap-2 p-1 text-left text-sm can-hover:hover:bg-neutral-600 can-hover:hover:text-white"
+              >
                 {option.icon}
                 {option.text}
               </button>
@@ -208,19 +226,22 @@ export default function HighlightCardOptions({
         {isShowingLists && (
           <>
             {lists?.map((list) => (
-              <li
-                key={list.id}
-                className="border-b"
-              >
-                <button type="button" onClick={() => addQuoteToList(list.id)} className="flex min-h-11 w-full items-center gap-2 p-1 text-left can-hover:hover:bg-neutral-600 can-hover:hover:text-white">
+              <li key={list.id} className="border-b">
+                <button
+                  type="button"
+                  onClick={() => addQuoteToList(list.id)}
+                  className="flex min-h-11 w-full items-center gap-2 p-1 text-left can-hover:hover:bg-neutral-600 can-hover:hover:text-white"
+                >
                   <p>{list.name}</p>
                 </button>
               </li>
             ))}
-            <li
-              className="border-b"
-            >
-              <button type="button" onClick={() => navigate("/lists")} className="flex min-h-11 w-full items-center gap-2 p-1 text-left can-hover:hover:bg-neutral-600 can-hover:hover:text-white">
+            <li className="border-b">
+              <button
+                type="button"
+                onClick={() => navigate("/lists")}
+                className="flex min-h-11 w-full items-center gap-2 p-1 text-left can-hover:hover:bg-neutral-600 can-hover:hover:text-white"
+              >
                 <p>+</p>
                 <p>Add new list</p>
               </button>

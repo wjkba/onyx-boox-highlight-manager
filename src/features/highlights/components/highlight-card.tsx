@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { getHighlight, updateHighlight } from "../api";
-import HighlightCardOptions, { type CardOptions } from "./highlight-card-options";
+import HighlightCardOptions, {
+  type CardOptions,
+} from "./highlight-card-options";
 import { useHighlightCardEditStore } from "../highlight-card-store";
 import { type Book } from "@/lib/db/types";
 
@@ -52,11 +54,11 @@ export default function HighlightCard({
   return (
     <div className="dark:border-stone-500 flex gap-[12px] border-solid border border-stone-400 p-4 hover-trigger lg:px-5 lg:py-4">
       <div className="w-full">
-        <div className="flex flex-wrap items-start justify-between gap-x-3 gap-y-2 text-neutral-400 mb-2 lg:relative">
+        <div className="flex flex-wrap items-start justify-between gap-x-3 gap-y-2 text-neutral-400 mb-2 relative">
           <p className="min-w-0 flex-1 break-words text-neutral-600 dark:text-neutral-300">
             {book?.bookTitle} - {book?.bookAuthor}
           </p>
-          <div className="flex items-center gap-1 lg:absolute lg:right-0 lg:top-0">
+          <div className="flex items-center gap-1 absolute right-0 top-0">
             <HighlightCardOptions
               highlightId={id}
               bookId={bookId}
@@ -78,7 +80,11 @@ export default function HighlightCard({
         )}
         {isEditing && (
           <div className="flex w-full justify-end gap-4">
-            <button type="button" onClick={handleEditCancel} className="p-2 px-4 ">
+            <button
+              type="button"
+              onClick={handleEditCancel}
+              className="p-2 px-4 "
+            >
               Cancel
             </button>
             <button

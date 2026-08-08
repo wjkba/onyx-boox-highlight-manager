@@ -60,4 +60,28 @@ export async function deleteHighlights(highlightIds: number[]) {
   });
 }
 
+export async function completeDailyReview(
+  reviewedIds: number[],
+  reviewedDate: string,
+  deletedIds: number[],
+) {
+  await db.transaction("rw", db.lists, db.highlights, async () => {
+    const deleted = new Set(deletedIds);
+    await Promise.all(
+      reviewedIds.map((id) => db.highlights.update(id, { lastReviewed: reviewedDate })),
+    );
+    if (deleted.size === 0) return;
+
+    const lists = await db.lists.toArray();
+    const listsToUpdate = lists
+      .map((list) => ({
+        ...list,
+        highlightIds: list.highlightIds.filter((id) => !deleted.has(id)),
+      }))
+      .filter((list, index) => list.highlightIds.length !== lists[index].highlightIds.length);
+    if (listsToUpdate.length > 0) await db.lists.bulkPut(listsToUpdate);
+    await db.highlights.bulkDelete([...deleted]);
+  });
+}
+
 export { db };

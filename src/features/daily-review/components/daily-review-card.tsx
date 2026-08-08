@@ -1,37 +1,24 @@
-import { getReviewBook } from "../api";
-import { useEffect, useState } from "react";
+import type { Book } from "@/lib/db/types";
 
 type DailyReviewCardProps = {
-  bookId: number;
+  book?: Book;
   text: string;
 };
 
 export default function DailyReviewCard({
-  bookId,
+  book,
   text,
 }: DailyReviewCardProps) {
-  const [bookTitle, setBookTitle] = useState<string>("");
-  const [bookAuthor, setBookAuthor] = useState<string>("");
-
-  useEffect(() => {
-    async function fetchBookDetails() {
-      const book = await getReviewBook(bookId);
-      if (book) {
-        setBookTitle(book.bookTitle);
-        setBookAuthor(book.bookAuthor);
-      }
-    }
-    fetchBookDetails();
-  }, [bookId]);
-
   return (
-    <div className="max-w-[600px] border dark:border-white border-black">
-      <div className="dark:bg-neutral-100 dark:text-black bg-neutral-900 w-full text-white px-4 py-2  ">
-        <p>
-          {bookTitle} - {bookAuthor}
-        </p>
-      </div>
-      <p className="p-4 pt-3 pb-6 font-robotoSlab">{text}</p>
-    </div>
+    <article className="border-y border-stone-400 py-8 dark:border-stone-500 sm:py-10">
+      <p className="mb-6 max-w-prose text-sm text-neutral-600 dark:text-neutral-300">
+        <cite className="not-italic">
+          {book ? `${book.bookTitle} · ${book.bookAuthor}` : "Book details unavailable"}
+        </cite>
+      </p>
+      <blockquote className="max-w-prose font-literata text-[1.2rem] leading-[1.7] sm:text-[1.35rem]">
+        {text}
+      </blockquote>
+    </article>
   );
 }

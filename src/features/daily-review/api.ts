@@ -1,9 +1,11 @@
-import { db, deleteHighlights as removeHighlights } from "@/lib/db/client";
+import { completeDailyReview as persistDailyReview, db, deleteHighlights as removeHighlights } from "@/lib/db/client";
 
 export const getReviewBook = (bookId: number) => db.books.get(bookId);
 export const setHighlightStarred = (highlightId: number, starred: boolean) => db.highlights.update(highlightId, { starred });
 export const markHighlightsReviewed = (ids: number[], date: string) => Promise.all(ids.map((id) => db.highlights.update(id, { lastReviewed: date })));
 export const deleteHighlights = (highlightIds: number[]) => removeHighlights(highlightIds);
+export const completeDailyReview = (reviewedIds: number[], date: string, deletedIds: number[]) =>
+  persistDailyReview(reviewedIds, date, deletedIds);
 
 export async function getDailyReviewQuotes() {
   const reviewDelay: number = getReviewDelay();

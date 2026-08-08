@@ -82,6 +82,7 @@ export default function BookCard({
           </div>
           <div className="flex">
             <Button
+              variant="ghost"
               onClick={handleCancel}
               className="p-2 w-full"
               text="Cancel"
@@ -102,6 +103,7 @@ export default function BookCard({
         <form onSubmit={handleDeleteConfirm}>
           <div className="flex">
             <Button
+              variant="ghost"
               onClick={handleCancel}
               className="p-2 w-full"
               text="Cancel"

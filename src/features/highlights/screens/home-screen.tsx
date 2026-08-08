@@ -49,6 +49,7 @@ export default function Home({
           </div>
 
           <Button
+            variant="primary"
             className="w-full p-2"
             text="Open Daily Review"
             onClick={() => navigate("/review")}
@@ -88,6 +89,7 @@ export default function Home({
           <section className="mb-8" id="all-highlights">
             <h1 className="text-xl font-medium mb-2">All Highlights</h1>
             <Button
+              variant="secondary"
               className="w-full lg:max-w-[276px] p-2"
               text="View All Highlights"
               onClick={() => navigate("/all")}

@@ -12,6 +12,7 @@ export default function UploadKoreader() {
   const [isConfirming, setIsConfirming] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isBusy, setIsBusy] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [bookTitle, setBookTitle] = useState("");
   const [bookAuthor, setBookAuthor] = useState("");
@@ -34,13 +35,17 @@ export default function UploadKoreader() {
     }
 
     try {
+      setIsBusy(true);
       const result = await parseKoreaderFile(file);
+      if (!result.highlights.length) throw new Error("No highlights found. Check that this is a KOReader highlights JSON export.");
       setUploadedHighlights(result.highlights);
       setBookTitle(result.bookTitle);
       setBookAuthor(result.bookAuthor);
       setIsConfirming(true);
     } catch (error) {
       setErrorMessage(error instanceof Error ? error.message : "Something went wrong.");
+    } finally {
+      setIsBusy(false);
     }
   };
 
@@ -49,12 +54,15 @@ export default function UploadKoreader() {
     if (!uploadedHighlights) return;
 
     try {
+      setIsBusy(true);
       const duplicate = await importHighlights(bookTitle, bookAuthor, uploadedHighlights);
       setMessage(duplicate ? "Updated highlights for existing book" : "Added new highlights");
       setIsConfirming(false);
       setIsCompleted(true);
     } catch {
-      setErrorMessage("Something went wrong.");
+      setErrorMessage("Could not save these highlights. Check the book details and try again.");
+    } finally {
+      setIsBusy(false);
     }
   };
 
@@ -62,7 +70,7 @@ export default function UploadKoreader() {
     return (
       <form className="grid gap-2 p-2 mb-2">
         <h1 className="text-xl">Confirm KOReader import</h1>
-        <p className="mb-1">Detected {uploadedHighlights?.length ?? 0} highlights.</p>
+        <p className="mb-1">Detected {uploadedHighlights?.length ?? 0} highlights. Check the details before saving.</p>
         <label htmlFor="koreader-book-title">Book title:</label>
         <input
           id="koreader-book-title"
@@ -78,7 +86,7 @@ export default function UploadKoreader() {
           className="py-2 px-2 w-full border text-lg border-black dark:border-white dark:bg-neutral-900"
         />
         {errorMessage && <p className="text-red-500 text mb-2">{errorMessage}</p>}
-        <Button type="submit" onClick={handleConfirm} className="p-2 w-full" text="Confirm" />
+        <Button type="submit" onClick={handleConfirm} disabled={isBusy} className="p-2 w-full" text={isBusy ? "Saving…" : "Confirm"} />
       </form>
     );
   }
@@ -125,9 +133,10 @@ export default function UploadKoreader() {
       {errorMessage && <p className="text-red-500 text mb-2">{errorMessage}</p>}
 
       <Button
-        text="Upload"
+        text={isBusy ? "Parsing…" : "Upload"}
         type="button"
         onClick={handleUpload}
+        disabled={isBusy}
         className="p-2 w-full"
       />
     </form>

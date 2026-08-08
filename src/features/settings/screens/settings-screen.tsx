@@ -137,6 +137,7 @@ export default function SettingsPage() {
           </section>
 
           <Button
+            variant="primary"
             text={isSaved ? "Saved" : "Save"}
             type="button"
             onClick={handleSaveReviewSettings}

@@ -1,31 +1,55 @@
-import { ButtonHTMLAttributes } from "react";
+import {
+  forwardRef,
+  type ButtonHTMLAttributes,
+  type ReactNode,
+} from "react";
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  text: string;
-  className?: string;
+export type ButtonVariant = "primary" | "secondary" | "ghost";
+
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  /** Legacy prop retained for existing call sites. Prefer children for new buttons. */
+  text?: string;
+  variant?: ButtonVariant;
+  children?: ReactNode;
 }
 
-export default function Button({
-  text,
-  className = " ",
-  type = "button",
-  ...rest
-}: ButtonProps) {
+const variantClasses: Record<ButtonVariant, string> = {
+  primary:
+    "border-neutral-900 bg-neutral-900 text-white can-hover:hover:bg-neutral-700 active:bg-neutral-700 dark:border-neutral-100 dark:bg-neutral-100 dark:text-neutral-900 can-hover:dark:hover:bg-neutral-300 dark:active:bg-neutral-300",
+  secondary:
+    "border-stone-500 bg-transparent text-neutral-900 can-hover:hover:bg-neutral-100 can-hover:hover:text-neutral-900 active:bg-neutral-200 dark:border-stone-400 dark:text-neutral-100 can-hover:dark:hover:bg-neutral-800 dark:active:bg-neutral-700",
+  ghost:
+    "border-transparent bg-transparent text-neutral-700 can-hover:hover:border-stone-300 can-hover:hover:bg-neutral-100 active:bg-neutral-200 dark:text-neutral-300 can-hover:dark:hover:border-stone-600 can-hover:dark:hover:bg-neutral-800 dark:active:bg-neutral-700",
+};
+
+const baseClasses =
+  "inline-flex min-h-11 items-center justify-center border px-3 py-2 text-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900 dark:focus-visible:outline-neutral-100 disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50";
+
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
+  {
+    children,
+    text,
+    variant = "secondary",
+    className = "",
+    type = "button",
+    ...rest
+  },
+  ref,
+) {
   return (
     <button
+      ref={ref}
       type={type}
-      className={`${className} border border-black
-                active:bg-neutral-800 active:text-white
-                dark:active:bg-white dark:active:text-black
-                can-hover:hover:bg-neutral-800
-                can-hover:hover:text-white
-                dark:border-white
-                can-hover:dark:hover:bg-white
-                can-hover:dark:hover:text-black
-                text-black dark:text-white`}
+      className={[baseClasses, variantClasses[variant], className]
+        .filter(Boolean)
+        .join(" ")}
       {...rest}
     >
-      {text}
+      {children ?? text}
     </button>
   );
-}
+});
+
+Button.displayName = "Button";
+
+export default Button;

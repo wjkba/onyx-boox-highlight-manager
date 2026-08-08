@@ -1,5 +1,6 @@
 import { type Highlight } from "@/lib/db/types";
 import { useEffect, useState } from "react";
+import Button from "@/components/ui/button";
 
 interface DailyReviewButtonsProps {
   activeHighlight: Highlight | null;
@@ -41,52 +42,47 @@ export default function DailyReviewButtons({
     if (!isStarUpdating) void onStar();
   }
 
-  const quietButtonClass =
-    "min-h-11 w-full min-w-0 border-transparent px-3 py-2 text-sm text-neutral-700 dark:text-neutral-300 can-hover:hover:border-stone-300 can-hover:dark:hover:border-stone-600";
-  const primaryButtonClass =
-    "min-h-11 w-full min-w-0 border-neutral-900 bg-neutral-900 px-4 py-2 text-sm text-white can-hover:hover:bg-neutral-700 dark:border-neutral-100 dark:bg-neutral-100 dark:text-neutral-900 can-hover:dark:hover:bg-neutral-300";
-
   if (activeHighlight) {
     return (
       <div className="mb-8 grid grid-cols-2 gap-2 sm:grid-cols-4">
-        <button
-          type="button"
+        <Button
+          variant="ghost"
           onClick={onDelete}
           disabled={isFinishing || isStarUpdating}
           aria-pressed={isDeleted}
-          className={quietButtonClass}
+          className="w-full min-w-0"
         >
           {isDeleted ? "Undo delete" : "Delete"}
-        </button>
+        </Button>
 
-        <button
-          type="button"
+        <Button
+          variant="ghost"
           onClick={handleStarClick}
           disabled={isFinishing || isStarUpdating}
           aria-pressed={isStarred}
           aria-label={isStarred ? "Unstar highlight" : "Star highlight"}
-          className={quietButtonClass}
+          className="w-full min-w-0"
         >
           {isStarred ? "Starred" : "Star"}
-        </button>
+        </Button>
 
-        <button
-          type="button"
+        <Button
+          variant="ghost"
           onClick={onBack}
           disabled={currentIndex === 0 || isFinishing || isStarUpdating}
-          className={quietButtonClass}
+          className="w-full min-w-0"
         >
           Back
-        </button>
+        </Button>
 
-        <button
-          type="button"
+        <Button
+          variant="primary"
           onClick={onNext}
           disabled={isFinishing || isStarUpdating}
-          className={primaryButtonClass}
+          className="w-full min-w-0"
         >
           {isFinishing ? "Saving…" : currentIndex + 1 === numberOfCards ? "Finish" : "Next"}
-        </button>
+        </Button>
       </div>
     );
   }

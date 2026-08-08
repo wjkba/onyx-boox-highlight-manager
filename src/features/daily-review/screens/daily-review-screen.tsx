@@ -186,8 +186,8 @@ export default function DailyReviewPage({
                 <h2 id="review-error-title" className="text-lg font-medium mb-2">Review unavailable</h2>
                 <p className="max-w-prose mb-6">{loadError}</p>
                 <div className="flex flex-col sm:flex-row gap-2">
-                  <Button text="Try again" onClick={fetchDaily} className="!bg-neutral-900 !text-white dark:!bg-neutral-100 dark:!text-black p-3" />
-                  <Button text="Import highlights" onClick={() => navigate("/import")} className="!border-transparent p-3" />
+                  <Button variant="primary" text="Try again" onClick={fetchDaily} className="p-3" />
+                  <Button variant="ghost" text="Import highlights" onClick={() => navigate("/import")} className="p-3" />
                 </div>
               </section>
             </div>
@@ -208,7 +208,7 @@ export default function DailyReviewPage({
               <section className="max-w-[600px] border border-stone-400 dark:border-stone-500 p-6" aria-labelledby="review-empty-title">
                 <h2 id="review-empty-title" className="text-lg font-medium mb-2">Nothing is due today</h2>
                 <p className="max-w-prose mb-6">Import more highlights or return tomorrow for another quiet reading session.</p>
-                <Button text="Import highlights" onClick={() => navigate("/import")} className="!bg-neutral-900 !text-white dark:!bg-neutral-100 dark:!text-black p-3 w-full sm:w-auto" />
+                <Button variant="primary" text="Import highlights" onClick={() => navigate("/import")} className="w-full p-3 sm:w-auto" />
               </section>
             </div>
           </main>
@@ -239,7 +239,8 @@ export default function DailyReviewPage({
                 <Button
                   text="Return to home"
                   onClick={() => navigate("/")}
-                  className="w-full lg:max-w-[300px] !bg-neutral-900 !text-white dark:!bg-neutral-100 dark:!text-black p-3"
+                  variant="primary"
+                  className="w-full p-3 lg:max-w-[300px]"
                 />
               </div>
             </div>

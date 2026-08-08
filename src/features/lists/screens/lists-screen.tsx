@@ -55,6 +55,7 @@ export default function ListsPage() {
           >
             <Button type="submit" className="p-2 w-full" text="Confirm" />
             <Button
+              variant="ghost"
               onClick={handleCancel}
               type="button"
               className="p-2 w-full border-none"
@@ -95,6 +96,7 @@ export default function ListsPage() {
             <div className="lg:flex grid gap-2 w-full">
               <Button type="submit" className="p-2 w-full" text="Confirm" />
               <Button
+                variant="ghost"
                 onClick={handleCancel}
                 type="button"
                 className="p-2 w-full border-none"
@@ -159,6 +161,7 @@ export default function ListsPage() {
           />
           <Button type="submit" className="p-2 w-full" text="Add list" />
           <Button
+            variant="ghost"
             onClick={() => setIsFormActive(false)}
             type="button"
             className="p-2 w-full border-none"

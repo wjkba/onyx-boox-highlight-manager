@@ -133,6 +133,7 @@ export default function AddHighlight() {
         type="submit"
       />
       <Button
+        variant="ghost"
         className="w-full lg:max-w-[276px] p-2"
         text="Cancel"
         type="button"

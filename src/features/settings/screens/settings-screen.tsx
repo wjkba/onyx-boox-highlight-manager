@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import ExcludeSettings from "../components/exclude-settings";
 
 export default function SettingsPage() {
-  const [newReviewDelay, setNewReviewDelay] = useState(7);
-  const [newCardsPerReview, setNewCardsPerPreview] = useState(5);
+  const [newReviewDelay, setNewReviewDelay] = useState<number | "">(7);
+  const [newCardsPerReview, setNewCardsPerPreview] = useState<number | "">(5);
   const [isSaved, setIsSaved] = useState(false);
   const [isReviewCompleted, setIsReviewCompleted] = useState(false);
 
@@ -39,6 +39,11 @@ export default function SettingsPage() {
   // }
 
   function handleReviewDelayChange(event: React.ChangeEvent<HTMLInputElement>) {
+    if (event.target.value === "") {
+      setNewReviewDelay("");
+      return;
+    }
+
     const value = Number(event.target.value);
     if (value < 0) {
       setNewReviewDelay(0);
@@ -47,6 +52,11 @@ export default function SettingsPage() {
   function handleCardsPerReviewChange(
     event: React.ChangeEvent<HTMLInputElement>
   ) {
+    if (event.target.value === "") {
+      setNewCardsPerPreview("");
+      return;
+    }
+
     const value = Number(event.target.value);
     if (value < 0) {
       setNewCardsPerPreview(0);

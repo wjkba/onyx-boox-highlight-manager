@@ -51,6 +51,24 @@ type DatabaseSnapshot = {
   lists: List[];
 };
 
+let stagingDatabaseSequence = 0;
+
+function createStagingDatabaseName(): string {
+  stagingDatabaseSequence = (stagingDatabaseSequence + 1) % 0x1000000;
+  const randomValues = new Uint32Array(2);
+  try {
+    // getRandomValues is supported by older browsers that do not expose
+    // crypto.randomUUID. The fallback still combines time, a module-local
+    // sequence, and two random values to avoid reusing a staging name.
+    if (!globalThis.crypto?.getRandomValues) throw new Error("Secure random values unavailable.");
+    globalThis.crypto.getRandomValues(randomValues);
+  } catch {
+    randomValues[0] = Math.floor(Math.random() * 0x100000000);
+    randomValues[1] = Math.floor(Math.random() * 0x100000000);
+  }
+  return `HighlightsDatabase-import-${Date.now().toString(36)}-${stagingDatabaseSequence.toString(36)}-${randomValues[0].toString(36)}-${randomValues[1].toString(36)}`;
+}
+
 function readSnapshot(jsonString: string): DatabaseSnapshot {
   let value: unknown;
   try {
@@ -95,7 +113,7 @@ function readSnapshot(jsonString: string): DatabaseSnapshot {
  */
 export async function replaceDatabaseFromJson(jsonString: string): Promise<void> {
   const snapshot = readSnapshot(jsonString);
-  const staging = new Dexie(`HighlightsDatabase-import-${crypto.randomUUID()}`);
+  const staging = new Dexie(createStagingDatabaseName());
   staging.version(3).stores({
     highlights: "++id, bookId, quote, starred, date, dateAdded, lastReviewed, lists",
     books: "++id, bookTitle, bookAuthor",

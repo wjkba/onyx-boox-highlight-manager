@@ -1,12 +1,6 @@
-import { type Highlight } from "@/lib/db/types";
-import { useEffect, useState } from "react";
 import Button from "@/components/ui/button";
 
 interface DailyReviewButtonsProps {
-  activeHighlight: Highlight | null;
-  onStar: () => void | Promise<void>;
-  onDelete: () => void;
-  toDeleteIds: number[] | null;
   currentIndex: number;
   onBack: () => void;
   onNext: () => void;
@@ -15,62 +9,24 @@ interface DailyReviewButtonsProps {
   isStarUpdating?: boolean;
 }
 export default function DailyReviewButtons({
-  activeHighlight,
-  onStar,
-  onDelete,
   currentIndex,
   onBack,
   onNext,
   numberOfCards,
-  toDeleteIds,
   isFinishing = false,
   isStarUpdating = false,
 }: DailyReviewButtonsProps) {
-  const [isStarred, setIsStarred] = useState(false);
-  const [isDeleted, setIsDeleted] = useState(false);
-
-  useEffect(() => {
-    if (activeHighlight) {
-      if (activeHighlight.starred) setIsStarred(true);
-      else setIsStarred(false);
-      if (toDeleteIds?.includes(activeHighlight.id)) setIsDeleted(true);
-      else setIsDeleted(false);
-    }
-  }, [toDeleteIds, activeHighlight]);
-
-  function handleStarClick() {
-    if (!isStarUpdating) void onStar();
-  }
-
-  if (activeHighlight) {
-    return (
-      <div className="mb-8 grid grid-cols-2 gap-2 sm:grid-cols-4">
+  return (
+    <nav
+      aria-label="Review navigation"
+      className="fixed inset-x-0 bottom-0 z-20 border-t border-stone-300 bg-white px-4 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-3 dark:border-stone-600 dark:bg-neutral-900 sm:static sm:mt-6 sm:border-0 sm:bg-transparent sm:p-0 lg:mt-4"
+    >
+      <div className="mx-auto grid w-full max-w-[20rem] grid-cols-2 gap-2">
         <Button
-          variant="ghost"
-          onClick={onDelete}
-          disabled={isFinishing || isStarUpdating}
-          aria-pressed={isDeleted}
-          className="w-full min-w-0"
-        >
-          {isDeleted ? "Undo delete" : "Delete"}
-        </Button>
-
-        <Button
-          variant="ghost"
-          onClick={handleStarClick}
-          disabled={isFinishing || isStarUpdating}
-          aria-pressed={isStarred}
-          aria-label={isStarred ? "Unstar highlight" : "Star highlight"}
-          className="w-full min-w-0"
-        >
-          {isStarred ? "Starred" : "Star"}
-        </Button>
-
-        <Button
-          variant="ghost"
+          variant="secondary"
           onClick={onBack}
           disabled={currentIndex === 0 || isFinishing || isStarUpdating}
-          className="w-full min-w-0"
+          className="h-11 w-full min-w-0 whitespace-nowrap px-2"
         >
           Back
         </Button>
@@ -79,11 +35,11 @@ export default function DailyReviewButtons({
           variant="primary"
           onClick={onNext}
           disabled={isFinishing || isStarUpdating}
-          className="w-full min-w-0"
+          className="h-11 w-full min-w-0 whitespace-nowrap px-2"
         >
           {isFinishing ? "Saving…" : currentIndex + 1 === numberOfCards ? "Finish" : "Next"}
         </Button>
       </div>
-    );
-  }
+    </nav>
+  );
 }

@@ -15,9 +15,9 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    "border-neutral-900 bg-neutral-900 text-white can-hover:hover:bg-neutral-700 active:bg-neutral-700 dark:border-neutral-100 dark:bg-neutral-100 dark:text-neutral-900 can-hover:dark:hover:bg-neutral-300 dark:active:bg-neutral-300",
+    "border-neutral-900 bg-transparent text-neutral-900 can-hover:hover:bg-neutral-100 can-hover:hover:text-neutral-900 active:bg-neutral-900 active:text-white dark:border-neutral-100 dark:bg-transparent dark:text-neutral-100 can-hover:dark:hover:bg-neutral-800 can-hover:dark:hover:text-neutral-100 dark:active:bg-neutral-900 dark:active:text-white",
   secondary:
-    "border-stone-500 bg-transparent text-neutral-900 can-hover:hover:bg-neutral-100 can-hover:hover:text-neutral-900 active:bg-neutral-200 dark:border-stone-400 dark:text-neutral-100 can-hover:dark:hover:bg-neutral-800 dark:active:bg-neutral-700",
+    "border-neutral-900 bg-transparent text-neutral-900 can-hover:hover:bg-neutral-100 can-hover:hover:text-neutral-900 active:bg-neutral-900 active:text-white dark:border-neutral-100 dark:bg-transparent dark:text-neutral-100 can-hover:dark:hover:bg-neutral-800 can-hover:dark:hover:text-neutral-100 dark:active:bg-neutral-900 dark:active:text-white",
   ghost:
     "border-transparent bg-transparent text-neutral-700 can-hover:hover:border-stone-300 can-hover:hover:bg-neutral-100 active:bg-neutral-200 dark:text-neutral-300 can-hover:dark:hover:border-stone-600 can-hover:dark:hover:bg-neutral-800 dark:active:bg-neutral-700",
 };

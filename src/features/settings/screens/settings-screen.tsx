@@ -5,7 +5,7 @@ import ExcludeSettings from "../components/exclude-settings";
 
 const MIN_REVIEW_DELAY = 0;
 const MAX_REVIEW_DELAY = 365;
-const DEFAULT_REVIEW_DELAY = 7;
+const DEFAULT_REVIEW_DELAY = 14;
 
 const MIN_CARDS_PER_REVIEW = 1;
 const MAX_CARDS_PER_REVIEW = 100;

@@ -7,13 +7,11 @@ import { ScrollRestoration } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 export default function Home({
-  AddHighlightComponent,
   ImportDatabaseComponent,
   UploadBooxComponent,
   getCurrentStreak,
   isDailyReviewCompleted,
 }: {
-  AddHighlightComponent: ElementType;
   ImportDatabaseComponent: ElementType;
   UploadBooxComponent: ElementType;
   getCurrentStreak: () => number;
@@ -98,7 +96,12 @@ export default function Home({
 
           <section id="add-highlight">
             <h1 className="text-xl mb-2 font-medium">Add New Highlight</h1>
-            <AddHighlightComponent />
+            <Button
+              variant="secondary"
+              className="w-full lg:max-w-[276px] p-2"
+              text="Add New Highlight"
+              onClick={() => navigate("/add")}
+            />
           </section>
 
         <ScrollRestoration />

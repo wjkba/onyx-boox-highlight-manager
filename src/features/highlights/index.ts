@@ -10,3 +10,4 @@ export { default as HomeScreen } from "./screens/home-screen";
 export { default as AllHighlightsScreen } from "./screens/all-highlights-screen";
 export { default as StarredScreen } from "./screens/starred-screen";
 export { default as HighlightScreen } from "./screens/highlight-screen";
+export { default as AddHighlightScreen } from "./screens/add-highlight-screen";

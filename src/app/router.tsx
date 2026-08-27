@@ -4,6 +4,7 @@ import { Layout } from "@/app/layout";
 
 const Home = lazy(() => import("@/routes/highlights/home"));
 const AllHighlightsPage = lazy(() => import("@/routes/highlights/all"));
+const AddHighlightPage = lazy(() => import("@/routes/highlights/add"));
 const BooksPage = lazy(() => import("@/routes/books"));
 const StarredPage = lazy(() => import("@/routes/highlights/starred"));
 const ImportPage = lazy(() => import("@/routes/import-export/import"));
@@ -25,6 +26,7 @@ export const router: ReturnType<typeof createBrowserRouter> = createBrowserRoute
     children: [
       { path: "/home", element: <Home /> },
       { path: "/all", element: <AllHighlightsPage /> },
+      { path: "/add", element: <AddHighlightPage /> },
       { path: "/books", element: <BooksPage /> },
       { path: "/books/:bookId", element: <BookPage /> },
       { path: "/highlight/:highlightId", element: <HighlightPage /> },

@@ -179,7 +179,7 @@ export default function SettingsPage() {
   return (
     <div className="mb-6">
       <div className="flex flex-col gap-6 lg:max-w-[450px]">
-        <h1 className="text-2xl font-bold">Settings</h1>
+        <h1 className="text-xl mb-2">Settings</h1>
 
         <fieldset className="m-0 min-w-0 border-0 p-0">
           <legend className="mb-2 block w-full text-lg">

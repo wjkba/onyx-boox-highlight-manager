@@ -98,10 +98,16 @@ export default function ExcludeSettings() {
                 />
               )
           )}
-          {excludedBooksWithTitles.length === 0 && (
-            <p className="text-gray-500 text-sm">
-              No books are currently excluded
+          {books === undefined ? (
+            <p className="text-gray-500 text-sm" aria-live="polite">
+              Loading books…
             </p>
+          ) : (
+            excludedBooksWithTitles.length === 0 && (
+              <p className="text-gray-500 text-sm">
+                No books are currently excluded
+              </p>
+            )
           )}
         </div>
 

@@ -2,7 +2,6 @@ import { ReactNode } from "react";
 
 type SidebarMenuButtonProps = {
   active?: boolean;
-  id: number;
   page: string;
   text: string;
   icon: ReactNode;

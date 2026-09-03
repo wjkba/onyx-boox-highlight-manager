@@ -32,14 +32,16 @@ export default function DangerButton({ action }: DangerButtonProps) {
       <>
         <div className="flex gap-2">
           <button
+            type="button"
             onClick={handleCancel}
-            className="text-neutral-400 border-black p-2 hover:text-black border"
+            className="text-neutral-400 border-black p-2 can-hover:hover:text-black border"
           >
             Cancel
           </button>
           <button
+            type="button"
             onClick={handleSure}
-            className="bg-red-600 text-white border-black p-2 hover:bg-black border"
+            className="bg-red-600 text-white border-black p-2 can-hover:hover:bg-black border"
           >
             Confirm
           </button>
@@ -50,8 +52,9 @@ export default function DangerButton({ action }: DangerButtonProps) {
 
   return (
     <button
+      type="button"
       onClick={handleAction}
-      className="text-red-600   hover:border-black border border-transparent hover:text-red-500 py-2"
+      className="text-red-600 can-hover:hover:border-black border border-transparent can-hover:hover:text-red-500 py-2"
     >
       CLEAR DATABASE TABLE
     </button>

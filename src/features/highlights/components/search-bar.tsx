@@ -16,7 +16,7 @@ export default function SearchBar({ setSearchValue }: SearchBarProps) {
       </div>
       <input
         onChange={handleSearch}
-        className="p-2 w-full h-full outline-none text-black dark:text-white dark:bg-neutral-800"
+        className="p-2 w-full h-full text-black dark:text-white dark:bg-neutral-800"
         placeholder="Search"
       />
     </div>

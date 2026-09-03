@@ -2,6 +2,7 @@ import { useBook, useBookHighlights } from "../hooks";
 import { ScrollRestoration, useParams } from "react-router-dom";
 import type { ElementType } from "react";
 import { useMemo, useState } from "react";
+import { outlineInverseClasses } from "@/components/ui/button";
 
 export default function BookPage({
   HighlightsListComponent,
@@ -83,10 +84,11 @@ export default function BookPage({
         <HighlightsListComponent highlights={filteredHighlights} />
         <div className="flex justify-center mb-12">
           <button
+            type="button"
             onClick={handleLoadMore}
             className={`${
               limit > displayedHighlights.length ? "hidden " : " "
-            }} mt-6 lg:max-w-[60%] w-full p-3 border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black`}
+            } mt-6 lg:max-w-[60%] w-full p-3 ${outlineInverseClasses}`}
           >
             Load more
           </button>

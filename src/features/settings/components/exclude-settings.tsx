@@ -67,7 +67,7 @@ export default function ExcludeSettings() {
     return (
       <button
         type="button"
-        className="flex text-sm gap-2 px-2 py-1 bg-neutral-200 dark:bg-neutral-900 hover:bg-neutral-300 dark:hover:bg-neutral-700 dark:text-white"
+        className="flex text-sm gap-2 px-2 py-1 bg-neutral-200 dark:bg-neutral-900 can-hover:hover:bg-neutral-300 can-hover:dark:hover:bg-neutral-700 dark:text-white"
         onClick={handleIncludeBook}
         aria-label={`Remove ${bookTitle} from excluded books`}
       >

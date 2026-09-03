@@ -5,6 +5,7 @@ import HighlightCardOptions, {
 } from "./highlight-card-options";
 import { useHighlightCardEditStore } from "../highlight-card-store";
 import { type Book } from "@/lib/db/types";
+import { filledInverseClasses } from "@/components/ui/button";
 
 interface HighlightCardProps {
   id: number;
@@ -90,7 +91,7 @@ export default function HighlightCard({
             <button
               type="button"
               onClick={handleEditConfirm}
-              className="p-2 bg-neutral-800 text-white px-4 hover:bg-white hover:text-black border-2 "
+              className={`p-2 px-4 ${filledInverseClasses}`}
             >
               Confirm
             </button>

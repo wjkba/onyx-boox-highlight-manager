@@ -67,13 +67,14 @@ export default function Home({
                 <h1 className="text-xl font-medium mb-2">Newest Highlights</h1>
                 <div className="grid xs:grid-cols-3 gap-2">
                   {highlights.map((highlight) => (
-                    <div
+                    <button
+                      type="button"
                       key={highlight.id}
                       onClick={() => navigate(`/highlight/${highlight.id}`)}
-                      className="max-h-[10rem] lg:max-h-[12rem] text-xs lg:text-base w-full overflow-hidden dark:border-stone-500 border-stone-400 border-solid border p-2 hover-trigger"
+                      className="max-h-[10rem] lg:max-h-[12rem] text-xs lg:text-base w-full overflow-hidden dark:border-stone-500 border-stone-400 border-solid border p-2 hover-trigger text-left"
                     >
                       {highlight.quote}
-                    </div>
+                    </button>
                   ))}
                 </div>
               </div>

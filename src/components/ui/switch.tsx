@@ -34,7 +34,7 @@ const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch(
     >
       <span
         className={[
-          "relative h-7 w-14 overflow-hidden border border-neutral-900 dark:border-neutral-100 transition-colors",
+          "relative h-7 w-14 overflow-hidden border border-neutral-900 dark:border-neutral-100",
           checked
             ? "bg-neutral-900 dark:bg-neutral-100"
             : "bg-neutral-100 dark:bg-neutral-900",
@@ -44,7 +44,7 @@ const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch(
       >
         <span
           className={[
-            "absolute top-1 left-1 h-5 w-5 border border-neutral-900 dark:border-neutral-100 transition-transform duration-200 ease-out",
+            "absolute top-1 left-1 h-5 w-5 border border-neutral-900 dark:border-neutral-100",
             checked
               ? "translate-x-7 bg-neutral-100 dark:bg-neutral-900"
               : "translate-x-0 bg-neutral-900 dark:bg-neutral-100",

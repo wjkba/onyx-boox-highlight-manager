@@ -5,9 +5,19 @@
 
 body {
   background-color: var(--bg-color);
-  transition: background-color 0.3s ease;
   padding-top: constant(safe-area-inset-top);
   padding-top: env(safe-area-inset-top);
+}
+
+/* Guide §5: focus-visible outline on every interactive element. */
+@layer base {
+  :focus-visible {
+    outline: 2px solid rgb(23 23 23); /* neutral-900 */
+    outline-offset: 2px;
+  }
+  .dark :focus-visible {
+    outline-color: rgb(245 245 245); /* neutral-100 */
+  }
 }
 
 /* Touch users should not need hover to discover card actions. */

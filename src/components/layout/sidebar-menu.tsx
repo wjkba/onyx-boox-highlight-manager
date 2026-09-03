@@ -67,10 +67,9 @@ export default function SidebarMenu() {
 
   return (
     <div className="grid grid-cols-3 mb-4 lg:flex lg:flex-col lg:w-full lg:max-w-[276px]">
-      {buttons.map((button, index) => (
+      {buttons.map((button) => (
         <SidebarMenuButton
-          key={index}
-          id={index}
+          key={button.page}
           text={button.text}
           icon={button.icon}
           page={button.page}

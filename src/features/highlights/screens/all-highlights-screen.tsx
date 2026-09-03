@@ -2,6 +2,7 @@ import { useAllHighlights } from "../hooks";
 import HighlightsList from "../components/highlights-list";
 import SearchBar from "../components/search-bar";
 import SortOptions from "../components/sort-options";
+import { outlineInverseClasses } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import type { ElementType } from "react";
 import { ScrollRestoration } from "react-router-dom";
@@ -66,10 +67,11 @@ export default function AllHighlightsPage({ UploadBooxComponent }: { UploadBooxC
             <HighlightsList highlights={displayedHighlights} />
             <div className="flex justify-center mb-12">
               <button
+                type="button"
                 onClick={handleLoadMore}
                 className={`${
                   limit > displayedHighlights.length ? "hidden " : " "
-                }} mt-6 lg:max-w-[60%] w-full p-3 border border-black  hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black`}
+                }} mt-6 lg:max-w-[60%] w-full p-3 ${outlineInverseClasses}`}
               >
                 Load more
               </button>

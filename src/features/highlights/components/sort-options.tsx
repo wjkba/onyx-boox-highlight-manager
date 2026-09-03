@@ -51,7 +51,7 @@ export default function SortOptions({
           className="p-2 flex gap-1 text-neutral-600 dark:text-neutral-300 "
         >
           <BiSortAlt2 size={24} />
-          <label className="cursor-pointer">Sort by</label>
+          <span className="cursor-pointer">Sort by</span>
         </button>
       </div>
 
@@ -61,32 +61,35 @@ export default function SortOptions({
         }} lg:flex lg:justify-end grid gap-1`}
       >
         <button
+          type="button"
           onClick={() => handleSortChange("alphabet")}
           className={`${
             sortOption === "alphabet"
               ? "bg-neutral-800 dark:bg-white text-white dark:text-black "
               : " "
-          } lg:px-2 lg:py-1 p-2 active:bg-neutral-800 dark:active:bg-white hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black`}
+          } lg:px-2 lg:py-1 p-2 active:bg-neutral-800 dark:active:bg-white can-hover:hover:bg-neutral-800 can-hover:hover:text-white dark:border-white can-hover:dark:hover:bg-white can-hover:dark:hover:text-black`}
         >
           Alphabetical
         </button>
         <button
+          type="button"
           onClick={() => handleSortChange("dateAdded")}
           className={`${
             sortOption === "dateAdded"
               ? "bg-neutral-800 dark:bg-white text-white dark:text-black "
               : " "
-          } lg:px-2 lg:py-1 p-2 active:bg-neutral-800 dark:active:bg-white hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black`}
+          } lg:px-2 lg:py-1 p-2 active:bg-neutral-800 dark:active:bg-white can-hover:hover:bg-neutral-800 can-hover:hover:text-white dark:border-white can-hover:dark:hover:bg-white can-hover:dark:hover:text-black`}
         >
           Date Added
         </button>
         <button
+          type="button"
           onClick={() => handleSortChange("dateHighlighted")}
           className={`${
             sortOption === "dateHighlighted"
               ? "bg-neutral-800 dark:bg-white text-white dark:text-black "
               : " "
-          } lg:px-2 lg:py-1 p-2 active:bg-neutral-800 dark:active:bg-white hover:bg-neutral-800 hover:text-white dark:border-white dark:hover:bg-white dark:hover:text-black`}
+          } lg:px-2 lg:py-1 p-2 active:bg-neutral-800 dark:active:bg-white can-hover:hover:bg-neutral-800 can-hover:hover:text-white dark:border-white can-hover:dark:hover:bg-white can-hover:dark:hover:text-black`}
         >
           Date Highlighted
         </button>

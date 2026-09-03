@@ -60,7 +60,7 @@ export default function BookCard({
 
   if (isEditing) {
     return (
-      <div className=" border dark:border-white border-black lg:max-w-[276px] w-full dark:hover:bg-neutral-900  hover:bg-neutral-50">
+      <div className=" border dark:border-white border-black lg:max-w-[276px] w-full can-hover:dark:hover:bg-neutral-900  can-hover:hover:bg-neutral-50">
         <form onSubmit={handleEditConfirm} className="p-4">
           <div className="mb-2">
             <label htmlFor="bookTitle">Title:</label>
@@ -96,7 +96,7 @@ export default function BookCard({
 
   if (isDeleting) {
     return (
-      <div className="p-4 border dark:border-white border-black lg:max-w-[276px] w-full dark:hover:bg-neutral-900  hover:bg-neutral-50">
+      <div className="p-4 border dark:border-white border-black lg:max-w-[276px] w-full can-hover:dark:hover:bg-neutral-900  can-hover:hover:bg-neutral-50">
         <p className="mb-2">
           You are about to delete {bookTitle} by {bookAuthor}
         </p>
@@ -116,7 +116,7 @@ export default function BookCard({
   }
 
   return (
-    <div className="flex justify-between border dark:border-stone-500 border-stone-400 lg:max-w-[276px] w-full dark:hover:bg-neutral-900  hover:bg-stone-100">
+    <div className="flex justify-between border dark:border-stone-500 border-stone-400 lg:max-w-[276px] w-full can-hover:dark:hover:bg-neutral-900  can-hover:hover:bg-stone-100">
       <Link className="p-4 w-full" to={`/books/${bookId}`} key={bookId}>
         <p className="text-lg">{bookTitle}</p>
         <p className=" text-stone-600 dark:text-neutral-400">{bookAuthor}</p>

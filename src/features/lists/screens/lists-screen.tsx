@@ -47,7 +47,7 @@ export default function ListsPage() {
 
     if (isDeleting) {
       return (
-        <div className=" p-4 justify-between gap-2 items-center border dark:border-white border-black  w-full dark:hover:bg-neutral-900  hover:bg-neutral-50">
+        <div className=" p-4 justify-between gap-2 items-center border dark:border-white border-black  w-full can-hover:dark:hover:bg-neutral-900  can-hover:hover:bg-neutral-50">
           <p className="mb-2">You are about to delete {listName}</p>
           <form
             onSubmit={handleDeleteConfirm}
@@ -67,7 +67,7 @@ export default function ListsPage() {
     }
 
     return (
-      <div className="flex justify-between gap-2 items-center border dark:border-stone-500 border-stone-400  w-full dark:hover:bg-neutral-900  hover:bg-stone-100">
+      <div className="flex justify-between gap-2 items-center border dark:border-stone-500 border-stone-400  w-full can-hover:dark:hover:bg-neutral-900  can-hover:hover:bg-stone-100">
         {!isEditing ? (
           <>
             <Link to={`/lists/${listId}`} className="text-lg p-4  w-[90%]">
@@ -113,7 +113,7 @@ export default function ListsPage() {
     return (
       <Link
         to={`/starred`}
-        className=" flex gap-2 items-center p-4 border dark:border-stone-500 border-stone-400  w-full dark:hover:bg-neutral-900  hover:bg-stone-100"
+        className=" flex gap-2 items-center p-4 border dark:border-stone-500 border-stone-400  w-full can-hover:dark:hover:bg-neutral-900  can-hover:hover:bg-stone-100"
       >
         <BiSolidStar size={20} />
         <p className="text-lg">Starred</p>
@@ -188,8 +188,8 @@ export default function ListsPage() {
     <>
       <div className="grid gap-2 mb-4">
         <StarredList />
-        {lists.map((list, index) => (
-          <List listId={list.id} listName={list.name} key={index} />
+        {lists.map((list) => (
+          <List listId={list.id} listName={list.name} key={list.id} />
         ))}
       </div>
       <AddNewList />
